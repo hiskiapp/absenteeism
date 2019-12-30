@@ -155,19 +155,15 @@
                                         <img src="{{ asset('assets/images/users/8.jpg') }}" alt="user" class="img-circle" width="60">
                                     </div>
                                     <div class="m-l-10">
-                                        <h4 class="m-b-0">Steave Jobs</h4>
-                                        <p class=" m-b-0">varun@gmail.com</p>
+                                        <h4 class="m-b-0">{{ Auth::user()->name }}</h4>
+                                        <p class=" m-b-0">{{ Auth::user()->email }}</p>
                                     </div>
                                 </div>
                                 <a class="dropdown-item" href="javascript:void(0)">
                                     <i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)">
+                                <a class="dropdown-item" onclick="logout()" href="javascript:void(0)">
                                     <i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
-                                <div class="dropdown-divider"></div>
-                                <div class="p-l-30 p-10">
-                                    <a href="javascript:void(0)" class="btn btn-sm btn-success btn-rounded">View Profile</a>
-                                </div>
                             </div>
                         </li>
                         <!-- ============================================================== -->

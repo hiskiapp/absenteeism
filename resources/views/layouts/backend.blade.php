@@ -92,10 +92,30 @@
     <!-- ============================================================== -->
     @include('components.customizer')
     <div class="chat-windows"></div>
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    @include('components.scripts')
+    <div class="modal" id="logout" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4>Log Out <i class="fa fa-lock"></i></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+            <p><i class="fa fa-question-circle"></i> Are you sure you want to log-off? <br /></p>
+            <div class="actionsBtns">
+                <form action="{{ url('logout') }}" method="POST">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-outline-primary">Log Out</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+@include('components.scripts')
 </body>
 
 </html>

@@ -12,7 +12,7 @@
                             <img src="{{ asset('assets/images/users/8.jpg') }}" alt="users" class="rounded-circle img-fluid" />
                         </div>
                         <div class="user-content hide-menu m-t-10">
-                            <h5 class="m-b-10 user-name font-medium">Hiskia Anggi</h5>
+                            <h5 class="m-b-10 user-name font-medium">{{ Auth::user()->name }}</h5>
                             <a href="javascript:void(0)" class="btn btn-circle btn-sm m-r-5" id="Userdd" role="button" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             <i class="ti-settings"></i>

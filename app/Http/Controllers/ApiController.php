@@ -15,7 +15,7 @@ class ApiController extends Controller
 			$result['api_status'] 		= 0;
 			$result['api_message']  	= 'Kode Tidak Valid!';
 		}else{
-			if ($postdata->type == 'students') {
+			if ($postdata->type == 'student') {
 				$nis 	 = nisdecrypt($postdata->code);
 				$student = Students::simpleQuery()
 				->where('nis',$nis)
