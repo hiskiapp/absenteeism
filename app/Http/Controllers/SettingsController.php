@@ -17,7 +17,7 @@ class SettingsController extends Controller
 		return view('settings.index',$data);
 	}
 
-	public function postIndex(){
+	public function postAdd(){
 		$data = Settings::all();
 
 		foreach ($data as $key => $row) {
@@ -31,6 +31,6 @@ class SettingsController extends Controller
 		$log['description'] = 'Mengubah Content Pengaturan';
 		LogBackendRepository::add($log);
 
-		return redirect('students')->with(['message_type' => 'success', 'message' => 'Data Berhasil Diupdate!']);
+		return redirect('settings')->with(['message_type' => 'success', 'message' => 'Data Berhasil Diupdate!']);
 	}
 }

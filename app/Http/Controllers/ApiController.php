@@ -8,60 +8,65 @@ use App\Models\Students;
 
 class ApiController extends Controller
 {
-	public function getAbsent(){
+	public function postAbsent(){
 		$postdata = json_decode(g('code'));
 
-		if ($postdata->type == 'students') {
-			$nis 	 = nisdecrypt($postdata->code);
-			$student = Students::simpleQuery()
-			->where('nis',$nis)
-			->first();
-
-			if (!$student) {
-				$result['api_status'] 		= 0;
-				$result['api_message']  	= 'Kode Tidak Ditemukan!';
-			}else{
-				$check 	 = AbsentStudents::simpleQuery()
-				->where('students_id',$student->id)
-				->whereDate('date',date('Y-m-d'))
+		if(!$postdata){
+			$result['api_status'] 		= 0;
+			$result['api_message']  	= 'Kode Tidak Valid!';
+		}else{
+			if ($postdata->type == 'students') {
+				$nis 	 = nisdecrypt($postdata->code);
+				$student = Students::simpleQuery()
+				->where('nis',$nis)
 				->first();
 
-				if (!$check) {
-					$new = New AbsentStudents;
-					$new->setStudentsId($student->id);
-
-					if (date('Y-m-d H:i:s') <= date('Y-m-d').' '.getSettings('time_in')) {
-						$type = 'Tepat Waktu';
-					}else{
-						$type = 'Terlambat';
-					}
-
-					$new->setType($type);
-					$new->setIsOut(0);
-					$new->setDate(date('Y-m-d'));
-					$new->setTimeIn(date('H:i:s'));
-					$new->save();
-
-					$result['api_status'] 		= 1;
-					$result['api_message']  	= 'Berhasil Absen Masuk!';
+				if (!$student) {
+					$result['api_status'] 		= 0;
+					$result['api_message']  	= 'Kode Tidak Ditemukan!';
 				}else{
-					if (date('Y-m-d H:i:s') <= date('Y-m-d 16:00:00')) {
-						$result['api_status']  	= 0;
-						$result['api_message'] 	= 'Belum Saatnya Pulang!';
-					}else{
-						if ($check->is_out == 1) {
-							$result['api_status']  	= 0;
-							$result['api_message'] 	= 'Siswa Sudah Absen!';
-						}else{
-							$update = AbsentStudents::simpleQuery()
-							->where('students_id',$student->id)
-							->whereDate('date',date('Y-m-d'))
-							->update([
-								'is_out' => 1
-							]);
+					$check 	 = AbsentStudents::simpleQuery()
+					->where('students_id',$student->id)
+					->whereDate('date',date('Y-m-d'))
+					->first();
 
-							$result['api_status'] 	= 1;
-							$result['api_message'] 	= 'Berhasil Absen Keluar!';
+					if (!$check) {
+						$new = New AbsentStudents;
+						$new->setStudentsId($student->id);
+
+						if (date('Y-m-d H:i:s') <= date('Y-m-d').' '.getSettings('time_in')) {
+							$type = 'Tepat Waktu';
+						}else{
+							$type = 'Terlambat';
+						}
+
+						$new->setType($type);
+						$new->setIsOut(0);
+						$new->setDate(date('Y-m-d'));
+						$new->setTimeIn(date('H:i:s'));
+						$new->save();
+
+						$result['api_status'] 		= 1;
+						$result['api_message']  	= 'Berhasil Absen Masuk!';
+					}else{
+						if (date('Y-m-d H:i:s') <= date('Y-m-d 16:00:00')) {
+							$result['api_status']  	= 0;
+							$result['api_message'] 	= 'Belum Saatnya Pulang!';
+						}else{
+							if ($check->is_out == 1) {
+								$result['api_status']  	= 0;
+								$result['api_message'] 	= 'Siswa Sudah Absen!';
+							}else{
+								$update = AbsentStudents::simpleQuery()
+								->where('students_id',$student->id)
+								->whereDate('date',date('Y-m-d'))
+								->update([
+									'is_out' => 1
+								]);
+
+								$result['api_status'] 	= 1;
+								$result['api_message'] 	= 'Berhasil Absen Keluar!';
+							}
 						}
 					}
 				}
