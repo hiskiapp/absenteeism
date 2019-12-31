@@ -10,7 +10,7 @@
             <div class="d-flex align-items-center">
                 <div class="m-r-10">
                     <span class="btn btn-circle btn-lg bg-danger">
-                        <i class="ti-clipboard text-white"></i>
+                        <i class="ti-user text-white"></i>
                     </span>
                 </div>
                 <div>
@@ -27,7 +27,7 @@
         <div class="d-flex align-items-center">
             <div class="m-r-10">
                 <span class="btn btn-circle btn-lg btn-info">
-                    <i class="ti-wallet text-white"></i>
+                    <i class="ti-direction text-white"></i>
                 </span>
             </div>
             <div>
@@ -44,7 +44,7 @@
         <div class="d-flex align-items-center">
             <div class="m-r-10">
                 <span class="btn btn-circle btn-lg bg-success">
-                    <i class="ti-shopping-cart text-white"></i>
+                    <i class="ti-bookmark-alt text-white"></i>
                 </span>
             </div>
             <div>
@@ -61,7 +61,7 @@
         <div class="d-flex align-items-center">
             <div class="m-r-10">
                 <span class="btn btn-circle btn-lg bg-warning">
-                    <i class="mdi mdi-currency-usd text-white"></i>
+                    <i class="ti-layout text-white"></i>
                 </span>
             </div>
             <div>

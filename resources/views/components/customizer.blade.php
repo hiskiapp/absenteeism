@@ -133,6 +133,9 @@
                     <i class="ti-arrow-circle-up"></i>
                 </div>
                 @elseif($row->action == 'Read')
+                <div class="sl-left bg-primary">
+                    <i class="ti-arrow-circle-down"></i>
+                </div>
                 @elseif($row->action == 'Update')
                 <div class="sl-left bg-info">
                     <i class="ti-info"></i>

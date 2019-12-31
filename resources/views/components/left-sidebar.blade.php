@@ -9,7 +9,7 @@
                     <!-- User Profile-->
                     <div class="user-profile dropdown m-t-20">
                         <div class="user-pic">
-                            <img src="{{ asset('assets/images/users/8.jpg') }}" alt="users" class="rounded-circle img-fluid" />
+                            <img src="{{ asset(Auth::user()->photo) }}" alt="users" class="rounded-circle img-fluid" />
                         </div>
                         <div class="user-content hide-menu m-t-10">
                             <h5 class="m-b-10 user-name font-medium">{{ Auth::user()->name }}</h5>
@@ -17,14 +17,14 @@
                             aria-expanded="false">
                             <i class="ti-settings"></i>
                         </a>
-                        <a href="javascript:void(0)" title="Logout" class="btn btn-circle btn-sm">
+                        <a href="javascript:void(0)" onclick="logout()" title="Logout" class="btn btn-circle btn-sm">
                             <i class="ti-power-off"></i>
                         </a>
                         <div class="dropdown-menu animated flipInY" aria-labelledby="Userdd">
-                            <a class="dropdown-item" href="javascript:void(0)">
+                            <a class="dropdown-item" href="{{ url('users') }}">
                                 <i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)">
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="logout()">
                                     <i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
                                 </div>
                             </div>

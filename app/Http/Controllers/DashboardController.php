@@ -31,13 +31,15 @@ class DashboardController extends Controller
 		$bolos = '';
 
 		foreach ($date as $key => $row) {
-			$dates .= '"'.$row->format('d').'",';
-			$tepat_waktu .= AbsentStudentsRepository::stats('Tepat Waktu',$row->format('Y-m-d')).',';
-			$terlambat .= AbsentStudentsRepository::stats('Terlambat',$row->format('Y-m-d')).',';
-			$sakit .= AbsentStudentsRepository::stats('Sakit',$row->format('Y-m-d')).',';
-			$izin .= AbsentStudentsRepository::stats('Izin',$row->format('Y-m-d')).',';
-			$alpa .= AbsentStudentsRepository::stats('Tanpa Keterangan',$row->format('Y-m-d')).',';
-			$bolos .= AbsentStudentsRepository::stats('Bolos',$row->format('Y-m-d')).',';
+			if (!$row->isWeekend()) {
+				$dates .= '"'.$row->format('D').' '.$row->format('d').'",';
+				$tepat_waktu .= AbsentStudentsRepository::stats('Tepat Waktu',$row->format('Y-m-d')).',';
+				$terlambat .= AbsentStudentsRepository::stats('Terlambat',$row->format('Y-m-d')).',';
+				$sakit .= AbsentStudentsRepository::stats('Sakit',$row->format('Y-m-d')).',';
+				$izin .= AbsentStudentsRepository::stats('Izin',$row->format('Y-m-d')).',';
+				$alpa .= AbsentStudentsRepository::stats('Tanpa Keterangan',$row->format('Y-m-d')).',';
+				$bolos .= AbsentStudentsRepository::stats('Bolos',$row->format('Y-m-d')).',';
+			}
 		}
 
 		$data['dates'] = $dates;

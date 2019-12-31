@@ -5,26 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Users;
 use Session;
+use Hash;
 
 class UsersController extends Controller
 {
     public function getIndex(){
     	$data['page_title'] = "Pengaturan User";
-    	$data['data'] = Users::all();
-
-        dd($data['data']);
+    	$data['data'] = Users::simpleQuery()->first();
 
     	return view('users.index',$data);
     }
 
-    public function postIndex(){
+    public function postAdd(Request $request){
     	$edit = Users::findById(1);
-    	$edit->setPhoto(g('photo'));
-    	$edit->setName(g('name'));
-    	$edit->setEmail(g('email'));
-    	$edit->setPassword(g('password_confirmation'));
-    	$edit->save();
+        if (Hash::check(g('password_confirmation'),$edit->getPassword())) {
+            if ($request->image) {
+                $imageName = time().'.'.$request->image->extension();
+                $request->image->move(public_path('images'), $imageName);
 
-    	return redirect()->back()->with(['message_type' => 'success','message' => 'Data Berhasil Diupdate!']);
+                $edit->setPhoto('images/'.$imageName);
+            }else{
+                $edit->setName(g('name'));
+                $edit->setEmail(g('email'));
+                $edit->save();
+            }
+            
+            return redirect()->back()->with(['message_type' => 'success','message' => 'Data Berhasil Diupdate!']);
+        }else{
+            return redirect()->back()->with(['message_type' => 'error','message' => 'Password Konfirmasi Salah!']);
+        }
+
     }
 }

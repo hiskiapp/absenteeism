@@ -9,10 +9,10 @@ use App\Repositories\LogBackendRepository;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\Rombels;
+use Artisan;
 
 class AbsentController extends Controller
 {
-
 	// Students
 	public function getStudentsCalendar(){
 		$data['page_title'] 	  = 'Absensi Kehadiran Siswa';
@@ -114,82 +114,39 @@ class AbsentController extends Controller
 		return redirect()->back()->with(['message_type' => 'success', 'message' => 'Data Berhasil Disimpan!']);
 	}
 
-	public function getMarkStudentsAlpa(){
-		$not_in = AbsentStudents::simpleQuery()
-		->whereDate('date',date('Y-m-d'))
-		->get();
+	// public function getMarkStudentsAlpa(){
+	// 	Artisan::call('set:alpa');
 
-		$arr = [];
-		foreach ($not_in as $key => $row) {
-			$arr[] = array($row->students_id);
-		}
+	// 	if (substr(Artisan::output(), 6, 2) == 'is') {
+	// 		return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
+	// 	}
 
-		$for = Students::simpleQuery()
-		->whereNotIn('id',$arr)
-		->get();
+	// 	$log['action'] = 'Create';
+	// 	$log['page'] = 'List Absent Siswa';
+	// 	$log['description'] = 'Menandai Absen Siswa Yang Alpa';
+	// 	LogBackendRepository::add($log);
 
-		$count = 0;
-		foreach ($for as $key => $row) {
-			$count += 1;
-			$new = New AbsentStudents;
-			$new->setDate(date('Y-m-d'));
-			$new->setTimeIn(NULL);
-			$new->setStudentsId($row->id);
-			$new->setType('Tanpa Keterangan');
-			$new->setIsOut(NULL);
-			$new->save();
-		}
+	// 	return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Alpa!']);
+	// }
 
-		if ($count == 0) {
-			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
-		}
+	// public function getMarkStudentsBolos(){
+	// 	Artisan::call('set:bolos');
 
-		$log['action'] = 'Create';
-		$log['page'] = 'List Absent Siswa';
-		$log['description'] = 'Menandai Absen Siswa Yang Alpa';
-		LogBackendRepository::add($log);
+	// 	if (substr(Artisan::output(), 6, 2) == 'is') {
+	// 		return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
+	// 	}
 
-		return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Alpa!']);
-	}
+	// 	if ($count == 0) {
+	// 		return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
+	// 	}
 
-	public function getMarkStudentsBolos(){
-		$in = AbsentStudents::simpleQuery()
-		->whereDate('date',date('Y-m-d'))
-		->where('is_out', 0)
-		->get();
+	// 	$log['action'] = 'Create';
+	// 	$log['page'] = 'List Absent Siswa';
+	// 	$log['description'] = 'Menandai Absen Siswa Yang Bolos';
+	// 	LogBackendRepository::add($log);
 
-		$arr = [];
-		foreach ($in as $key => $row) {
-			$arr[] = array($row->students_id);
-		}
-
-		$for = Students::simpleQuery()
-		->whereIn('id',$arr)
-		->get();
-
-		$count = 0;
-		foreach ($for as $key => $row) {
-			$count += 1;
-			$new = New AbsentStudents;
-			$new->setDate(date('Y-m-d'));
-			$new->setTimeIn(NULL);
-			$new->setStudentsId($row->id);
-			$new->setType('Bolos');
-			$new->setIsOut(NULL);
-			$new->save();
-		}
-
-		if ($count == 0) {
-			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
-		}
-
-		$log['action'] = 'Create';
-		$log['page'] = 'List Absent Siswa';
-		$log['description'] = 'Menandai Absen Siswa Yang Bolos';
-		LogBackendRepository::add($log);
-
-		return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Bolos!']);
-	}
+	// 	return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Bolos!']);
+	// }
 
 	//Teachers
 	public function getTeachersCalendar(){

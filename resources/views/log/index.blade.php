@@ -65,6 +65,8 @@
 									$btn = 'success';
 								}elseif ($row->action == 'Update') {
 									$btn = 'info';
+								}elseif ($row->action == 'Read') {
+									$btn = 'primary';
 								}else{
 									$btn = 'danger';
 								}
