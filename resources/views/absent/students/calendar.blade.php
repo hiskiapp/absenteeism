@@ -76,7 +76,7 @@
 							</tr>
 							<tr>
 								@foreach($dates as $d)
-								<th{!! $d->isWeekend() == 1 ? ' style="background-color: #F2F2F2;"' : '' !!}>{{ $d->format('d') }}</th>
+								<th{!! isholiday($d) ? ' style="background-color: #F2F2F2;"' : '' !!}>{{ $d->format('d') }}</th>
 								@endforeach
 							</tr>
 						</thead>
@@ -86,7 +86,7 @@
 								<td>{{ $key + 1}}</td>
 								<td style="min-width: 225px;">{{ $row->name }}</td>
 								@foreach($dates as $d)
-								<td{!! $d->isWeekend() == 1 ? ' style="background-color: #F2F2F2"' : (colorabsent($row->id,$d) != '' ? ' style="background-color: '.colorabsent($row->id,$d).'"' : '' ) !!}></td>
+								<td{!! isholiday($d) ? ' style="background-color: #F2F2F2"' : (colorabsent($row->id,$d) != '' ? ' style="background-color: '.colorabsent($row->id,$d).'"' : '' ) !!}></td>
 								@endforeach
 							</tr>
 							@endforeach

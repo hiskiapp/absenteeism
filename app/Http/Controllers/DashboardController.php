@@ -31,7 +31,7 @@ class DashboardController extends Controller
 		$bolos = '';
 
 		foreach ($date as $key => $row) {
-			if (!$row->isWeekend()) {
+			if (!isholiday($row)) {
 				$dates .= '"'.$row->format('D').' '.$row->format('d').'",';
 				$tepat_waktu .= AbsentStudentsRepository::stats('Tepat Waktu',$row->format('Y-m-d')).',';
 				$terlambat .= AbsentStudentsRepository::stats('Terlambat',$row->format('Y-m-d')).',';

@@ -174,3 +174,16 @@ function absentstat($type,$date){
 
 	return $data->count();
 }
+
+function isholiday($date){
+	$date = Carbon::parse($date);
+	$data = json_decode(file_get_contents("https://raw.githubusercontent.com/guangrei/Json-Indonesia-holidays/master/calendar.json"),true);
+
+	if (isset($data[$date->format('Ymd')])) {
+		return true;
+	}elseif($date->isWeekend()){
+		return true;
+	}else{
+		return false;
+	}
+}
