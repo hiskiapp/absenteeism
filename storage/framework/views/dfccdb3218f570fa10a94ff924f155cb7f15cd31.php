@@ -14,8 +14,8 @@
 					<button class="btn btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Set Izin</button>
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
 					<button class="btn btn-warning" data-toggle="modal" data-target="#change-date"><i class="fa fa-calendar"></i> Ganti Tanggal</button>
-					<button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
-					<button type="button" class="btn btn-secondary btn-outline btn-bolos" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Keluar Menjadi Bolos"><i class="fas fa-external-link-alt"></i> Tandai Bolos</button>
+					<!-- <button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
+					<button type="button" class="btn btn-secondary btn-outline btn-bolos" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Keluar Menjadi Bolos"><i class="fas fa-external-link-alt"></i> Tandai Bolos</button> -->
 				</div>
 				<h4 class="card-title"><?php echo e($page_title); ?></h4>
 				<h6 class="card-subtitle"><?php echo e($page_description); ?></h6>

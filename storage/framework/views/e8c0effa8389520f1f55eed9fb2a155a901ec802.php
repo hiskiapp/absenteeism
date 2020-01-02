@@ -23,6 +23,10 @@
 		    BoxedLayout: false // it can be true / false ( true means Boxed and false means Fluid )
 		});
 	});
+
+	function logout(){
+		$('#logout').modal('show');
+	}
 </script>
 <script src="<?php echo e(asset('dist/js/app-style-switcher.js')); ?>"></script>
 <!-- slimscrollbar scrollbar JavaScript -->

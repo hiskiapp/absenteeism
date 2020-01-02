@@ -161,31 +161,31 @@
 		{
 			extend: 'copy',
 			exportOptions: {
-				columns: [ 7, ':visible' ]
+				columns: [ 0, 1, 2, 3, 4, 5, 6 ]
 			}
 		},
 		{
 			extend: 'csv',
 			exportOptions: {
-				columns: [ 7, ':visible' ]
+				columns: [ 0, 1, 2, 3, 4, 5, 6 ]
 			}
 		},
 		{
 			extend: 'excel',
 			exportOptions: {
-				columns: [ 7, ':visible' ]
+				columns: [ 0, 1, 2, 3, 4, 5, 6 ]
 			}
 		},
 		{
 			extend: 'pdf',
 			exportOptions: {
-				columns: [ 7, ':visible' ]
+				columns: [ 0, 1, 2, 3, 4, 5, 6 ]
 			}
 		},
 		{
 			extend: 'print',
 			exportOptions: {
-				columns: [ 7, ':visible' ]
+				columns: [ 0, 1, 2, 3, 4, 5, 6 ]
 			}
 		},
 		]

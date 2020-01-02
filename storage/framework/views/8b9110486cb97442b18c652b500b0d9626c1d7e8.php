@@ -75,7 +75,7 @@
 							</tr>
 							<tr>
 								<?php $__currentLoopData = $dates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-								<th<?php echo $d->isWeekend() == 1 ? ' style="background-color: #F2F2F2;"' : ''; ?>><?php echo e($d->format('d')); ?></th>
+								<th<?php echo isholiday($d) ? ' style="background-color: #F2F2F2;"' : ''; ?>><?php echo e($d->format('d')); ?></th>
 								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 							</tr>
 						</thead>
@@ -85,7 +85,7 @@
 								<td><?php echo e($key + 1); ?></td>
 								<td style="min-width: 225px;"><?php echo e($row->name); ?></td>
 								<?php $__currentLoopData = $dates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-								<td<?php echo $d->isWeekend() == 1 ? ' style="background-color: #F2F2F2"' : (colorabsent($row->id,$d) != '' ? ' style="background-color: '.colorabsent($row->id,$d).'"' : '' ); ?>></td>
+								<td<?php echo isholiday($d) ? ' style="background-color: #F2F2F2"' : (colorabsent($row->id,$d) != '' ? ' style="background-color: '.colorabsent($row->id,$d).'"' : '' ); ?>></td>
 								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 							</tr>
 							<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
