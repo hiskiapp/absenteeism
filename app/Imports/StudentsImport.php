@@ -27,48 +27,60 @@ class StudentsImport implements ToCollection, WithStartRow
     				$new->setNis($row[0]);
     				$new->setName(ucwords(strtolower($row[1])));
 
-    				$rombels = Rombels::findByName(strtoupper($row[2]));
-    				if ($rombels) {
-    					$new->setRombelsId($rombels->getId());
-    				}else{
-    					$new->setRombelsId(1);
-    				}
+    				$rombels = Rombels::simpleQuery()
+                    ->where('name',strtoupper($row[2])
+                        ->first();
 
-    				$rayons = Rayons::findByName(ucwords(strtolower($row[3])));
-    				if ($rayons) {
-    					$new->setRayonsId($rayons->getId());
-    				}else{
-    					$new->setRayonsId(1);
-    				}
+                        if ($rombels) {
+                         $new->setRombelsId($rombels->id);
+                     }else{
+                        $rombel = New Rombels;
+                        $rombel->setName(strtoupper($row[2]);
+                            $rombel->save();
+                            $new->setRombelsId($rombel->getId());
+                        }
 
-    				if ($row[4] == 'L') {
-    					$new->setGender('Laki - Laki');
-    				}else{
-    					$new->setGender('Perempuan');
-    				}
+                        $rayons = Rayons::simpleQuery()
+                        ->where('name',ucwords(strtolower($row[3]))
+                            ->first();
 
-    				$new->setBirthCity(ucwords(strtolower($row[5])));
-    				$new->setBirthDate(dateExcel($row[6]));
-    				$new->setReligion(ucwords(strtolower($row[7])));
+                            if ($rayons) {
+                             $new->setRayonsId($rayons->id);
+                         }else{
+                            $rayon = New Rayons;
+                            $rayon->setName(strtoupper($row[2]);
+                                $rayon->save();
+                                $new->setRayonsId($rayon->getId());
+                            }
 
-                    $address['city'] = ucwords(strtolower($row[8]));
-    				$address['district'] = ucwords(strtolower($row[9]));
-    				$address['village'] = ucwords(strtolower($row[10]));
-    				$address['rt'] = $row[11];
-    				$address['rw'] = $row[12];
+                            if ($row[4] == 'L') {
+                             $new->setGender('Laki - Laki');
+                         }else{
+                             $new->setGender('Perempuan');
+                         }
 
-    				$new->setAddress(json_encode($address));
-    				$new->setNameOfGuardian(ucwords(strtolower($row[13])));
-    				$new->save();
-    			}
-    		}
-    	}
+                         $new->setBirthCity(ucwords(strtolower($row[5])));
+                         $new->setBirthDate(dateExcel($row[6]));
+                         $new->setReligion(ucwords(strtolower($row[7])));
+
+                         $address['city'] = ucwords(strtolower($row[8]));
+                         $address['district'] = ucwords(strtolower($row[9]));
+                         $address['village'] = ucwords(strtolower($row[10]));
+                         $address['rt'] = $row[11];
+                         $address['rw'] = $row[12];
+
+                         $new->setAddress(json_encode($address));
+                         $new->setNameOfGuardian(ucwords(strtolower($row[13])));
+                         $new->save();
+                     }
+                 }
+             }
 
 
-    }
+         }
 
-    public function startRow(): int
-    {
-    	return 3;
-    }
-}
+         public function startRow(): int
+         {
+             return 3;
+         }
+     }
