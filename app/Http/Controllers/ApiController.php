@@ -21,7 +21,7 @@ class ApiController extends Controller
 			$check = AbsentStudents::simpleQuery()
 			->where('students_id',$student->id)
 			->whereDate('date',date('Y-m-d'))
-			->first()
+			->first();
 
 			if (!$check) {
 				if (date('Y-m-d H:i:s') >= date('Y-m-d 05:00:00') && date('Y-m-d H:i:s') <= date('Y-m-d 08:00:00')) {
