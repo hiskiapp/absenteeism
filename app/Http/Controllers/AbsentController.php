@@ -114,39 +114,35 @@ class AbsentController extends Controller
 		return redirect()->back()->with(['message_type' => 'success', 'message' => 'Data Berhasil Disimpan!']);
 	}
 
-	// public function getMarkStudentsAlpa(){
-	// 	Artisan::call('set:alpa');
+	public function getMarkStudentsAlpa(){
+		Artisan::call('set:alpa');
 
-	// 	if (substr(Artisan::output(), 6, 2) == 'is') {
-	// 		return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
-	// 	}
+		if (substr(Artisan::output(), 6, 2) == 'is') {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
+		}
 
-	// 	$log['action'] = 'Create';
-	// 	$log['page'] = 'List Absent Siswa';
-	// 	$log['description'] = 'Menandai Absen Siswa Yang Alpa';
-	// 	LogBackendRepository::add($log);
+		$log['action'] = 'Create';
+		$log['page'] = 'List Absent Siswa';
+		$log['description'] = 'Menandai Absen Siswa Yang Alpa';
+		LogBackendRepository::add($log);
 
-	// 	return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Alpa!']);
-	// }
+		return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Alpa!']);
+	}
 
-	// public function getMarkStudentsBolos(){
-	// 	Artisan::call('set:bolos');
+	public function getMarkStudentsBolos(){
+		Artisan::call('set:bolos');
 
-	// 	if (substr(Artisan::output(), 6, 2) == 'is') {
-	// 		return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
-	// 	}
+		if (substr(Artisan::output(), 6, 2) == 'is') {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
+		}
 
-	// 	if ($count == 0) {
-	// 		return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Yang Ditandai!']);
-	// 	}
+		$log['action'] = 'Create';
+		$log['page'] = 'List Absent Siswa';
+		$log['description'] = 'Menandai Absen Siswa Yang Bolos';
+		LogBackendRepository::add($log);
 
-	// 	$log['action'] = 'Create';
-	// 	$log['page'] = 'List Absent Siswa';
-	// 	$log['description'] = 'Menandai Absen Siswa Yang Bolos';
-	// 	LogBackendRepository::add($log);
-
-	// 	return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Bolos!']);
-	// }
+		return redirect()->back()->with(['message_type' => 'success', 'message' => 'Berhasil Menandai Siswa Yang Bolos!']);
+	}
 
 	//Teachers
 	public function getTeachersCalendar(){

@@ -177,7 +177,7 @@ function absentstat($type,$date){
 
 function isholiday($date){
 	$date = Carbon::parse($date);
-	$data = json_decode(file_get_contents("https://raw.githubusercontent.com/guangrei/Json-Indonesia-holidays/master/calendar.json"),true);
+	$data = json_decode(file_get_contents(asset('data/calendar.json')),true);
 
 	if (isset($data[$date->format('Ymd')])) {
 		return true;

@@ -39,26 +39,16 @@ class SetBolos extends Command
      */
     public function handle()
     {
-        $in = AbsentStudents::simpleQuery()
+        $data = AbsentStudents::simpleQuery()
         ->whereDate('date',date('Y-m-d'))
         ->where('is_out', 0)
         ->get();
 
-        $arr = [];
-        foreach ($in as $key => $row) {
-            $arr[] = array($row->students_id);
-        }
-
-        $for = Students::simpleQuery()
-        ->whereIn('id',$arr)
-        ->get();
-
         $count = 0;
-        foreach ($for as $key => $row) {
+        foreach ($data as $key => $row) {
             $count += 1;
-            $new = New AbsentStudents;
+            $new = AbsentStudents::findById($row->id);
             $new->setDate(date('Y-m-d'));
-            $new->setTimeIn(NULL);
             $new->setStudentsId($row->id);
             $new->setType('Bolos');
             $new->setIsOut(NULL);
