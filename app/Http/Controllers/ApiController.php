@@ -9,19 +9,19 @@ use App\Models\Students;
 class ApiController extends Controller
 {
 	public function postAddScan(){
-		$nis 	 = g('member_id');
+		$nis = g('member_id');
 		$student = Students::simpleQuery()
 		->where('nis',$nis)
 		->first();
 
 		if (!$student) {
-			$result['api_status'] 		= 0;
-			$result['api_message']  	= 'Kode Tidak Ditemukan!';
+			$result['api_status'] = 0;
+			$result['api_message'] = 'Kode Tidak Ditemukan!';
 		}else{
-			$check 	 = AbsentStudents::simpleQuery()
+			$check = AbsentStudents::simpleQuery()
 			->where('students_id',$student->id)
 			->whereDate('date',date('Y-m-d'))
-			->first();
+			->first()
 
 			if (!$check) {
 				if (date('Y-m-d H:i:s') >= date('Y-m-d 05:00:00') && date('Y-m-d H:i:s') <= date('Y-m-d 08:00:00')) {
@@ -41,19 +41,19 @@ class ApiController extends Controller
 					$new->save();
 
 					$result['api_status'] 		= 1;
-					$result['api_message']  	= $student->name.' Berhasil Absen Masuk! Tercatat Pukul '.date('H:i:s').'. Status: '.$type;
+					$result['api_message']  	= $student->name.' Berhasil Absen Masuk! /nTercatat Pukul '.date('H:i:s').'. Status: '.$type;
 				}else{
 					$result['api_status'] 		= 0;
-					$result['api_message']  	= 'Belum Saatnya Absen! Absen Masuk Hanya Dilaksanakan Pada Pukul 05.00 - 07.00 WIB!';
+					$result['api_message']  	= 'Belum Saatnya Absen! Absen Masuk /nHanya Dilaksanakan Pada Pukul 05.00 - 07.00 WIB!';
 				}
 			}else{
-				if (date('Y-m-d H:i:s') <= date('Y-m-d 16:00:00')) {
+				if ($check->is_out == NULL || $check->is_out == 1) {
 					$result['api_status']  	= 0;
-					$result['api_message'] 	= 'Belum Saatnya Pulang!';
+					$result['api_message'] 	= 'Siswa Sudah Absen!';
 				}else{
-					if ($check->is_out == 1 || $check->is_out == NULL) {
+					if (date('Y-m-d H:i:s') <= date('Y-m-d 16:00:00')) {
 						$result['api_status']  	= 0;
-						$result['api_message'] 	= 'Siswa Sudah Absen!';
+						$result['api_message'] 	= 'Belum Saatnya Pulang!';
 					}else{
 						$update = AbsentStudents::simpleQuery()
 						->where('students_id',$student->id)
