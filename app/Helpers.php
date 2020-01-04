@@ -175,8 +175,13 @@ function absentstat($type,$date){
 	return $data->count();
 }
 
-function isholiday($date){
-	$date = Carbon::parse($date);
+function isholiday($date = null){
+	if ($date) {
+		$date = Carbon::parse($date);
+	}else{
+		$date = now();
+	}
+	
 	$data = json_decode(file_get_contents(asset('data/calendar.json')),true);
 
 	if (isset($data[$date->format('Ymd')])) {
