@@ -144,10 +144,7 @@ class StudentsController extends Controller
         $data['page_title'] = 'Detail Siswa';
         $data['data'] = Students::findById($id);
         $data['address'] = json_decode($data['data']->getAddress());
-        $data['qrcode'] = json_encode([
-            'code' => nisencrypt($data['data']->getNis()),
-            'type' => 'student'
-        ]);
+        $data['qrcode'] = strval($data['data']->getNis());
 
         return view('students.detail', $data);
     }

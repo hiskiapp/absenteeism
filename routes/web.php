@@ -15,7 +15,11 @@
 routeController('api','ApiController');
 
 // Auth
-Auth::routes();
+Auth::routes([
+  'register' => false, // Registration Routes...
+  'reset' => false, // Password Reset Routes...
+  'verify' => false, // Email Verification Routes...
+]);
 
 //Middleware
 Route::group(['middleware' => 'auth'], function () {

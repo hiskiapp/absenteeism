@@ -51,6 +51,7 @@
 							<tr>
 								<th>#</th>
 								<th>Action</th>
+								<th>Page</th>
 								<th>Description</th>
 								<th>Datetime</th>
 								<th>Info</th>
@@ -72,6 +73,7 @@
 								}
 								?>
 								<td><span class="btn btn-{{ $btn }} btn-xs">{{ $row->action }}</span></td>
+								<td>{{ $row->page }}</td>
 								<td>{{ $row->description }}</td>
 								<td>{{ dt($row->created_at)->format('d-m-Y H:i') }}</td>
 								<td>{{ timeHumanReadable($row->created_at) }}</td>
