@@ -50,6 +50,7 @@
 							<tr>
 								<th>#</th>
 								<th>Action</th>
+								<th>Page</th>
 								<th>Description</th>
 								<th>Datetime</th>
 								<th>Info</th>
@@ -64,11 +65,14 @@
 									$btn = 'success';
 								}elseif ($row->action == 'Update') {
 									$btn = 'info';
+								}elseif ($row->action == 'Read') {
+									$btn = 'primary';
 								}else{
 									$btn = 'danger';
 								}
 								?>
 								<td><span class="btn btn-<?php echo e($btn); ?> btn-xs"><?php echo e($row->action); ?></span></td>
+								<td><?php echo e($row->page); ?></td>
 								<td><?php echo e($row->description); ?></td>
 								<td><?php echo e(dt($row->created_at)->format('d-m-Y H:i')); ?></td>
 								<td><?php echo e(timeHumanReadable($row->created_at)); ?></td>

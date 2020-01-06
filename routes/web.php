@@ -47,6 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
 	// Log Activity
 	routeController('settings','SettingsController');
 
+	// Holiday
+	routeController('holiday','HolidaysController');
+
 	// Log Activity
 	routeController('log_activity','LogsController');
 

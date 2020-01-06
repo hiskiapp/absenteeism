@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Repositories\LogBackendRepository;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,13 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        $log['action'] = 'Read';
+        $log['page'] = 'Login';
+        $log['description'] = 'Masuk Dengan IP: '.$request->server('REMOTE_ADDR');
+        LogBackendRepository::add($log);
     }
 }

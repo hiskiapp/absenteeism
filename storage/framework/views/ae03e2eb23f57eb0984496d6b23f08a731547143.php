@@ -1,6 +1,5 @@
 <?php $__env->startPush('head'); ?>
 <link href="<?php echo e(asset('assets/libs/toastr/build/toastr.min.css')); ?>" rel="stylesheet">
-<link href="<?php echo e(asset('assets/libs/sweetalert2/dist/sweetalert2.min.css')); ?>" rel="stylesheet">
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
 <!-- File export -->
@@ -8,79 +7,49 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title"><?php echo e($page_title); ?></h4>
-				<div class="table-responsive">
-					<table id="file_export" class="table table-striped table-bordered display">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Title</th>
-								<th>Content</th>
-								<th width="160px">Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-							<tr>
-								<td><?php echo e($key + 1); ?></td>
-								<td><?php echo e($row->getTitle()); ?></td>
-								<td><?php echo e($row->getContent()); ?></td>
-								<td>
-									<button onclick="editRow(<?php echo e($row->getId()); ?>)" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></button>
-								</td>
-							</tr>
-							<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="title-edit"></h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			</div>
-			<form action="<?php echo e(url(request()->segment(1))); ?>" id="form-edit" method="POST" enctype="multipart/form-data">
+				<form class="form-horizontal r-separator" method="POST" action="<?php echo e(url(request()->segment(1))); ?>/add" enctype="multipart/form-data">
 				<?php echo e(csrf_field()); ?>
 
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="content">Content</label>
-						<input required="" value="" name="content" autocomplete="off" type="text" id="content" class="form-control" placeholder="Nama Rombel">
+				<div class="card-body">
+					<div class="form-group row align-items-center m-b-0">
+						<label for="name" class="col-3 text-right control-label col-form-label">Nama</label>
+						<div class="col-9 border-left p-b-10 p-t-10">
+							<input autocomplete="off" required="" value="<?php echo e($data->name); ?>" type="text" name="name" class="form-control" id="title" placeholder="Nama">
+						</div>
+					</div>
+					<div class="form-group row align-items-center m-b-0">
+						<label for="email" class="col-3 text-right control-label col-form-label">Email</label>
+						<div class="col-9 border-left p-b-10 p-t-10">
+							<input autocomplete="off" required="" value="<?php echo e($data->email); ?>" type="email" name="email" class="form-control" id="email" placeholder="Email">
+						</div>
+					</div>
+					<div class="form-group row align-items-center m-b-0">
+						<label for="image" class="col-3 text-right control-label col-form-label">Photo</label>
+						<div class="col-9 border-left p-b-10 p-t-10">
+							<input autocomplete="off" type="file" name="image" class="form-control-file" id="image" placeholder="Photo">
+						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default waves-effect" id="close-modal-edit" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-danger waves-effect waves-light">Execute</button>
+				<div class="card-body bg-light">
+					<div class="form-group row align-items-center m-b-0">
+						<label for="password_confirmation" class="col-3 text-right control-label col-form-label">Konfirmasi Password</label>
+						<div class="col-9 border-left p-b-10 p-t-10">
+							<input autocomplete="off" required="" type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Password">
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="form-group m-b-0 text-right">
+						<button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
+					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</div>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('bottom'); ?>
-<script src="<?php echo e(asset('assets/libs/select2/dist/js/select2.full.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/libs/select2/dist/js/select2.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/extra-libs/DataTables/datatables.min.js')); ?>"></script>
-<script type="text/javascript">
-	$(".select2").select2();
-
-	//=============================================//
-	//    Data Tables                              //
-	//=============================================//
-	$('#file_export').DataTable({
-		dom: 'frtip',
-	});
-	$('#close-modal-edit').click(function(){
-		$("#edit_id").val('');
-		$('#edit_name').val('');
-	});
-</script>
-
 <script src="<?php echo e(asset('assets/libs/toastr/build/toastr.min.js')); ?>"></script>
 <?php if(Session::has('message')): ?>
 <script>
@@ -89,24 +58,5 @@
 	});
 </script>
 <?php endif; ?>
-
-<script src="<?php echo e(asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js')); ?>"></script>
-<script>
-	function editRow(id){
-		$.ajax({
-			url: "<?php echo e(url(request()->segment(1))); ?>/edit/"+id,
-            cache: false,
-            dataType: "json",
-			success: function(data){
-				$('#edit').modal('show');
-				$('#edit_name').val(data.name);
-				$('#form-edit').attr('action','<?php echo e(url(request()->segment(1))); ?>/edit/'+id);
-			},
-			error: function(data) { 
-				console.log(data);
-			}
-		});
-	}
-</script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.backend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\absensi\resources\views/users/index.blade.php ENDPATH**/ ?>

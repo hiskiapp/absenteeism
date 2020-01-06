@@ -137,10 +137,22 @@
         <span class="hide-menu">Settings</span>
         </a>
     </li>
+    <li class="sidebar-item {{ (request()->segment(1) == 'holiday' ? 'selected' : '')}}">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ url('holiday') }}" aria-expanded="false">
+        <i class="mdi mdi-calendar"></i>
+        <span class="hide-menu">Hari Libur</span>
+        </a>
+    </li>
     <li class="sidebar-item {{ (request()->segment(1) == 'log_activity' ? 'selected' : '')}}">
         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ url('log_activity') }}" aria-expanded="false">
         <i class="mdi mdi-tumblr-reblog"></i>
         <span class="hide-menu">Log Activity</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ asset('data/main-app.apk') }}" aria-expanded="false">
+        <i class="mdi mdi-download"></i>
+        <span class="hide-menu">Download Apk</span>
         </a>
     </li>
 </ul>

@@ -140,6 +140,12 @@
         <span class="hide-menu">Settings</span>
         </a>
     </li>
+    <li class="sidebar-item <?php echo e((request()->segment(1) == 'holiday' ? 'selected' : '')); ?>">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(url('holiday')); ?>" aria-expanded="false">
+        <i class="mdi mdi-calendar"></i>
+        <span class="hide-menu">Hari Libur</span>
+        </a>
+    </li>
     <li class="sidebar-item <?php echo e((request()->segment(1) == 'log_activity' ? 'selected' : '')); ?>">
         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo e(url('log_activity')); ?>" aria-expanded="false">
         <i class="mdi mdi-tumblr-reblog"></i>

@@ -138,8 +138,8 @@
 	function editRow(id){
 		$.ajax({
 			url: "{{ url(request()->segment(1))}}/edit/"+id,
-            cache: false,
-            dataType: "json",
+			cache: false,
+			dataType: "json",
 			success: function(data){
 				$('#edit').modal('show');
 				$('#edit_name').val(data.name);

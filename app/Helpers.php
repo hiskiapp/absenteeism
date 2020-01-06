@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\Models\Settings;
 use Carbon\CarbonPeriod;
 use App\Models\AbsentStudents;
+use App\Models\Holidays;
 
 function app_name()
 {
@@ -182,9 +183,9 @@ function isholiday($date = null){
 		$date = now();
 	}
 	
-	$data = json_decode(file_get_contents(asset('data/calendar.json')),true);
+	$check = Holidays::simpleQuery()->whereDate('date',$date->format('Y-m-d'))->first();
 
-	if (isset($data[$date->format('Ymd')])) {
+	if ($check) {
 		return true;
 	}elseif($date->isWeekend()){
 		return true;
