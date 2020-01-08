@@ -12,9 +12,12 @@ class AbsentTeachers extends Model
 
     
 	private $id;
-	private $teachers_id;
-	private $reason;
 	private $date;
+	private $time_in;
+	private $teachers_id;
+	private $type;
+	private $is_out;
+	private $photo;
 	private $created_at;
 	private $updated_at;
 
@@ -26,6 +29,38 @@ class AbsentTeachers extends Model
 
 	public function setId($id) {
 		$this->id = $id;
+	}
+
+	public static function findAllByDate($value) {
+		return static::simpleQuery()->where('date',$value)->get();
+	}
+
+	public static function findByDate($value) {
+		return static::findBy('date',$value);
+	}
+
+	public function getDate() {
+		return $this->date;
+	}
+
+	public function setDate($date) {
+		$this->date = $date;
+	}
+
+	public static function findAllByTimeIn($value) {
+		return static::simpleQuery()->where('time_in',$value)->get();
+	}
+
+	public static function findByTimeIn($value) {
+		return static::findBy('time_in',$value);
+	}
+
+	public function getTimeIn() {
+		return $this->time_in;
+	}
+
+	public function setTimeIn($time_in) {
+		$this->time_in = $time_in;
 	}
 
 	public static function findAllByTeachersId($value) {
@@ -43,36 +78,52 @@ class AbsentTeachers extends Model
 		$this->teachers_id = $teachers_id;
 	}
 
-	public static function findAllByReason($value) {
-		return static::simpleQuery()->where('reason',$value)->get();
+	public static function findAllByType($value) {
+		return static::simpleQuery()->where('type',$value)->get();
 	}
 
-	public static function findByReason($value) {
-		return static::findBy('reason',$value);
+	public static function findByType($value) {
+		return static::findBy('type',$value);
 	}
 
-	public function getReason() {
-		return $this->reason;
+	public function getType() {
+		return $this->type;
 	}
 
-	public function setReason($reason) {
-		$this->reason = $reason;
+	public function setType($type) {
+		$this->type = $type;
 	}
 
-	public static function findAllByDate($value) {
-		return static::simpleQuery()->where('date',$value)->get();
+	public static function findAllByIsOut($value) {
+		return static::simpleQuery()->where('is_out',$value)->get();
 	}
 
-	public static function findByDate($value) {
-		return static::findBy('date',$value);
+	public static function findByIsOut($value) {
+		return static::findBy('is_out',$value);
 	}
 
-	public function getDate() {
-		return $this->date;
+	public function getIsOut() {
+		return $this->is_out;
 	}
 
-	public function setDate($date) {
-		$this->date = $date;
+	public function setIsOut($is_out) {
+		$this->is_out = $is_out;
+	}
+
+	public static function findAllByPhoto($value) {
+		return static::simpleQuery()->where('photo',$value)->get();
+	}
+
+	public static function findByPhoto($value) {
+		return static::findBy('photo',$value);
+	}
+
+	public function getPhoto() {
+		return $this->photo;
+	}
+
+	public function setPhoto($photo) {
+		$this->photo = $photo;
 	}
 
 	public static function findAllByCreatedAt($value) {

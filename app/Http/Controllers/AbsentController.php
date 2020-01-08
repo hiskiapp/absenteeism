@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AbsentStudents;
 use App\Models\Students;
+use App\Models\AbsentTeachers;
+use App\Models\Teachers;
 use App\Repositories\LogBackendRepository;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -194,7 +196,42 @@ class AbsentController extends Controller
 		return view('errors.maintenance');
 	}
 	public function getTeachersList(){
-		dd(now()->format('l'));
+		$data['page_title'] 	  = 'List Absensi Guru / Karyawan';
+
+		if (g('date')) {
+			$date = dt(g('date'));
+			$data['data'] = Teachers::simpleQuery()
+			->where('weekdays','like','%'.$date->format('l').'%')
+			->select('id','code','name')
+			->get();
+		}else{
+			$date = now();
+			$data['data'] = Teachers::simpleQuery()
+			->where('weekdays','like','%'.$date->format('l').'%')
+			->select('id','code','name')
+			->get();
+		}
+
+		foreach ($data['data'] as $key => $row) {
+			$absent = AbsentTeachers::simpleQuery()->where('teachers_id',$row->id)->first();
+
+			if ($absent) {
+				$row->time_in = $absent->time_in;
+				$row->type 	  = $absent->type;
+				$row->photo   = $absent->photo;
+			}else{
+				$row->time_in = NULL;
+				$row->type 	  = 'Belum Absen';
+				$row->photo   = NULL;
+			}
+		}
+
+		$data['date'] = $date->format('m/d/Y');
+		$data['page_description'] = 'Absensi Tanggal '.$date->format('d F Y');
+		$data['rombels'] = Rombels::all();
+
+		dd($data['data']);
+
 		return view('errors.maintenance');
 	}
 
