@@ -194,6 +194,7 @@ class AbsentController extends Controller
 		return view('errors.maintenance');
 	}
 	public function getTeachersList(){
+		dd(now()->format('l'));
 		return view('errors.maintenance');
 	}
 

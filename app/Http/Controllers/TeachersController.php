@@ -14,16 +14,16 @@ use File;
 class TeachersController extends Controller
 {
 	public function getIndex(){
-		$data['page_title'] = 'Data Guru';
-		$data['page_description'] = 'Kumpulan Data Guru SMK Wikrama 1 Jepara';
+		$data['page_title'] = 'Data Guru / Karyawan';
+		$data['page_description'] = 'Kumpulan Data Guru / Karyawan SMK Wikrama 1 Jepara';
 		// $data['sidebar_type'] = "mini-sidebar";
-		$data['data'] = Teachers::findAllByIsTeacher(1);
+		$data['data'] = Teachers::all();
 
 		return view('teachers.index',$data);
 	}
 
 	public function getAdd(){
-		$data['page_title'] = 'Tambah Data Guru';
+		$data['page_title'] = 'Tambah Data Guru / Karyawan';
 		$data['page_description'] = 'Silahkan Isi Form Berikut Dengan Benar & Tepat';
 
 		$subjects = Teachers::simpleQuery()
@@ -53,7 +53,7 @@ class TeachersController extends Controller
 		$new->setSubjects($request->subjects);
 		$new->setPosition($request->position);
 		$new->setWeekdays(implode($request->weekdays,','));
-		$new->setIsTeacher(1);
+		$new->setIsTeacher(NULL);
 
 		$address['city'] = ucwords(strtolower($request['city']));
 		$address['district'] = ucwords(strtolower($request['district']));
@@ -65,15 +65,15 @@ class TeachersController extends Controller
 		$new->save();
 
 		$log['action'] = 'Create';
-		$log['page'] = 'Data Guru';
-		$log['description'] = 'Menambahkan Data Guru Baru: '.$request->name;
+		$log['page'] = 'Data Guru / Karyawan';
+		$log['description'] = 'Menambahkan Data Guru / Karyawan Baru: '.$request->name;
 		LogBackendRepository::add($log);
 
 		return redirect('teachers')->with(['message_type' => 'success', 'message' => 'Data Berhasil Disimpan!']);
 	}
 
 	public function getEdit($id){
-		$data['page_title'] = 'Tambah Data Guru';
+		$data['page_title'] = 'Tambah Data Guru / Karyawan';
 		$data['page_description'] = 'Silahkan Isi Form Berikut Dengan Benar & Tepat';
 		$data['data'] = Teachers::findById($id);
 		$data['address'] = json_decode($data['data']->getAddress());
@@ -117,8 +117,8 @@ class TeachersController extends Controller
 		$edit->save();
 
 		$log['action'] = 'Update';
-		$log['page'] = 'Data Guru';
-		$log['description'] = 'Mengedit Data Guru: '.$request->name;
+		$log['page'] = 'Data Guru / Karyawan';
+		$log['description'] = 'Mengedit Data Guru / Karyawan: '.$request->name;
 		LogBackendRepository::add($log);
 
 		return redirect('teachers')->with(['message_type' => 'info', 'message' => 'Data Berhasil Diupdate!']);
@@ -128,8 +128,8 @@ class TeachersController extends Controller
 		$data = Teachers::findById($id);
 
 		$log['action'] = 'Delete';
-		$log['page'] = 'Data Guru';
-		$log['description'] = 'Menghapus Data Guru: '.$data->getName();
+		$log['page'] = 'Data Guru / Karyawan';
+		$log['description'] = 'Menghapus Data Guru / Karyawan: '.$data->getName();
 		LogBackendRepository::add($log);
 
 		$data->delete();
@@ -138,7 +138,7 @@ class TeachersController extends Controller
 	}
 
 	public function getDetail($id){
-		$data['page_title'] = 'Detail Guru';
+		$data['page_title'] = 'Detail Guru / Karyawan';
 		$data['data'] = Teachers::findById($id);
 		$data['address'] = json_decode($data['data']->getAddress());
 		$data['qrcode'] = json_encode([
@@ -156,8 +156,8 @@ class TeachersController extends Controller
 			$save = Excel::import(new TeachersImport, $request->file('file_export'));
 			if($save){
 				$log['action'] = 'Create';
-				$log['page'] = 'Data Guru';
-				$log['description'] = 'Mengimport Data Guru Baru';
+				$log['page'] = 'Data Guru / Karyawan';
+				$log['description'] = 'Mengimport Data Guru / Karyawan Baru';
 				LogBackendRepository::add($log);
 
 				return redirect()->back()->with(['message_type' => 'info', 'message' => 'Berhasil Mengimport Data!']);
