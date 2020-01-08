@@ -11,7 +11,7 @@ class ApiController extends Controller
 	public function postAddScan(){
 		if (isholiday()) {
 			$result['api_status'] = 0;
-			$result['api_message'] = 'Ini Hari Libur! Ngeteh Asw! Dasar Gabut Woi!';
+			$result['api_message'] = 'Saat Ini Hari Libur!';
 		}else{
 			$nis = g('member_id');
 			$student = Students::simpleQuery()

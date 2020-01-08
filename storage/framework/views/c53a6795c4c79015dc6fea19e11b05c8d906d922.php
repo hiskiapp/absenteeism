@@ -62,7 +62,23 @@
                             <!--/span-->
                         </div>
                         <!--/row-->
-                        <h4 class="card-title">Alamat</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Hari Kerja:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">
+                                            <?php $__currentLoopData = $weekdays; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <span class="btn btn-info btn-xs"><?php echo e($row); ?></span>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+                        <h4 class="card-title mt-5">Alamat</h4>
                     </div>
                     <hr class="m-t-0 m-b-40">
                     <div class="card-body">
@@ -119,7 +135,7 @@
                             </div>
                             <!--/span-->
                         </div>
-                        <h4 class="card-title">Statistik Absensi</h4>
+                        <h4 class="card-title mt-5">Statistik Absensi</h4>
                     </div>
                     <hr class="m-t-0 m-b-40">
                     <div class="card-body">
@@ -184,7 +200,7 @@
                         </div>
                         <!--/span-->
                     </div>
-                    <h4 class="card-title">Scan QR Code</h4>
+                    <h4 class="card-title mt-5">Scan QR Code</h4>
                 </div>
                 <hr class="m-t-0 m-b-40">
                 <div class="card-body">

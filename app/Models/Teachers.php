@@ -17,6 +17,7 @@ class Teachers extends Model
 	private $subjects;
 	private $position;
 	private $address;
+	private $weekdays;
 	private $is_teacher;
 	private $created_at;
 	private $updated_at;
@@ -109,6 +110,22 @@ class Teachers extends Model
 
 	public function setAddress($address) {
 		$this->address = $address;
+	}
+
+	public static function findAllByWeekdays($value) {
+		return static::simpleQuery()->where('weekdays',$value)->get();
+	}
+
+	public static function findByWeekdays($value) {
+		return static::findBy('weekdays',$value);
+	}
+
+	public function getWeekdays() {
+		return $this->weekdays;
+	}
+
+	public function setWeekdays($weekdays) {
+		$this->weekdays = $weekdays;
 	}
 
 	public static function findAllByIsTeacher($value) {

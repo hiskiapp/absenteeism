@@ -30,6 +30,12 @@ class EmployeesController extends Controller
 	}
 
 	public function postAdd(Request $request){
+		$check = Teachers::findByCode($request->code);
+
+		if ($check->getId()) {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Kode Telah Digunakan!'])->withInput($request->input());
+		}
+
 		$new = New Teachers;
 		$new->setCode($request->code);
 		$new->setName(ucwords(strtolower($request->name)));
@@ -68,6 +74,12 @@ class EmployeesController extends Controller
 	}
 
 	public function postEdit(Request $request, $id){
+		$check = Teachers::findByCode($request->code);
+
+		if ($check->getId()) {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Kode Telah Digunakan!'])->withInput($request->input());
+		}
+		
 		$edit = Teachers::findById($id);
 		$edit->setCode($request->code);
 		$edit->setName(ucwords(strtolower($request->name)));

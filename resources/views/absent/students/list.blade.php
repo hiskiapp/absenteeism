@@ -4,6 +4,7 @@
 <link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/lightbox/dist/ekko-lightbox.css') }}">
 @endpush
 @section('content')
 <!-- File export -->
@@ -12,7 +13,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="float-right">
-					<button class="btn btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Set Izin</button>
+					<button class="btn btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Set Absensi</button>
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
 					<button class="btn btn-warning" data-toggle="modal" data-target="#change-date"><i class="fa fa-calendar"></i> Ganti Tanggal</button>
 					<button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
@@ -43,6 +44,7 @@
 											<label for="type">Type</label>
 											<select required="" class="select2 form-control" style="width: 100%; height:36px;" name="type" id="type">
 												<option disabled="" selected="">Pilih Type..</option>
+												<option>Tepat Waktu</option>
 												<option>Terlambat</option>
 												<option>Sakit</option>
 												<option>Izin</option>
@@ -121,6 +123,7 @@
 								<th>Nama Siswa</th>
 								<th>Rombel</th>
 								<th>Type</th>
+								<th>Jam Masuk</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -144,7 +147,13 @@
 									$label = 'success';
 								}
 								?>
-								<td><span class="label label-{{ $label }}">{{ $row->type }}</span></td>
+								<td>
+									<span class="label label-{{ $label }}">{{ $row->type }}</span>
+									@if($row->photo)
+									<a href="{{ url($row->photo) }}" data-toggle="lightbox" data-title="{{ $row->name }}" data-footer="Keterangan: {{ $row->type }}"><span class="label label-success">Lihat Bukti</span></a>
+									@endif
+								</td>
+								<td>{{ $row->time_in ? $row->time_in : '-'}}</td>
 							</tr>
 							@endforeach
 						</tbody>
@@ -167,19 +176,11 @@
 					<div class="form-group">
 						<label for="nis">NIS</label>
 						<div class="input-group">
-							<input required="" value="" autocomplete="off" type="text" name="nis" id="nis" class="form-control" placeholder="NIS" readonly="">
+							<input required="" value="" autocomplete="off" type="text" name="nis" id="nis" class="form-control" placeholder="NIS">
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary" type="button" style="width: 100px;" data-toggle="modal" data-target="#modal-students-data">Pilih</button>
 							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="add-type">Type</label>
-						<select required="" class="select2 form-control" style="width: 100%; height:36px;" name="add-type" id="add-type">
-							<option disabled="" selected="">Pilih Type..</option>
-							<option>Sakit</option>
-							<option>Izin</option>
-						</select>
 					</div>
 					<div class="form-group">
 						<label for="add-type">Tanggal</label>
@@ -190,10 +191,27 @@
 							</div>
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="add-type">Type</label>
+						<select required="" class="select2 form-control" style="width: 100%; height:36px;" name="add-type" id="add-type">
+							<option disabled="">Pilih Type..</option>
+							<option>Tepat Waktu</option>
+							<option>Terlambat</option>
+							<option selected="">Sakit</option>
+							<option>Izin</option>
+							<option>Tanpa Keterangan</option>
+						</select>
+					</div>
+					<div class="form-group" id="form-photo">
+						<label for="add-type">Bukti (Photo) <span class="badge badge-primary ml-2">Optional</span></label>
+						<div class="input-group">
+							<input type="file" name="photo" id="photo" class="form-control-file">
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default waves-effect" id="close-modal-add" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-danger waves-effect waves-light">Execute</button>
+					<button type="submit" class="btn btn-danger waves-effect waves-light">Submit</button>
 				</div>
 			</form>
 		</div>
@@ -261,6 +279,7 @@
 <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/extra-libs/DataTables/datatables.min.js') }}"></script>
 <script src="{{ asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('assets/libs/lightbox/dist/ekko-lightbox.min.js') }}"></script>
 <script type="text/javascript">
 	$(".select2").select2();
 	jQuery('.mydatepicker, #datepicker, .input-group.date').datepicker();
@@ -273,6 +292,10 @@
 		{ data: 'name', name: 'name' },
 		{ data: 'rombel', name: 'rombel' },
 		]
+	});
+	$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+		event.preventDefault();
+		$(this).ekkoLightbox();
 	});
 	$('#students-data').on( 'click', 'tr', function () {
 		var data = studentstable.row(this).data();
@@ -293,6 +316,16 @@
 		table.column(2).search('').draw();
 		table.column(3).search('').draw();
 	})
+	$('#add-type').on('change', function(){
+		val = this.value;
+		if (val == 'Tepat Waktu') {
+			$('#form-photo').hide();
+		}else if(val == 'Terlambat') {
+			$('#form-photo').hide();
+		}else{
+			$('#form-photo').show();
+		}
+	});
 </script>
 
 <script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>

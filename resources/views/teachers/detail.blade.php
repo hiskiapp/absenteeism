@@ -63,6 +63,22 @@
                             <!--/span-->
                         </div>
                         <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-3">Hari Kerja:</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">
+                                            @foreach($weekdays as $row)
+                                            <span class="btn btn-info btn-xs">{{ $row }}</span>
+                                            @endforeach
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
                         <h4 class="card-title mt-5">Alamat</h4>
                     </div>
                     <hr class="m-t-0 m-b-40">

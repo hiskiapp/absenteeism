@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teachers;
+use App\Imports\TeachersImport;
 use App\Repositories\LogBackendRepository;
 use Session;
 use Validator;
 use Excel;
 use File;
-use App\Imports\TeachersImport;
 
 class TeachersController extends Controller
 {
@@ -41,11 +41,18 @@ class TeachersController extends Controller
 	}
 
 	public function postAdd(Request $request){
+		$check = Teachers::findByCode($request->code);
+
+		if ($check->getId()) {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Kode Telah Digunakan!'])->withInput($request->input());
+		}
+
 		$new = New Teachers;
 		$new->setCode($request->code);
 		$new->setName(ucwords(strtolower($request->name)));
 		$new->setSubjects($request->subjects);
 		$new->setPosition($request->position);
+		$new->setWeekdays(implode($request->weekdays,','));
 		$new->setIsTeacher(1);
 
 		$address['city'] = ucwords(strtolower($request['city']));
@@ -70,25 +77,35 @@ class TeachersController extends Controller
 		$data['page_description'] = 'Silahkan Isi Form Berikut Dengan Benar & Tepat';
 		$data['data'] = Teachers::findById($id);
 		$data['address'] = json_decode($data['data']->getAddress());
+
 		$subjects = Teachers::simpleQuery()
 		->select('subjects')
 		->groupBy('subjects')
 		->get();
-
 		$arr_subjects = [];
 		foreach ($subjects as $key => $row) {
 			$arr_subjects[] = $row->subjects;
 		}
 		$data['subjects'] = implode('","', $arr_subjects);
+
+		$data['weekdays'] = explode(',', $data['data']->getWeekdays());
+
 		return view('teachers.form',$data);
 	}
 
 	public function postEdit(Request $request, $id){
+		$check = Teachers::findByCode($request->code);
+
+		if ($check->getId()) {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Kode Telah Digunakan!'])->withInput($request->input());
+		}
+
 		$edit = Teachers::findById($id);
 		$edit->setCode($request->code);
 		$edit->setName(ucwords(strtolower($request->name)));
 		$edit->setSubjects($request->subjects);
 		$edit->setPosition($request->position);
+		$edit->setWeekdays(implode($request->weekdays,','));
 
 		$address['city'] = ucwords(strtolower($request['city']));
 		$address['district'] = ucwords(strtolower($request['district']));
@@ -128,6 +145,7 @@ class TeachersController extends Controller
             'code' => nisencrypt($data['data']->getCode()),
             'type' => 'teacher'
         ]);
+        $data['weekdays'] = explode(',', $data['data']->getWeekdays());
 
 		return view('teachers.detail', $data);
 	}

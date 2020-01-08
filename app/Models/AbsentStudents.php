@@ -17,6 +17,7 @@ class AbsentStudents extends Model
 	private $students_id;
 	private $type;
 	private $is_out;
+	private $photo;
 	private $created_at;
 	private $updated_at;
 
@@ -107,6 +108,22 @@ class AbsentStudents extends Model
 
 	public function setIsOut($is_out) {
 		$this->is_out = $is_out;
+	}
+
+	public static function findAllByPhoto($value) {
+		return static::simpleQuery()->where('photo',$value)->get();
+	}
+
+	public static function findByPhoto($value) {
+		return static::findBy('photo',$value);
+	}
+
+	public function getPhoto() {
+		return $this->photo;
+	}
+
+	public function setPhoto($photo) {
+		$this->photo = $photo;
 	}
 
 	public static function findAllByCreatedAt($value) {

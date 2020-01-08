@@ -60,8 +60,7 @@ class AbsentController extends Controller
 			->join('students','students.id','=','absent_students.students_id')
 			->join('rombels','students.rombels_id','=','rombels.id')
 			->whereDate('absent_students.date',dateDb(g('date')))
-			->whereNotIn('absent_students.type',['Tepat Waktu'])
-			->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.type as type')
+			->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.time_in as time_in','absent_students.type as type','absent_students.photo as photo')
 			->get();
 		}else{
 			$date = Carbon::now();
@@ -69,8 +68,7 @@ class AbsentController extends Controller
 			->join('students','students.id','=','absent_students.students_id')
 			->join('rombels','students.rombels_id','=','rombels.id')
 			->whereDate('absent_students.date',date('Y-m-d'))
-			->whereNotIn('absent_students.type',['Tepat Waktu'])
-			->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.type as type')
+			->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.time_in as time_in','absent_students.type as type','absent_students.photo as photo')
 			->get();
 		}
 
@@ -81,7 +79,7 @@ class AbsentController extends Controller
 		return view('absent.students.list',$data);
 	}
 
-	public function postAddStudentsAbsent(){
+	public function postAddStudentsAbsent(Request $request){
 		$data = Students::findByNis(g('nis'));
 		$check = AbsentStudents::simpleQuery()
 		->where('students_id',$data->getId())
@@ -89,20 +87,67 @@ class AbsentController extends Controller
 		->first();
 
 		if ($check) {
-			AbsentStudents::simpleQuery()
+			$update = AbsentStudents::simpleQuery()
 			->where('students_id',$data->getId())
-			->whereDate('date',dateDb(g('add-date')))
-			->update([
-				'is_out' => NULL,
-				'type' => g('add-type')
-			]);
+			->whereDate('date',dateDb(g('add-date')));
+
+			if ($request->hasFile('photo')) {
+				$image = $request->file('photo');
+				$image_name = time().uniqid().'.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('data/absent/'.date('Y').'/'.date('m'));
+				$image->move($destinationPath, $image_name);
+
+				$result_image = 'data/absent/'.date('Y').'/'.date('m').'/'.$image_name;
+			}else{
+				$result_image = NULL;
+			}
+
+			if (g('add-type') == 'Tepat Waktu') {
+				$update->update([
+					'time_in' => now()->format('H:i:s'),
+					'is_out' => NULL,
+					'type' => g('add-type')
+				]);
+			}elseif (g('add-type') == 'Terlambat') {
+				$update->update([
+					'time_in' => now()->format('H:i:s'),
+					'is_out' => NULL,
+					'type' => g('add-type')
+				]);
+			}else{
+				$update->update([
+					'time_in' => NULL,
+					'is_out' => NULL,
+					'type' => g('add-type'),
+					'photo' => $result_image
+				]);
+			}
+
 		}else{
 			$new = New AbsentStudents;
 			$new->setDate(dateDb(g('add-date')));
-			$new->setTimeIn(NULL);
 			$new->setStudentsId($data->getId());
 			$new->setType(g('add-type'));
 			$new->setIsOut(NULL);
+
+			if ($request->hasFile('photo')) {
+				$image = $request->file('photo');
+				$image_name = time().uniqid().'.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('data/absent/'.date('Y').'/'.date('m'));
+				$image->move($destinationPath, $image_name);
+
+				$result_image = 'data/absent/'.date('Y').'/'.date('m').'/'.$image_name;
+				$new->setPhoto($result_image);
+			}
+
+			if (g('add-type') == 'Tepat Waktu') {
+				$new->setTimeIn(now()->format('H:i:s'));
+			}elseif (g('add-type') == 'Terlambat') {
+				$new->setTimeIn(now()->format('H:i:s'));
+			}else{
+				$new->setTimeIn(NULL);
+			}
+
 			$new->save();
 		}
 

@@ -50,6 +50,12 @@ class StudentsController extends Controller
     }
 
     public function postAdd(Request $request){
+        $check = Students::findByNis($request->nis);
+
+        if ($check->getId()) {
+            return redirect()->back()->with(['message_type' => 'error', 'message' => 'NIS Telah Digunakan!'])->withInput($request->input());
+        }
+
         $new = New Students;
         $new->setNis($request->nis);
         $new->setName(ucwords(strtolower($request->name)));
@@ -99,6 +105,12 @@ class StudentsController extends Controller
     }
 
     public function postEdit(Request $request, $id){
+        $check = Students::findByNis($request->nis);
+
+        if ($check->getId()) {
+            return redirect()->back()->with(['message_type' => 'error', 'message' => 'NIS Telah Digunakan!'])->withInput($request->input());
+        }
+
         $edit = Students::findById($id);
         $edit->setNis($request->nis);
         $edit->setName(ucwords(strtolower($request->name)));
