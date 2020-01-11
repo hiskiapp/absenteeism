@@ -100,7 +100,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item {{ (request()->segment(1) == 'absent' && request()->segment(2) == 'teachers' || request()->segment(1) == 'teachers' ? 'selected' : '')}}">
+            <li class="sidebar-item {{ (request()->segment(1) == 'absent' && request()->segment(2) == 'teachers' ? 'selected' : '')}}">
                 <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                     <i class="icon-Calendar-4"></i>
                     <span class="hide-menu">Guru / Karyawan</span>

@@ -53,7 +53,7 @@ class TeachersController extends Controller
 		$new->setName(ucwords(strtolower($request->name)));
 		$new->setSubjects($request->subjects);
 		$new->setPosition($request->position);
-		$new->setWeekdays(implode($request->weekdays,','));
+		$new->setWeekdays(implode(',',$request->weekdays));
 		$new->setIsTeacher(NULL);
 
 		$address['city'] = ucwords(strtolower($request['city']));
@@ -109,7 +109,7 @@ class TeachersController extends Controller
 		$edit->setName(ucwords(strtolower($request->name)));
 		$edit->setSubjects($request->subjects);
 		$edit->setPosition($request->position);
-		$edit->setWeekdays(implode($request->weekdays,','));
+		$edit->setWeekdays(implode(',',$request->weekdays));
 
 		$address['city'] = ucwords(strtolower($request['city']));
 		$address['district'] = ucwords(strtolower($request['district']));
