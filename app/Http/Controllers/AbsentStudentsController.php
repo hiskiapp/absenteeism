@@ -8,21 +8,13 @@ use App\Models\Students;
 use App\Models\Rombels;
 use App\Repositories\LogBackendRepository;
 use App\Repositories\AbsentStudentsRepository;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Artisan;
 
 class AbsentStudentsController extends Controller
 {
 	public function getList(){
 		$data['page_title'] 	  = 'List Absensi Siswa';
-
-		if (g('date')) {
-			$date = dt(g('date'));
-		}else{
-			$date = Carbon::now();
-		}
-
+		$date = dt(g('date'));
 		$data['data'] = AbsentStudentsRepository::list($date);
 		$data['date'] = $date->format('m/d/Y');
 		$data['page_description'] = 'Absensi Tanggal '.$date->format('d F Y');
@@ -32,11 +24,22 @@ class AbsentStudentsController extends Controller
 	}
 
 	public function postAdd(Request $request){
+		$date = dt(g('add-date'));
+		if (isholiday($date)) {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Bisa Menambahkan Saat Hari Libut!']);
+		}
+
 		$data = Students::findByNis(g('nis'));
-		$check = AbsentStudentsRepository::check($data->getId(),g('add-date'));
+		$check = AbsentStudentsRepository::check($data->getId(),$date);
+
+		if ($date->format('Y-m-d') < now()->format('Y-m-d')) {
+			$is_out = NULL;
+		}else{
+			$is_out = 0;
+		}
 
 		if ($check) {
-			$update = AbsentStudentsRepository::update($data->getId(),g('add-date'));
+			$update = AbsentStudentsRepository::update($data->getId(),$date);
 
 			if ($request->hasFile('photo')) {
 				$image = $request->file('photo');
@@ -52,13 +55,13 @@ class AbsentStudentsController extends Controller
 			if (g('add-type') == 'Tepat Waktu') {
 				$update->update([
 					'time_in' => now()->format('H:i:s'),
-					'is_out' => NULL,
+					'is_out' => $is_out,
 					'type' => g('add-type')
 				]);
 			}elseif (g('add-type') == 'Terlambat') {
 				$update->update([
 					'time_in' => now()->format('H:i:s'),
-					'is_out' => NULL,
+					'is_out' => $is_out,
 					'type' => g('add-type')
 				]);
 			}else{
@@ -72,10 +75,9 @@ class AbsentStudentsController extends Controller
 
 		}else{
 			$new = New AbsentStudents;
-			$new->setDate(dateDb(g('add-date')));
+			$new->setDate(dateDb($date));
 			$new->setStudentsId($data->getId());
 			$new->setType(g('add-type'));
-			$new->setIsOut(NULL);
 
 			if ($request->hasFile('photo')) {
 				$image = $request->file('photo');
@@ -89,10 +91,13 @@ class AbsentStudentsController extends Controller
 
 			if (g('add-type') == 'Tepat Waktu') {
 				$new->setTimeIn(now()->format('H:i:s'));
+				$new->setIsOut($is_out);
 			}elseif (g('add-type') == 'Terlambat') {
 				$new->setTimeIn(now()->format('H:i:s'));
+				$new->setIsOut($is_out);
 			}else{
 				$new->setTimeIn(NULL);
+				$new->setIsOut(NULL);
 			}
 
 			$new->save();

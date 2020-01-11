@@ -16,13 +16,7 @@ class AbsentTeachersController extends Controller
 {
 	public function getList(){
 		$data['page_title'] 	  = 'List Absensi Guru / Karyawan';
-
-		if (g('date')) {
-			$date = dt(g('date'));
-		}else{
-			$date = now();
-		}
-
+		$date = dt(g('date'));
 		$data['data'] = TeachersRepository::list($date);
 
 		foreach ($data['data'] as $key => $row) {
@@ -38,7 +32,7 @@ class AbsentTeachersController extends Controller
 				$row->photo   = NULL;
 			}
 		}
-
+		
 		$data['date'] = $date->format('m/d/Y');
 		$data['page_description'] = 'Absensi Tanggal '.$date->format('d F Y');
 
@@ -46,6 +40,10 @@ class AbsentTeachersController extends Controller
 	}
 
 	public function postAdd(Request $request){
+		if (isholiday(g('add-date'))) {
+			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Bisa Menambahkan Saat Hari Libur!']);
+		}
+
 		$data = Teachers::findByCode(g('code'));
 
 		$schedule = TeachersRepository::schedule(g('code'),g('add-date'));
@@ -167,7 +165,7 @@ class AbsentTeachersController extends Controller
 		$data['sidebar_type'] 	  = 'mini-sidebar';
 		$data['all_month'] 		  = AbsentTeachersRepository::listFilter('m');
 		$data['all_year']		  = AbsentTeachersRepository::listFilter('Y');
-		$data['teachers'] 	  = TeachersRepository::listCalendar();
+		$data['teachers'] 	  	  = TeachersRepository::listCalendar();
 
 		if (g('year')) {
 			$data['dates'] = allDates(g('year'),g('month'));

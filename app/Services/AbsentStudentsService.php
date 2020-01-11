@@ -30,6 +30,5 @@ class AbsentStudentsService
 		}
 
 		return $data;
-
 	}
 }

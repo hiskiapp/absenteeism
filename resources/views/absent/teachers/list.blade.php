@@ -16,8 +16,10 @@
 					<button class="btn btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Set Absensi</button>
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
 					<button class="btn btn-warning" data-toggle="modal" data-target="#change-date"><i class="fa fa-calendar"></i> Ganti Tanggal</button>
+					@if(isholiday())
 					<button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Guru Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
 					<button type="button" class="btn btn-secondary btn-outline btn-bolos" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Guru Yang Belum Absen Keluar Menjadi Bolos"><i class="fas fa-external-link-alt"></i> Tandai Bolos</button>
+					@endif
 				</div>
 				<h4 class="card-title">{{ $page_title }}</h4>
 				<h6 class="card-subtitle">{{ $page_description }}</h6>
@@ -48,6 +50,7 @@
 						</div>
 					</div>
 				</div>
+				@if(!isholiday($date))
 				<div class="row m-t-20">
 					<!-- Column -->
 					<div class="col-md-4 col-lg-2 col-xlg-2">
@@ -149,6 +152,11 @@
 						</tbody>
 					</table>
 				</div>
+				@else
+				<div class="alert alert-warning mt-3">
+					<h3 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Warning</h3> Saat Ini Sedang Libur!
+				</div>
+				@endif
 			</div>
 		</div>
 	</div>
