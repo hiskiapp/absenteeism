@@ -145,10 +145,7 @@ class TeachersController extends Controller
 		$data['page_title'] = 'Detail Guru / Karyawan';
 		$data['data'] = Teachers::findById($id);
 		$data['address'] = json_decode($data['data']->getAddress());
-		$data['qrcode'] = json_encode([
-            'code' => nisencrypt($data['data']->getCode()),
-            'type' => 'teacher'
-        ]);
+		$data['qrcode'] = $id;
         $data['weekdays'] = explode(',', $data['data']->getWeekdays());
 
 		return view('teachers.detail', $data);

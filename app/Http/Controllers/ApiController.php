@@ -87,9 +87,9 @@ class ApiController extends Controller
 			$result['api_status'] = 0;
 			$result['api_message'] = 'Saat Ini Hari Libur!';
 		}else{
-			$code = g('member_id');
+			$id = g('member_id');
 			$teacher = Teachers::simpleQuery()
-			->where('code',$code)
+			->where('id',$id)
 			->first();
 
 			if (!$teacher) {
