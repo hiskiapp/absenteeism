@@ -170,7 +170,7 @@
 				<h4 class="modal-title">Tambah Absensi</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
-			<form action="{{ url('absent/add-students-absent')}}" method="POST" enctype="multipart/form-data">
+			<form action="{{ url('absent/students/add')}}" method="POST" enctype="multipart/form-data">
 				{{ csrf_field() }}
 				<div class="modal-body">
 					<div class="form-group">
@@ -251,25 +251,23 @@
 				<h4 class="modal-title">Data Siswa</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
-			<form action="{{ url(request()->segment(1))}}/add" method="POST" enctype="multipart/form-data">
-				{{ csrf_field() }}
-				<div class="modal-body">
-					<div class="table-responsive">
-						<table id="students-data" class="table table-striped table-bordered display" style="width:100%">
-							<thead>
-								<tr>
-									<th>NIS</th>
-									<th>Nama Siswa</th>
-									<th>Rombel</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
+			{{ csrf_field() }}
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table id="students-data" class="table table-striped table-bordered display" style="width:100%">
+						<thead>
+							<tr>
+								<th>NIS</th>
+								<th>Nama Siswa</th>
+								<th>Rombel</th>
+							</tr>
+						</thead>
+					</table>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-				</div>
-			</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -350,7 +348,7 @@
 			confirmButtonText: 'Yes, do it!'
 		}).then((result) => {
 			if (result.value) {
-				window.location = "{{ url('absent/mark-students-alpa') }}";
+				window.location = "{{ url('absent/students/alpa') }}";
 			}
 		});
 	});
@@ -365,7 +363,7 @@
 			confirmButtonText: 'Yes, do it!'
 		}).then((result) => {
 			if (result.value) {
-				window.location = "{{ url('absent/mark-students-bolos') }}";
+				window.location = "{{ url('absent/students/bolos') }}";
 			}
 		});
 	});

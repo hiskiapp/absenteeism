@@ -82,40 +82,40 @@
                 <i class="mdi mdi-dots-horizontal"></i>
                 <span class="hide-menu">Absensi</span>
             </li>
-            <li class="sidebar-item <?php echo e((request()->segment(2) == 'students-list' || request()->segment(1) == 'students-calendar' ? 'selected' : '')); ?>">
+            <li class="sidebar-item <?php echo e((request()->segment(1) == 'absent' && request()->segment(2) == 'students' || request()->segment(1) == 'students' ? 'selected' : '')); ?>">
                 <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                     <i class="icon-Calendar-2"></i>
                     <span class="hide-menu">Siswa </span>
                 </a>
                 <ul aria-expanded="false" class="collapse  first-level">
                     <li class="sidebar-item">
-                        <a href="<?php echo e(url('absent/students-list')); ?>" class="sidebar-link">
+                        <a href="<?php echo e(url('absent/students/list')); ?>" class="sidebar-link">
                             <i class="icon-Record"></i>
                             <span class="hide-menu"> List </span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="<?php echo e(url('absent/students-calendar')); ?>" class="sidebar-link">
+                        <a href="<?php echo e(url('absent/students/calendar')); ?>" class="sidebar-link">
                             <i class="icon-Record"></i>
                             <span class="hide-menu"> Kalender </span>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item <?php echo e((request()->segment(2) == 'teachers-list' || request()->segment(1) == 'teachers-calendar' ? 'selected' : '')); ?>">
+            <li class="sidebar-item <?php echo e((request()->segment(1) == 'absent' && request()->segment(2) == 'teachers' || request()->segment(1) == 'teachers' ? 'selected' : '')); ?>">
                 <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                     <i class="icon-Calendar-4"></i>
                     <span class="hide-menu">Guru </span>
                 </a>
                 <ul aria-expanded="false" class="collapse first-level">
                     <li class="sidebar-item">
-                        <a href="<?php echo e(url('absent/teachers-list')); ?>" class="sidebar-link">
+                        <a href="<?php echo e(url('absent/teachers/list')); ?>" class="sidebar-link">
                             <i class="icon-Record"></i>
                             <span class="hide-menu"> List </ span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="<?php echo e(url('absent/teachers-calendar')); ?>" class="sidebar-link">
+                            <a href="<?php echo e(url('absent/teachers/calendar')); ?>" class="sidebar-link">
                                 <i class="icon-Record"></i>
                                 <span class="hide-menu"> Kalender </span>
                             </a>

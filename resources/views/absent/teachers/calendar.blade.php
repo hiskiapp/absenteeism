@@ -21,17 +21,6 @@
 									<div class="row">
 										<div class="col-md-3">
 											<div class="form-group">
-												<label for="rombels_id">Rombel</label>
-												<select required="" class="select2 form-control" style="width: 100%; height:36px;" name="rombels_id" id="rombels_id">
-													<option disabled="" selected="">Pilih Rombel..</option>
-													@foreach($rombels as $key => $row)
-													<option{{ $row->id == g("rombels_id") ? ' selected' : '' }} value="{{ $row->id }}">{{ $row->name }}</option>
-													@endforeach
-												</select>
-											</div>
-										</div>
-										<div class="col-md-3">
-											<div class="form-group">
 												<label for="month">Bulan</label>
 												<select required="" class="select2 form-control" style="width: 100%; height:36px;" name="month" id="month">
 													<option disabled="" selected="">Pilih Bulan..</option>
@@ -70,23 +59,23 @@
 					<table class="table table-sm table-bordered">
 						<thead>
 							<tr>
-								<th style="vertical-align : middle;text-align:center;" rowspan="2">No</th>
+								<th style="vertical-align : middle;text-align:center;" rowspan="2">Kode</th>
 								<th style="vertical-align : middle;text-align:center;" rowspan="2">Nama</th>
 								<th colspan="{{ count($dates) }}"><center>{{ now()->format('F') }}</center></th>
 							</tr>
 							<tr>
 								@foreach($dates as $d)
-								<th {!! isholiday($d) ? ' style="background-color: #F2F2F2;"' : '' !!}>{{ $d->format('d') }}</th>
+								<th {!! isholiday($d) ? 'style="background-color: #F2F2F2;"' : '' !!}>{{ $d->format('d') }}</th>
 								@endforeach
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($students as $key => $row)
+							@foreach($teachers as $key => $row)
 							<tr>
-								<td style="text-align: center;">{{ $key + 1}}</td>
+								<td>{{ $row->code }}</td>
 								<td style="min-width: 225px;">{{ $row->name }}</td>
 								@foreach($dates as $d)
-								<td {!! isholiday($d) ? 'style="background-color: #F2F2F2"' : (colorabsent($row->id,$d) != '' ? ' style="background-color: '.colorabsent($row->id,$d).'"' : '' ) !!}></td>
+								<td {!! isholiday($d) ? 'style="background-color: #F2F2F2"' : (colorabsent($row->id,$d,1) != '' ? ' style="background-color: '.colorabsent($row->id,$d,1).'"' : '' ) !!}></td>
 								@endforeach
 							</tr>
 							@endforeach
@@ -128,7 +117,7 @@
 							</tr>
 							<tr>
 								<td align="center"><span class="badge" style="background-color: #F2F2F2;">&nbsp&nbsp&nbsp&nbsp</span></td>
-								<td>Libur</td>
+								<td>Libur / Tidak Ada Jadwal</td>
 							</tr>
 						</table>
 					</div>

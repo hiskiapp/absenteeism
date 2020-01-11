@@ -6,7 +6,9 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\Models\Settings;
 use Carbon\CarbonPeriod;
 use App\Models\AbsentStudents;
+use App\Models\AbsentTeachers;
 use App\Models\Holidays;
+use App\Models\Teachers;
 
 function app_name()
 {
@@ -132,14 +134,34 @@ function nisdecrypt($value){
 	return base64_decode(base64_decode(base64_decode(base64_decode(base64_decode($value)))));
 }
 
-function colorabsent($students_id,$date){
-	$data = AbsentStudents::simpleQuery()
-	->where('students_id',$students_id)
-	->whereDate('date',$date)
-	->first();
+function colorabsent($id,$date,$is_teacher = null){
+	if ($is_teacher) {
+		$check = Teachers::simpleQuery()
+		->where('id',$id)
+		->where('weekdays','like','%'.$date->format('l').'%')
+		->first();
+
+		$data = AbsentTeachers::simpleQuery()
+		->where('teachers_id',$id)
+		->whereDate('date',$date)
+		->first();
+
+		if (!$check) {
+			$type = 'Tidak Ada Jadwal';
+		}elseif($data){
+			$type = $data->type;
+		}
+
+	}else{
+		$data = AbsentStudents::simpleQuery()
+		->where('students_id',$id)
+		->whereDate('date',$date)
+		->first();
+
+		$type = $data->type;
+	}
 
 	if ($data) {
-		$type = $data->type;
 		if ($type == "Tepat Waktu") {
 			return '#1CA58F';
 		}elseif ($type == "Terlambat") {
@@ -152,9 +174,15 @@ function colorabsent($students_id,$date){
 			return '#563DEA';
 		}elseif ($type == 'Bolos') {
 			return '#6C757D';
+		}elseif ($type == 'Tidak Ada Jadwal') {
+			return '#F2F2F2';
 		}
 	}else{
-		return '';
+		if (isset($type)) {
+			return '#F2F2F2';
+		}else{
+			return '';
+		}
 	}
 }
 
@@ -167,12 +195,18 @@ function absentstatistict($students_id,$type){
 	return $data->count();
 }
 
-function absentstat($type,$date){
-	$data = AbsentStudents::simpleQuery()
-	->where('type',$type)
-	->whereDate('date',dateDb($date))
-	->get();
-
+function absentstat($type,$date,$is = null){
+	if ($is) {
+		$data = AbsentTeachers::simpleQuery()
+		->where('type',$type)
+		->whereDate('date',dateDb($date))
+		->get();
+	}else{
+		$data = AbsentStudents::simpleQuery()
+		->where('type',$type)
+		->whereDate('date',dateDb($date))
+		->get();
+	}
 	return $data->count();
 }
 

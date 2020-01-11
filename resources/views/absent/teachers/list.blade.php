@@ -1,11 +1,12 @@
-<?php $__env->startPush('head'); ?>
-<link href="<?php echo e(asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')); ?>" rel="stylesheet">
-<link href="<?php echo e(asset('assets/libs/toastr/build/toastr.min.css')); ?>" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="<?php echo e(asset('assets/libs/select2/dist/css/select2.min.css')); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo e(asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo e(asset('assets/libs/lightbox/dist/ekko-lightbox.css')); ?>">
-<?php $__env->stopPush(); ?>
-<?php $__env->startSection('content'); ?>
+@extends('layouts.backend')
+@push('head')
+<link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/lightbox/dist/ekko-lightbox.css') }}">
+@endpush
+@section('content')
 <!-- File export -->
 <div class="row">
 	<div class="col-12">
@@ -15,11 +16,11 @@
 					<button class="btn btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Set Absensi</button>
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
 					<button class="btn btn-warning" data-toggle="modal" data-target="#change-date"><i class="fa fa-calendar"></i> Ganti Tanggal</button>
-					<button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
-					<button type="button" class="btn btn-secondary btn-outline btn-bolos" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Keluar Menjadi Bolos"><i class="fas fa-external-link-alt"></i> Tandai Bolos</button>
+					<button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Guru Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
+					<button type="button" class="btn btn-secondary btn-outline btn-bolos" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Guru Yang Belum Absen Keluar Menjadi Bolos"><i class="fas fa-external-link-alt"></i> Tandai Bolos</button>
 				</div>
-				<h4 class="card-title"><?php echo e($page_title); ?></h4>
-				<h6 class="card-subtitle"><?php echo e($page_description); ?></h6>
+				<h4 class="card-title">{{ $page_title }}</h4>
+				<h6 class="card-subtitle">{{ $page_description }}</h6>
 				<div class="row collapse" id="form-filter">
 					<div class="col-12">
 						<div class="card">
@@ -27,17 +28,6 @@
 								<h4 class="card-title">Filter</h4>
 								<hr>
 								<div class="row">
-									<div class="col-md-3">
-										<div class="form-group">
-											<label for="rombels">Rombel</label>
-											<select required="" class="select2 form-control" style="width: 100%; height:36px;" name="rombels" id="rombels">
-												<option disabled="" selected="">Pilih Rombel..</option>
-												<?php $__currentLoopData = $rombels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-												<option><?php echo e($row->name); ?></option>
-												<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-											</select>
-										</div>
-									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label for="type">Type</label>
@@ -49,6 +39,7 @@
 												<option>Izin</option>
 												<option>Alpa</option>
 												<option>Bolos</option>
+												<option>Belum Absen</option>
 											</select>
 										</div>
 									</div>
@@ -62,7 +53,7 @@
 					<div class="col-md-4 col-lg-2 col-xlg-2">
 						<div class="card card-hover">
 							<div class="box bg-success text-center">
-								<h1 class="font-light text-white"><?php echo e(absentstat('Tepat Waktu',$date)); ?></h1>
+								<h1 class="font-light text-white">{{ absentstat('Tepat Waktu',$date,true) }}</h1>
 								<h6 class="text-white">Tepat Waktu</h6>
 							</div>
 						</div>
@@ -71,7 +62,7 @@
 					<div class="col-md-4 col-lg-2 col-xlg-2">
 						<div class="card card-hover">
 							<div class="box bg-warning text-center">
-								<h1 class="font-light text-white"><?php echo e(absentstat('Terlambat',$date)); ?></h1>
+								<h1 class="font-light text-white">{{ absentstat('Terlambat',$date,true) }}</h1>
 								<h6 class="text-white">Terlambat</h6>
 							</div>
 						</div>
@@ -80,7 +71,7 @@
 					<div class="col-md-4 col-lg-2 col-xlg-2">
 						<div class="card card-hover">
 							<div class="box bg-danger text-center">
-								<h1 class="font-light text-white"><?php echo e(absentstat('Sakit',$date)); ?></h1>
+								<h1 class="font-light text-white">{{ absentstat('Sakit',$date,true) }}</h1>
 								<h6 class="text-white">Sakit</h6>
 							</div>
 						</div>
@@ -89,7 +80,7 @@
 					<div class="col-md-4 col-lg-2 col-xlg-2">
 						<div class="card card-hover">
 							<div class="box bg-info text-center">
-								<h1 class="font-light text-white"><?php echo e(absentstat('Izin',$date)); ?></h1>
+								<h1 class="font-light text-white">{{ absentstat('Izin',$date,true) }}</h1>
 								<h6 class="text-white">Izin</h6>
 							</div>
 						</div>
@@ -98,7 +89,7 @@
 					<div class="col-md-4 col-lg-2 col-xlg-2">
 						<div class="card card-hover">
 							<div class="box bg-primary text-center">
-								<h1 class="font-light text-white"><?php echo e(absentstat('Tanpa Keterangan',$date)); ?></h1>
+								<h1 class="font-light text-white">{{ absentstat('Tanpa Keterangan',$date,true) }}</h1>
 								<h6 class="text-white">Alpa</h6>
 							</div>
 						</div>
@@ -107,7 +98,7 @@
 					<div class="col-md-4 col-lg-2 col-xlg-2">
 						<div class="card card-hover">
 							<div class="box bg-secondary text-center">
-								<h1 class="font-light text-white"><?php echo e(absentstat('Bolos',$date)); ?></h1>
+								<h1 class="font-light text-white">{{ absentstat('Bolos',$date,true) }}</h1>
 								<h6 class="text-white">Bolos</h6>
 							</div>
 						</div>
@@ -118,19 +109,17 @@
 					<table id="file_export" class="table table-striped table-bordered display">
 						<thead>
 							<tr>
-								<th>NIS</th>
-								<th>Nama Siswa</th>
-								<th>Rombel</th>
+								<th>Kode</th>
+								<th>Nama Guru</th>
 								<th>Type</th>
 								<th>Jam Masuk</th>
 							</tr>
 						</thead>
 						<tbody>
-							<?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+							@foreach($data as $row)
 							<tr>
-								<td><?php echo e($row->nis); ?></td>
-								<td><?php echo e($row->name); ?></td>
-								<td><?php echo e($row->rombel); ?></td>
+								<td>{{ $row->code }}</td>
+								<td>{{ $row->name }}</td>
 								<?php
 								if ($row->type == "Tepat Waktu") {
 									$label = 'success';
@@ -143,18 +132,20 @@
 								}elseif ($row->type == "Tanpa Keterangan") {
 									$label = 'primary';
 								}elseif ($row->type == "Bolos") {
-									$label = 'success';
+									$label = 'warning';
+								}else{
+									$label = 'warning';
 								}
 								?>
 								<td>
-									<span class="label label-<?php echo e($label); ?>"><?php echo e($row->type); ?></span>
-									<?php if($row->photo): ?>
-									<a href="<?php echo e(url($row->photo)); ?>" data-toggle="lightbox" data-title="<?php echo e($row->name); ?>" data-footer="Keterangan: <?php echo e($row->type); ?>"><span class="label label-success">Lihat Bukti</span></a>
-									<?php endif; ?>
+									<span class="label label-{{ $label }}">{{ $row->type }}</span>
+									@if($row->photo)
+									<a href="{{ url($row->photo) }}" data-toggle="lightbox" data-title="{{ $row->name }}" data-footer="Keterangan: {{ $row->type }}"><span class="label label-success">Lihat Bukti</span></a>
+									@endif
 								</td>
-								<td><?php echo e($row->time_in ? $row->time_in : '-'); ?></td>
+								<td>{{ $row->time_in ? $row->time_in : '-'}}</td>
 							</tr>
-							<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+							@endforeach
 						</tbody>
 					</table>
 				</div>
@@ -169,23 +160,22 @@
 				<h4 class="modal-title">Tambah Absensi</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
-			<form action="<?php echo e(url('absent/students/add')); ?>" method="POST" enctype="multipart/form-data">
-				<?php echo e(csrf_field()); ?>
-
+			<form action="{{ url('absent/teachers/add')}}" method="POST" enctype="multipart/form-data">
+				{{ csrf_field() }}
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="nis">NIS</label>
+						<label for="code">Kode</label>
 						<div class="input-group">
-							<input required="" value="" autocomplete="off" type="text" name="nis" id="nis" class="form-control" placeholder="NIS">
+							<input required="" value="" autocomplete="off" type="text" name="code" id="code" class="form-control" placeholder="Kode">
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="button" style="width: 100px;" data-toggle="modal" data-target="#modal-students-data">Pilih</button>
+								<button class="btn btn-outline-secondary" type="button" style="width: 100px;" data-toggle="modal" data-target="#modal-teachers-data">Pilih</button>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="add-type">Tanggal</label>
 						<div class="input-group">
-							<input name="add-date" required="" type="text" class="form-control mydatepicker" value="<?php echo e($date); ?>" placeholder="mm/dd/yyyy">
+							<input name="add-date" required="" type="text" class="form-control mydatepicker" value="{{ $date }}" placeholder="mm/dd/yyyy">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="icon-Calendar"></i></span>
 							</div>
@@ -200,6 +190,7 @@
 							<option selected="">Sakit</option>
 							<option>Izin</option>
 							<option>Tanpa Keterangan</option>
+							<option>Belum Absen</option>
 						</select>
 					</div>
 					<div class="form-group" id="form-photo">
@@ -229,7 +220,7 @@
 					<div class="form-group">
 						<label for="add-type">Tanggal</label>
 						<div class="input-group">
-							<input name="date" required="" type="text" class="form-control mydatepicker" value="<?php echo e($date); ?>" placeholder="mm/dd/yyyy">
+							<input name="date" required="" type="text" class="form-control mydatepicker" value="{{ $date }}" placeholder="mm/dd/yyyy">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="icon-Calendar"></i></span>
 							</div>
@@ -244,23 +235,21 @@
 		</div>
 	</div>
 </div>
-<div id="modal-students-data" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="modal-teachers-data" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Data Siswa</h4>
+				<h4 class="modal-title">Data Guru</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
-			<?php echo e(csrf_field()); ?>
-
+			{{ csrf_field() }}
 			<div class="modal-body">
 				<div class="table-responsive">
-					<table id="students-data" class="table table-striped table-bordered display" style="width:100%">
+					<table id="teachers-data" class="table table-striped table-bordered display" style="width:100%">
 						<thead>
 							<tr>
-								<th>NIS</th>
-								<th>Nama Siswa</th>
-								<th>Rombel</th>
+								<th>Kode</th>
+								<th>Nama Guru</th>
 							</tr>
 						</thead>
 					</table>
@@ -272,48 +261,42 @@
 		</div>
 	</div>
 </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startPush('bottom'); ?>
-<script src="<?php echo e(asset('assets/libs/moment/moment.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/libs/select2/dist/js/select2.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/extra-libs/DataTables/datatables.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')); ?>"></script>
-<script src="<?php echo e(asset('assets/libs/lightbox/dist/ekko-lightbox.min.js')); ?>"></script>
+@endsection
+@push('bottom')
+<script src="{{ asset('assets/libs/moment/moment.js') }}"></script>
+<script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
+<script src="{{ asset('assets/extra-libs/DataTables/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('assets/libs/lightbox/dist/ekko-lightbox.min.js') }}"></script>
 <script type="text/javascript">
 	$(".select2").select2();
 	jQuery('.mydatepicker, #datepicker, .input-group.date').datepicker();
-	var studentstable = $('#students-data').DataTable({
+	var teacherstable = $('#teachers-data').DataTable({
 		processing: true,
 		serverSide: true,
-		ajax: '<?php echo e(url('students/json')); ?>',
+		ajax: '{{ url('teachers/json')}}',
 		columns: [
-		{ data: 'nis', name: 'nis' },
+		{ data: 'code', name: 'code' },
 		{ data: 'name', name: 'name' },
-		{ data: 'rombel', name: 'rombel' },
 		]
 	});
 	$(document).on('click', '[data-toggle="lightbox"]', function(event) {
 		event.preventDefault();
 		$(this).ekkoLightbox();
 	});
-	$('#students-data').on( 'click', 'tr', function () {
-		var data = studentstable.row(this).data();
-		$('#modal-students-data').modal('hide');
-		$("#nis").val(data.nis);
+	$('#teachers-data').on( 'click', 'tr', function () {
+		var data = teacherstable.row(this).data();
+		$('#modal-teachers-data').modal('hide');
+		$("#code").val(data.code);
 	});
 
 	var table = $('#file_export').DataTable();
-	$('#rombels').change(function(){
+	$('#type').change(function(){
 		table.column(2).search(this.value).draw();  
 	});
-	$('#type').change(function(){
-		table.column(3).search(this.value).draw();  
-	});
 	$('#form-filter').on('hidden.bs.collapse', function(){
-		$("#rombels").val('Pilih Rombel..').change();
 		$("#type").val('Pilih Type..').change();
 		table.column(2).search('').draw();
-		table.column(3).search('').draw();
 	})
 	$('#add-type').on('change', function(){
 		val = this.value;
@@ -327,16 +310,16 @@
 	});
 </script>
 
-<script src="<?php echo e(asset('assets/libs/toastr/build/toastr.min.js')); ?>"></script>
-<?php if(Session::has('message')): ?>
+<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
+@if(Session::has('message'))
 <script>
 	$(function() {
-		toastr.<?php echo e(session::get('message_type')); ?>('<?php echo e(session::get('message')); ?>', '<?php echo e(ucwords(session::get('message_type'))); ?>!');
+		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
 	});
 </script>
-<?php endif; ?>
+@endif
 
-<script src="<?php echo e(asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js')); ?>"></script>
+<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script type="text/javascript">
 	$('.btn-alpa').click(function(){
 		Swal.fire({
@@ -349,7 +332,7 @@
 			confirmButtonText: 'Yes, do it!'
 		}).then((result) => {
 			if (result.value) {
-				window.location = "<?php echo e(url('absent/students/alpa')); ?>";
+				window.location = "{{ url('absent/teachers/alpa') }}";
 			}
 		});
 	});
@@ -364,10 +347,9 @@
 			confirmButtonText: 'Yes, do it!'
 		}).then((result) => {
 			if (result.value) {
-				window.location = "<?php echo e(url('absent/students/bolos')); ?>";
+				window.location = "{{ url('absent/teachers/bolos') }}";
 			}
 		});
 	});
 </script>
-<?php $__env->stopPush(); ?>
-<?php echo $__env->make('layouts.backend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\absensi\resources\views/absent/students/list.blade.php ENDPATH**/ ?>
+@endpush

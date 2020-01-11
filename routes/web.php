@@ -41,8 +41,10 @@ Route::group(['middleware' => 'auth'], function () {
 	// Rayons Module
 	routeController('rayons','RayonsController');
 
-	// Absensi
-	routeController('absent','AbsentController');
+	// Absensi Siswa
+	routeController('absent/students','AbsentStudentsController');
+	// Absensi Siswa
+	routeController('absent/teachers','AbsentTeachersController');
 
 	// Log Activity
 	routeController('settings','SettingsController');

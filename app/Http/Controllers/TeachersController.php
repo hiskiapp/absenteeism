@@ -10,6 +10,7 @@ use Session;
 use Validator;
 use Excel;
 use File;
+use DataTables;
 
 class TeachersController extends Controller
 {
@@ -94,9 +95,12 @@ class TeachersController extends Controller
 	}
 
 	public function postEdit(Request $request, $id){
-		$check = Teachers::findByCode($request->code);
+		$check = Teachers::simpleQuery()
+		->where('id','!=',$id)
+		->where('code',$request->code)
+		->first();
 
-		if ($check->getId()) {
+		if ($check) {
 			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Kode Telah Digunakan!'])->withInput($request->input());
 		}
 
@@ -168,4 +172,12 @@ class TeachersController extends Controller
 			return redirect()->back()->with(['message_type' => 'info', 'message' => 'Extensi Harus .xls Atau .xlxs!']);
 		}
 	}
+
+	public function getJson(){
+        $data = Teachers::simpleQuery()
+        ->select('code','name')
+        ->get();
+
+        return DataTables::of($data)->make(true);
+    }
 }

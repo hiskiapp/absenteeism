@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Students;
 use App\Models\AbsentStudents;
+use App\Models\Teachers;
+use App\Models\AbsentTeachers;
 
 class SetAlpa extends Command
 {
@@ -13,14 +15,14 @@ class SetAlpa extends Command
      *
      * @var string
      */
-    protected $signature = 'set:alpa';
+    protected $signature = 'set:alpa {--type=ALL : Set New Password}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Set Students Status Today to Alpa';
+    protected $description = 'Set Students / Teachers Status Today to Alpa';
 
     /**
      * Create a new command instance.
@@ -39,35 +41,117 @@ class SetAlpa extends Command
      */
     public function handle()
     { 
-        $not_in = AbsentStudents::simpleQuery()
-        ->whereDate('date',date('Y-m-d'))
-        ->get();
+        if ($this->option('type') == 'ALL'){
+            $not_in_students = AbsentStudents::simpleQuery()
+            ->whereDate('date',date('Y-m-d'))
+            ->get();
 
-        $arr = [];
-        foreach ($not_in as $key => $row) {
-            $arr[] = array($row->students_id);
-        }
+            $arr_students = [];
+            foreach ($not_in_students as $key => $row) {
+                $arr_students[] = array($row->students_id);
+            }
 
-        $for = Students::simpleQuery()
-        ->whereNotIn('id',$arr)
-        ->get();
+            $for_students = Students::simpleQuery()
+            ->whereNotIn('id',$arr_students)
+            ->get();
 
-        $count = 0;
-        foreach ($for as $key => $row) {
-            $count += 1;
-            $new = New AbsentStudents;
-            $new->setDate(date('Y-m-d'));
-            $new->setTimeIn(NULL);
-            $new->setStudentsId($row->id);
-            $new->setType('Tanpa Keterangan');
-            $new->setIsOut(NULL);
-            $new->save();
+            $count = 0;
+            foreach ($for_students as $key => $row) {
+                $count += 1;
+                $new = New AbsentStudents;
+                $new->setDate(date('Y-m-d'));
+                $new->setTimeIn(NULL);
+                $new->setStudentsId($row->id);
+                $new->setType('Tanpa Keterangan');
+                $new->setIsOut(NULL);
+                $new->save();
+            }
+
+            $not_in_teachers = AbsentTeachers::simpleQuery()
+            ->whereDate('date',date('Y-m-d'))
+            ->get();
+
+            $arr_teachers = [];
+            foreach ($not_in_teachers as $key => $row) {
+                $arr_teachers[] = array($row->teachers_id);
+            }
+
+            $for_teachers = Teachers::simpleQuery()
+            ->whereNotIn('id',$arr)
+            ->whereNot('weekdays','like','%'.date('l').'%')
+            ->get();
+
+            foreach ($for_teachers as $key => $row) {
+                $count += 1;
+                $new = New AbsentTeachers;
+                $new->setDate(date('Y-m-d'));
+                $new->setTimeIn(NULL);
+                $new->setTeachersId($row->id);
+                $new->setType('Tanpa Keterangan');
+                $new->setIsOut(NULL);
+                $new->save();
+            }
+        }elseif ($this->option('type') == 'students') {
+            $not_in = AbsentStudents::simpleQuery()
+            ->whereDate('date',date('Y-m-d'))
+            ->get();
+
+            $arr = [];
+            foreach ($not_in as $key => $row) {
+                $arr[] = array($row->students_id);
+            }
+
+            $for = Students::simpleQuery()
+            ->whereNotIn('id',$arr)
+            ->get();
+
+            $count = 0;
+            foreach ($for as $key => $row) {
+                $count += 1;
+                $new = New AbsentStudents;
+                $new->setDate(date('Y-m-d'));
+                $new->setTimeIn(NULL);
+                $new->setStudentsId($row->id);
+                $new->setType('Tanpa Keterangan');
+                $new->setIsOut(NULL);
+                $new->save();
+            }
+        }elseif($this->option('type') == 'teachers'){
+            $not_in = AbsentTeachers::simpleQuery()
+            ->whereDate('date',date('Y-m-d'))
+            ->get();
+
+            $arr = [];
+            foreach ($not_in as $key => $row) {
+                $arr[] = array($row->teachers_id);
+            }
+
+            $for = Teachers::simpleQuery()
+            ->whereNotIn('id',$arr)
+            ->where('weekdays','like','%'.date('l').'%')
+            ->get();
+
+            $count = 0;
+            foreach ($for as $key => $row) {
+                $count += 1;
+                $new = New AbsentTeachers;
+                $new->setDate(date('Y-m-d'));
+                $new->setTimeIn(NULL);
+                $new->setTeachersId($row->id);
+                $new->setType('Tanpa Keterangan');
+                $new->setIsOut(NULL);
+                $new->save();
+            }
+        }else{
+            $count = 'Error'; 
         }
 
         if ($count == 0) {
             $this->info('There is nothing you need to set!');
+        }elseif ($count == 'Error') {
+            $this->info('Error :(');
         }else{
-            $this->info('Set Alpa Successfully!');
+            $this->info('Set Alpa to Students Successfully!');
         }
     }
 }

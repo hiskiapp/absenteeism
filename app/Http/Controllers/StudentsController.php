@@ -105,9 +105,12 @@ class StudentsController extends Controller
     }
 
     public function postEdit(Request $request, $id){
-        $check = Students::findByNis($request->nis);
+        $check = Students::simpleQuery()
+        ->where('id','!=',$id)
+        ->where('nis',$request->nis)
+        ->first();
 
-        if ($check->getId()) {
+        if ($check) {
             return redirect()->back()->with(['message_type' => 'error', 'message' => 'NIS Telah Digunakan!'])->withInput($request->input());
         }
 

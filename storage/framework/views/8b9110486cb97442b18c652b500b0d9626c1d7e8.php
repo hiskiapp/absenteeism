@@ -71,7 +71,7 @@
 							<tr>
 								<th style="vertical-align : middle;text-align:center;" rowspan="2">No</th>
 								<th style="vertical-align : middle;text-align:center;" rowspan="2">Nama</th>
-								<th colspan="<?php echo e(count($dates)); ?>"><center>Desember</center></th>
+								<th colspan="<?php echo e(count($dates)); ?>"><center><?php echo e(now()->format('F')); ?></center></th>
 							</tr>
 							<tr>
 								<?php $__currentLoopData = $dates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
