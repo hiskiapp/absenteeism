@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Students;
 use App\Models\Rombels;
 use App\Models\Rayons;
+use App\Repositories\StudentsRepository;
 use App\Repositories\LogBackendRepository;
 use App\Imports\StudentsImport;
 use Session;
@@ -34,17 +35,7 @@ class StudentsController extends Controller
         $data['page_description'] = 'Silahkan Isi Form Berikut Dengan Benar & Tepat';
         $data['rombels'] = Rombels::all();
         $data['rayons'] = Rayons::all();
-
-        $birth_city = Students::simpleQuery()
-        ->select('birth_city')
-        ->groupBy('birth_city')
-        ->get();
-
-        $arr_birth_city = [];
-        foreach ($birth_city as $key => $row) {
-            $arr_birth_city[] = $row->birth_city;
-        }
-        $data['birth_city'] = implode('","', $arr_birth_city);
+        $data['birth_city'] = StudentsRepository::birthCity();
 
         return view('students.form',$data);
     }
@@ -91,16 +82,7 @@ class StudentsController extends Controller
         $data['address'] = json_decode($data['data']->getAddress());
         $data['rombels'] = Rombels::all();
         $data['rayons'] = Rayons::all();
-        $birth_city = Students::simpleQuery()
-        ->select('birth_city')
-        ->groupBy('birth_city')
-        ->get();
-
-        $arr_birth_city = [];
-        foreach ($birth_city as $key => $row) {
-            $arr_birth_city[] = $row->birth_city;
-        }
-        $data['birth_city'] = implode('","', $arr_birth_city);
+        $data['birth_city'] = StudentsRepository::birthCity();
         return view('students.form',$data);
     }
 
@@ -184,10 +166,7 @@ class StudentsController extends Controller
     }
 
     public function getJson(){
-        $data = Students::simpleQuery()
-        ->join('rombels','students.rombels_id','=','rombels.id')
-        ->select('students.nis as nis','students.name as name','rombels.name as rombel')
-        ->get();
+        $data = StudentsRepository::json();
 
         return DataTables::of($data)->make(true);
     }

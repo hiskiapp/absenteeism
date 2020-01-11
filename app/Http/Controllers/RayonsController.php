@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rayons;
+use App\Repositories\RayonsRepository;
 use App\Repositories\LogBackendRepository;
 
 class RayonsController extends Controller
@@ -16,9 +17,7 @@ class RayonsController extends Controller
 	}
 
 	public function getEdit($id){
-		$data = Rayons::simpleQuery()
-		->where('id', $id)
-		->first();
+		$data = RayonsRepository::data($id);
 
 		return response()->json($data);
 	}

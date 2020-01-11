@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teachers;
-use App\Imports\TeachersImport;
+use App\Repositories\TeachersRepository;
 use App\Repositories\LogBackendRepository;
+use App\Imports\TeachersImport;
 use Session;
 use Validator;
 use Excel;
@@ -26,17 +27,7 @@ class TeachersController extends Controller
 	public function getAdd(){
 		$data['page_title'] = 'Tambah Data Guru / Karyawan';
 		$data['page_description'] = 'Silahkan Isi Form Berikut Dengan Benar & Tepat';
-
-		$subjects = Teachers::simpleQuery()
-		->select('subjects')
-		->groupBy('subjects')
-		->get();
-
-		$arr_subjects = [];
-		foreach ($subjects as $key => $row) {
-			$arr_subjects[] = $row->subjects;
-		}
-		$data['subjects'] = implode('","', $arr_subjects);
+		$data['subjects'] = TeachersRepository::subjects();
 
 		return view('teachers.form',$data);
 	}
@@ -78,27 +69,14 @@ class TeachersController extends Controller
 		$data['page_description'] = 'Silahkan Isi Form Berikut Dengan Benar & Tepat';
 		$data['data'] = Teachers::findById($id);
 		$data['address'] = json_decode($data['data']->getAddress());
-
-		$subjects = Teachers::simpleQuery()
-		->select('subjects')
-		->groupBy('subjects')
-		->get();
-		$arr_subjects = [];
-		foreach ($subjects as $key => $row) {
-			$arr_subjects[] = $row->subjects;
-		}
-		$data['subjects'] = implode('","', $arr_subjects);
-
-		$data['weekdays'] = explode(',', $data['data']->getWeekdays());
+		$data['subjects'] = TeachersRepository::subjects();
+		$data['weekdays'] = TeachersRepository::weekdays($id);
 
 		return view('teachers.form',$data);
 	}
 
 	public function postEdit(Request $request, $id){
-		$check = Teachers::simpleQuery()
-		->where('id','!=',$id)
-		->where('code',$request->code)
-		->first();
+		$check = TeachersRepository::checkCode($id,$code);
 
 		if ($check) {
 			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Kode Telah Digunakan!'])->withInput($request->input());
@@ -146,7 +124,7 @@ class TeachersController extends Controller
 		$data['data'] = Teachers::findById($id);
 		$data['address'] = json_decode($data['data']->getAddress());
 		$data['qrcode'] = $id;
-        $data['weekdays'] = explode(',', $data['data']->getWeekdays());
+		$data['weekdays'] = explode(',', $data['data']->getWeekdays());
 
 		return view('teachers.detail', $data);
 	}
@@ -171,10 +149,8 @@ class TeachersController extends Controller
 	}
 
 	public function getJson(){
-        $data = Teachers::simpleQuery()
-        ->select('code','name')
-        ->get();
+		$data = TeachersRepository::json();
 
-        return DataTables::of($data)->make(true);
-    }
+		return DataTables::of($data)->make(true);
+	}
 }

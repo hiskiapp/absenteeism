@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LogBackend;
+use App\Repositories\LogBackendRepository;
 
 class LogsController extends Controller
 {
@@ -15,14 +16,9 @@ class LogsController extends Controller
     		$start = dateDb($date[0]);
     		$end = dateDb($date[1]);
 
-			$data['data'] = LogBackend::simpleQuery()
-			->whereBetween('created_at',[$start,$end])
-			->orderBy('created_at','desc')
-			->get();
+			$data['data'] = LogBackendRepository::list($start,$end);
 		}else{
-			$data['data'] = LogBackend::simpleQuery()
-			->orderBy('created_at','desc')
-			->get();
+			$data['data'] = LogBackendRepository::list();
 		}
 
 		return view('log.index',$data);

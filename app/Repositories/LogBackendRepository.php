@@ -23,4 +23,19 @@ class LogBackendRepository extends LogBackend
 
 		return $data;
 	}
+
+	public static function list($start = null, $end = null){
+		if ($start == null && $end == null) {
+			$query = LogBackend::simpleQuery()
+			->orderBy('created_at','desc')
+			->get();
+		}else{
+			$query = LogBackend::simpleQuery()
+			->whereBetween('created_at',[$start,$end])
+			->orderBy('created_at','desc')
+			->get();
+		}
+
+		return $query;
+	}
 }

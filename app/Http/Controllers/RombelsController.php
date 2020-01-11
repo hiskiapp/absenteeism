@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rombels;
+use App\Repositories\RombelsRepository;
 use App\Repositories\LogBackendRepository;
 
 class RombelsController extends Controller

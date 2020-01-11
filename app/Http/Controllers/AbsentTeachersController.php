@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AbsentTeachers;
 use App\Models\Teachers;
+use App\Repositories\TeachersRepository;
+use App\Repositories\AbsentTeachersRepository;
 use App\Repositories\LogBackendRepository;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -17,23 +19,14 @@ class AbsentTeachersController extends Controller
 
 		if (g('date')) {
 			$date = dt(g('date'));
-			$data['data'] = Teachers::simpleQuery()
-			->where('weekdays','like','%'.$date->format('l').'%')
-			->select('id','code','name')
-			->get();
 		}else{
 			$date = now();
-			$data['data'] = Teachers::simpleQuery()
-			->where('weekdays','like','%'.$date->format('l').'%')
-			->select('id','code','name')
-			->get();
 		}
 
+		$data['data'] = TeachersRepository::list($date);
+
 		foreach ($data['data'] as $key => $row) {
-			$absent = AbsentTeachers::simpleQuery()
-			->where('teachers_id',$row->id)
-			->whereDate('date',$date->format('Y-m-d'))
-			->first();
+			$absent = AbsentTeachersRepository::data($row->id,$date);
 
 			if ($absent) {
 				$row->time_in = $absent->time_in;
@@ -55,24 +48,16 @@ class AbsentTeachersController extends Controller
 	public function postAdd(Request $request){
 		$data = Teachers::findByCode(g('code'));
 
-		$schedule = Teachers::simpleQuery()
-		->where('code',g('code'))
-		->where('weekdays','like','%'.dt(g('add-date'))->format('l').'%')
-		->first();
+		$schedule = TeachersRepository::schedule(g('code'),g('add-date'));
 
 		if (!$schedule) {
 			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Tidak Ada Jadwal Pada Saat Itu!']);
 		}
 
-		$check = AbsentTeachers::simpleQuery()
-		->where('teachers_id',$data->getId())
-		->whereDate('date',dateDb(g('add-date')))
-		->first();
+		$check = AbsentTeachersRepository::check($data->getId(),g('add-date'));
 
 		if ($check) {
-			$update = AbsentTeachers::simpleQuery()
-			->where('teachers_id',$data->getId())
-			->whereDate('date',dateDb(g('add-date')));
+			$update = AbsentTeachersRepository::update($data->getId(),g('add-date'));
 
 			if ($request->hasFile('photo')) {
 				$image = $request->file('photo');
@@ -180,20 +165,9 @@ class AbsentTeachersController extends Controller
 		$data['page_title'] 	  = 'Absensi Kehadiran Guru / Karyawan';
 		$data['page_description'] = 'Kalenderisasi Absensi Guru / Karyawan';
 		$data['sidebar_type'] 	  = 'mini-sidebar';
-
-		$data['all_month'] 		  = AbsentTeachers::simpleQuery()->get()
-		->groupBy(function($d){
-			return dt($d->created_at)->format('m');
-		});
-
-		$data['all_year']		  = AbsentTeachers::simpleQuery()->get()
-		->groupBy(function($d){
-			return dt($d->created_at)->format('Y');
-		});
-
-		$data['teachers'] 	  = Teachers::simpleQuery()
-		->orderBy('code','asc')
-		->get();
+		$data['all_month'] 		  = AbsentTeachersRepository::listFilter('m');
+		$data['all_year']		  = AbsentTeachersRepository::listFilter('Y');
+		$data['teachers'] 	  = TeachersRepository::listCalendar();
 
 		if (g('year')) {
 			$data['dates'] = allDates(g('year'),g('month'));

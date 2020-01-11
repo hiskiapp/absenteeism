@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AbsentStudents;
 use App\Models\Students;
+use App\Models\Rombels;
 use App\Repositories\LogBackendRepository;
+use App\Repositories\AbsentStudentsRepository;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-use App\Models\Rombels;
 use Artisan;
 
 class AbsentStudentsController extends Controller
@@ -18,22 +19,11 @@ class AbsentStudentsController extends Controller
 
 		if (g('date')) {
 			$date = dt(g('date'));
-			$data['data'] = AbsentStudents::simpleQuery()
-			->join('students','students.id','=','absent_students.students_id')
-			->join('rombels','students.rombels_id','=','rombels.id')
-			->whereDate('absent_students.date',dateDb(g('date')))
-			->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.time_in as time_in','absent_students.type as type','absent_students.photo as photo')
-			->get();
 		}else{
 			$date = Carbon::now();
-			$data['data'] = AbsentStudents::simpleQuery()
-			->join('students','students.id','=','absent_students.students_id')
-			->join('rombels','students.rombels_id','=','rombels.id')
-			->whereDate('absent_students.date',date('Y-m-d'))
-			->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.time_in as time_in','absent_students.type as type','absent_students.photo as photo')
-			->get();
 		}
 
+		$data['data'] = AbsentStudentsRepository::list($date);
 		$data['date'] = $date->format('m/d/Y');
 		$data['page_description'] = 'Absensi Tanggal '.$date->format('d F Y');
 		$data['rombels'] = Rombels::all();
@@ -43,15 +33,10 @@ class AbsentStudentsController extends Controller
 
 	public function postAdd(Request $request){
 		$data = Students::findByNis(g('nis'));
-		$check = AbsentStudents::simpleQuery()
-		->where('students_id',$data->getId())
-		->whereDate('date',dateDb(g('add-date')))
-		->first();
+		$check = AbsentStudentsRepository::check($data->getId(),g('add-date'));
 
 		if ($check) {
-			$update = AbsentStudents::simpleQuery()
-			->where('students_id',$data->getId())
-			->whereDate('date',dateDb(g('add-date')));
+			$update = AbsentStudentsRepository::update($data->getId(),g('add-date'));
 
 			if ($request->hasFile('photo')) {
 				$image = $request->file('photo');
@@ -155,28 +140,10 @@ class AbsentStudentsController extends Controller
 		$data['page_title'] 	  = 'Absensi Kehadiran Siswa';
 		$data['page_description'] = 'Kalenderisasi Absensi Siswa';
 		$data['sidebar_type'] 	  = 'mini-sidebar';
-		$data['all_month'] 		  = AbsentStudents::simpleQuery()->get()
-		->groupBy(function($d){
-			return dt($d->created_at)->format('m');
-		});
-		$data['all_year']		  = AbsentStudents::simpleQuery()->get()
-		->groupBy(function($d){
-			return dt($d->created_at)->format('Y');
-		});
-		
+		$data['all_month'] 		  = AbsentStudentsRepository::listFilter('m');
+		$data['all_year']		  = AbsentStudentsRepository::listFilter('Y');
 		$data['rombels']		  = Rombels::all();
-
-		if (g('rombels_id')) {
-			$data['students'] 	  = Students::simpleQuery()
-			->where('rombels_id',g('rombels_id'))
-			->orderBy('name','asc')
-			->get();
-		}else{
-			$data['students'] 	  = Students::simpleQuery()
-			->where('rombels_id',1)
-			->orderBy('name','asc')
-			->get();
-		}
+		$data['students'] 	  	  = StudentsRepository::listByRombel(g('rombels_id'));
 
 		if (g('year')) {
 			$data['dates'] = allDates(g('year'),g('month'));
