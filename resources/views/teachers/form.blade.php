@@ -48,23 +48,23 @@
 						<label for="weekdays" class="col-3 text-right control-label col-form-label">Hari Masuk</label> 
 						<div class="col-9 border-left p-b-10 p-t-10">
 							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_monday" value="Monday"{{ !isset($weekdays) ? '' : in_array('Monday',$weekdays) ? ' checked' : '' }}>
+								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_monday" value="Monday"{{ !isset($weekdays) ? '' : (in_array('Monday',$weekdays) ? ' checked' : '') }}>
 								<label class="custom-control-label" for="weekdays_monday">Senin</label>
 							</div>
 							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_tuesday" value="Tuesday"{{ !isset($weekdays) ? '' : in_array('Tuesday',$weekdays) ? ' checked' : '' }}>
+								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_tuesday" value="Tuesday"{{ !isset($weekdays) ? '' : (in_array('Tuesday',$weekdays) ? ' checked' : '') }}>
 								<label class="custom-control-label" for="weekdays_tuesday">Selasa</label>
 							</div>
 							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_wednesday" value="Wednesday"{{ !isset($weekdays) ? '' : in_array('Wednesday',$weekdays) ? ' checked' : '' }}>
+								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_wednesday" value="Wednesday"{{ !isset($weekdays) ? '' : (in_array('Wednesday',$weekdays) ? ' checked' : '') }}>
 								<label class="custom-control-label" for="weekdays_wednesday">Rabu</label>
 							</div>
 							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_thursday" value="Thursday"{{ !isset($weekdays) ? '' : in_array('Thursday',$weekdays) ? ' checked' : '' }}>
+								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_thursday" value="Thursday"{{ !isset($weekdays) ? '' : (in_array('Thursday',$weekdays) ? ' checked' : '') }}>
 								<label class="custom-control-label" for="weekdays_thursday">Kamis</label>
 							</div>
 							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_friday" value="Friday"{{ !isset($weekdays) ? '' : in_array('Friday',$weekdays) ? ' checked' : '' }}>
+								<input type="checkbox" class="custom-control-input" name="weekdays[]" id="weekdays_friday" value="Friday"{{ !isset($weekdays) ? '' : (in_array('Friday',$weekdays) ? ' checked' : '') }}>
 								<label class="custom-control-label" for="weekdays_friday">Jum'at</label>
 							</div>
 						</div>
