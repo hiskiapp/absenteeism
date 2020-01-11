@@ -143,7 +143,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ asset('data/main-app.apk') }}" aria-expanded="false">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ asset('data/apps.zip') }}" aria-expanded="false">
                         <i class="mdi mdi-download"></i>
                         <span class="hide-menu">Download Apk</span>
                     </a>
