@@ -8,6 +8,7 @@ use App\Models\Students;
 use App\Models\Rombels;
 use App\Repositories\LogBackendRepository;
 use App\Repositories\AbsentStudentsRepository;
+use App\Repositories\StudentsRepository;
 use Artisan;
 
 class AbsentStudentsController extends Controller
@@ -145,8 +146,15 @@ class AbsentStudentsController extends Controller
 		$data['page_title'] 	  = 'Absensi Kehadiran Siswa';
 		$data['page_description'] = 'Kalenderisasi Absensi Siswa';
 		$data['sidebar_type'] 	  = 'mini-sidebar';
-		$data['all_month'] 		  = AbsentStudentsRepository::listFilter('m');
-		$data['all_year']		  = AbsentStudentsRepository::listFilter('Y');
+		$data['all_month'] 		  = AbsentStudents::simpleQuery()->get()
+		->groupBy(function($d){
+			return dt($d->date)->format('m');
+		});
+
+		$data['all_year']		  = AbsentStudents::simpleQuery()->get()
+		->groupBy(function($d){
+			return dt($d->date)->format('Y');
+		});
 		$data['rombels']		  = Rombels::all();
 		$data['students'] 	  	  = StudentsRepository::listByRombel(g('rombels_id'));
 

@@ -11,6 +11,7 @@ use App\Repositories\LogBackendRepository;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Artisan;
+use DB;
 
 class AbsentTeachersController extends Controller
 {
@@ -163,8 +164,16 @@ class AbsentTeachersController extends Controller
 		$data['page_title'] 	  = 'Absensi Kehadiran Guru / Karyawan';
 		$data['page_description'] = 'Kalenderisasi Absensi Guru / Karyawan';
 		$data['sidebar_type'] 	  = 'mini-sidebar';
-		$data['all_month'] 		  = AbsentTeachersRepository::listFilter('m');
-		$data['all_year']		  = AbsentTeachersRepository::listFilter('Y');
+		$data['all_month'] 		  = AbsentTeachers::simpleQuery()->get()
+									->groupBy(function($d){
+										return dt($d->date)->format('m');
+									});
+
+		$data['all_year']		  = AbsentTeachers::simpleQuery()->get()
+									->groupBy(function($d){
+										return dt($d->date)->format('Y');
+									});
+
 		$data['teachers'] 	  	  = TeachersRepository::listCalendar();
 
 		if (g('year')) {

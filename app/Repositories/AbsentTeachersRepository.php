@@ -17,15 +17,6 @@ class AbsentTeachersRepository extends AbsentTeachers
 		return $query;
 	}
 
-	public static function listFilter($type){
-		$query = AbsentTeachers::simpleQuery()->get()
-		->groupBy(function($d){
-			return dt($d->created_at)->format($type);
-		});
-
-		return $query;
-	}
-
 	public static function check($id,$date){
 		$query = AbsentTeachers::simpleQuery()
 		->where('teachers_id',$id)
@@ -59,7 +50,7 @@ class AbsentTeachersRepository extends AbsentTeachers
 			->whereNot('weekdays','like','%'.date('l').'%')
 			->get();
 
-			$count = 0
+			$count = 0;
 			foreach ($for as $key => $row) {
 				$count += 1;
 				$new = New AbsentTeachers;

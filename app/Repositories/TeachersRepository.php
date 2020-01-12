@@ -61,7 +61,7 @@ class TeachersRepository extends Teachers
 		->orderBy('code','asc')
 		->get();
 
-		return $query();
+		return $query;
 	}
 
 	public static function schedule($code,$date){

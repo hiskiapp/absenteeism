@@ -158,7 +158,11 @@ function colorabsent($id,$date,$is_teacher = null){
 		->whereDate('date',$date)
 		->first();
 
-		$type = $data->type;
+		if ($data) {
+			$type = $data->type;
+		}else{
+			$type = NULL;
+		}
 	}
 
 	if ($data) {

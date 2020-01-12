@@ -37,15 +37,6 @@ class AbsentStudentsRepository extends AbsentStudents
 		return $query;
 	}
 
-	public static function listFilter($type){
-		$query = AbsentStudents::simpleQuery()->get()
-		->groupBy(function($d){
-			return dt($d->created_at)->format($type);
-		});
-
-		return $query;
-	}
-
 	public static function update($id,$date){
 		$query = AbsentStudents::simpleQuery()
 		->where('students_id',$id)
