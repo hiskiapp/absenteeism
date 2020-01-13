@@ -26,8 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('set:alpa')->weekdays(getSettings('set_alpa'));
-        $schedule->command('set:bolos')->weekdays(getSettings('set_bolos'));
+        $schedule->command('set:alpa')->weekdays()->at(getSettings('set_alpa'));
+        $schedule->command('set:bolos')->weekdays()->at(getSettings('set_bolos'));
     }
 
     /**

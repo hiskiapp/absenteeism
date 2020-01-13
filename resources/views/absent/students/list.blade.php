@@ -14,7 +14,9 @@
 			<div class="card-body">
 				<div class="float-right">
 					<button class="btn btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Set Absensi</button>
+					@if(!isholiday($date))
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
+					@endif
 					<button class="btn btn-warning" data-toggle="modal" data-target="#change-date"><i class="fa fa-calendar"></i> Ganti Tanggal</button>
 					@if(!isholiday())
 					<button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Siswa Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
@@ -23,6 +25,7 @@
 				</div>
 				<h4 class="card-title">{{ $page_title }}</h4>
 				<h6 class="card-subtitle">{{ $page_description }}</h6>
+				@if(!isholiday($date))
 				<div class="row collapse" id="form-filter">
 					<div class="col-12">
 						<div class="card">
@@ -60,6 +63,7 @@
 						</div>
 					</div>
 				</div>
+				@endif
 				@if(!isholiday($date))
 				<div class="row m-t-20">
 					<!-- Column -->

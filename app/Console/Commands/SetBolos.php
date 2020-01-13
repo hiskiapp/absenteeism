@@ -39,27 +39,27 @@ class SetBolos extends Command
      */
     public function handle()
     {
-        if (now()->isWeekend()) {
-            $result = 'Weekend';
-        }elseif ($this->option('type') == 'ALL'){
-            $result = AbsentStudentsRepository::set('Bolos');
-            $result += AbsentTeachersRepository::set('Bolos');
-        }elseif ($this->option('type') == 'students') {
-            $result = AbsentStudentsRepository::set('Bolos');
-        }elseif($this->option('type') == 'teachers'){
-            $result += AbsentTeachersRepository::set('Bolos');
+        if (isholiday()) {
+            $this->info('Today is Holiday!');
         }else{
-            $result = 'Error'; 
-        }
+            if ($this->option('type') == 'ALL'){
+                $result = AbsentStudentsRepository::set('Bolos');
+                $result += AbsentTeachersRepository::set('Bolos');
+            }elseif ($this->option('type') == 'students') {
+                $result = AbsentStudentsRepository::set('Bolos');
+            }elseif($this->option('type') == 'teachers'){
+                $result = AbsentTeachersRepository::set('Bolos');
+            }else{
+                $result = 'Error'; 
+            }
 
-        if ($result == 'Weekend'){
-            $this->info('This is the weekend!');
-        }elseif ($result == 0) {
-            $this->info('There is nothing you need to set!');
-        }elseif ($result == 'Error') {
-            $this->info('Error :(');
-        }else{
-            $this->info('Set Bolos to Students Successfully!');
+            if ($result == 0) {
+                $this->info('There is nothing you need to set!');
+            }elseif ($result == 'Error') {
+                $this->info('Error :(');
+            }else{
+                $this->info('Set Bolos to Students Successfully!');
+            }
         }
     }
 }

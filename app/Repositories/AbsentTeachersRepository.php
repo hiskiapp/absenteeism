@@ -47,7 +47,7 @@ class AbsentTeachersRepository extends AbsentTeachers
 
 			$for = Teachers::simpleQuery()
 			->whereNotIn('id',$arr)
-			->whereNot('weekdays','like','%'.date('l').'%')
+			->where('weekdays','like','%'.date('l').'%')
 			->get();
 
 			$count = 0;
@@ -57,7 +57,7 @@ class AbsentTeachersRepository extends AbsentTeachers
 				$new->setDate(date('Y-m-d'));
 				$new->setTimeIn(NULL);
 				$new->setTeachersId($row->id);
-				$new->setType('Bolos');
+				$new->setType($type);
 				$new->setIsOut(NULL);
 				$new->save();
 			}
