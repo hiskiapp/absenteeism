@@ -190,11 +190,18 @@ function colorabsent($id,$date,$is_teacher = null){
 	}
 }
 
-function absentstatistict($students_id,$type){
-	$data = AbsentStudents::simpleQuery()
-	->where('students_id',$students_id)
-	->where('type',$type)
-	->get();
+function absentstatistict($id,$type,$is = null){
+	if ($is) {
+		$data = AbsentTeachers::simpleQuery()
+		->where('teachers_id',$id)
+		->where('type',$type)
+		->get();
+	}else{
+		$data = AbsentStudents::simpleQuery()
+		->where('students_id',$id)
+		->where('type',$type)
+		->get();
+	}
 
 	return $data->count();
 }

@@ -145,7 +145,7 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Tepat Waktu:</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static"> 0 </p>
+                                    <p class="form-control-static"> {{ absentstatistict($data->getId(),'Tepat Waktu',true)}} </p>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Terlambat:</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static"> 0 </p>
+                                    <p class="form-control-static"> {{ absentstatistict($data->getId(),'Terlambat',true)}} </p>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Sakit:</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static"> 0 </p>
+                                    <p class="form-control-static"> {{ absentstatistict($data->getId(),'Sakit',true)}} </p>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Izin:</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static"> 0 </p>
+                                    <p class="form-control-static"> {{ absentstatistict($data->getId(),'Izin',true)}} </p>
                                 </div>
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Tanpa Keterangan:</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static"> 0 </p>
+                                    <p class="form-control-static"> {{ absentstatistict($data->getId(),'Tanpa Keterangan',true)}} </p>
                                 </div>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Bolos:</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static"> 0 </p>
+                                    <p class="form-control-static"> {{ absentstatistict($data->getId(),'Bolos',true)}} </p>
                                 </div>
                             </div>
                         </div>

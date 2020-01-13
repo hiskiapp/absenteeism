@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Holidays;
+use App\Repositories\HolidaysRepository;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
@@ -11,7 +12,7 @@ class HolidaysController extends Controller
 {
     public function getIndex(){
     	$data['page_title'] = 'Data Tanggal Libur';
-    	$data['data'] = Holidays::simpleQuery()->orderBy('date','asc')->get();
+    	$data['data'] = HolidaysRepository::list();
 
     	return view('holidays.index',$data);
     }
@@ -33,10 +34,7 @@ class HolidaysController extends Controller
     }
 
     public function	getEdit($id){
-    	$data = Holidays::simpleQuery()
-    	->where('id',$id)
-    	->first();
-
+    	$data = HolidaysRepository::data($id);
         $data->date = dt($data->date)->format('m/d/Y');
 
     	return response()->json($data);
