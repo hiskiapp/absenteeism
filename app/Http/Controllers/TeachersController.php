@@ -12,6 +12,7 @@ use Validator;
 use Excel;
 use File;
 use DataTables;
+use QrCode;
 
 class TeachersController extends Controller
 {
@@ -153,4 +154,11 @@ class TeachersController extends Controller
 
 		return DataTables::of($data)->make(true);
 	}
+
+	public function getQrCode(){
+        $data['page_title'] = 'Cetak QR Code Siswa';
+        $data['data'] = Teachers::all();
+
+        return view('teachers.qrcode',$data);
+    }
 }

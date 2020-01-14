@@ -170,4 +170,11 @@ class StudentsController extends Controller
 
         return DataTables::of($data)->make(true);
     }
+
+    public function getQrCode(){
+        $data['page_title'] = 'Cetak QR Code Siswa';
+        $data['data'] = Students::all();
+
+        return view('students.qrcode',$data);
+    }
 }

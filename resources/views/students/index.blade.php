@@ -14,6 +14,7 @@
 					<a href="{{ request()->segment(1) }}/add" class="btn btn-secondary"><i class="fa fa-plus"></i> Add</a>
 					<button class="btn btn-danger" data-toggle="modal" data-target="#import"><i class="fas fa-sign-in-alt"></i> Import</button>
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
+					<a href="{{ request()->segment(1) }}/qr-code" class="btn btn-warning"><i class="fa fa-download"></i> QR Code</a>
 				</div>
 				<h4 class="card-title">{{ $page_title }}</h4>
 				<h6 class="card-subtitle">{{ $page_description }}</h6>

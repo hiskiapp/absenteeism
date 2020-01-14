@@ -33,14 +33,13 @@
 	$num += 1;
 	?>
 	<div class="container">
-		<table style="border-collapse: collapse; width: 200px;height: 225px;">
+		<table style="border-collapse: collapse; width: 200px;height: 210px;">
 			<tr>
 				<td align="center">
-					<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate($row->nis)) !!} ">
+					<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate($row->code)) !!} ">
 					<hr>
 					<b>
 						{{ $row->name }}<br>
-						{{ $row->rombels_name }}
 					</b>
 				</td>
 			</tr>
