@@ -36,7 +36,7 @@
 		<table style="border-collapse: collapse; width: 200px;height: 225px;">
 			<tr>
 				<td align="center">
-					<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate($row->nis)) !!} ">
+					<img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate(strval($row->nis))) !!} ">
 					<hr>
 					<b>
 						{{ $row->name }}<br>
