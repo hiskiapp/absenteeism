@@ -24,12 +24,16 @@ class LogBackendRepository extends LogBackend
 		return $data;
 	}
 
-	public static function list($start = null, $end = null){
-		if ($start == null && $end == null) {
+	public static function list($date){
+		if (!$date) {
 			$query = LogBackend::simpleQuery()
 			->orderBy('created_at','desc')
 			->get();
 		}else{
+			$date = explode(' - ', $date);
+			$start = dateDb($date[0]);
+			$end = dateDb($date[1]);
+
 			$query = LogBackend::simpleQuery()
 			->whereBetween('created_at',[$start,$end])
 			->orderBy('created_at','desc')

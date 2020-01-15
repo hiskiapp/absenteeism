@@ -32,8 +32,8 @@ class StudentsImport implements ToCollection, WithStartRow
                     ->first();
 
                     if ($rombels) {
-                     $new->setRombelsId($rombels->id);
-                 }else{
+                       $new->setRombelsId($rombels->id);
+                   }else{
                     $rombel = New Rombels;
                     $rombel->setName(strtoupper($row[2]));
                     $rombel->save();
@@ -46,8 +46,8 @@ class StudentsImport implements ToCollection, WithStartRow
                 ->first();
 
                 if ($rayons) {
-                 $new->setRayonsId($rayons->id);
-             }else{
+                   $new->setRayonsId($rayons->id);
+               }else{
                 $rayon = New Rayons;
                 $rayon->setName(ucwords(strtolower($row[3])));
                 $rayon->save();
@@ -55,26 +55,26 @@ class StudentsImport implements ToCollection, WithStartRow
             }
 
             if ($row[4] == 'L') {
-             $new->setGender('Laki - Laki');
-         }else{
-             $new->setGender('Perempuan');
-         }
+               $new->setGender('Laki - Laki');
+           }else{
+               $new->setGender('Perempuan');
+           }
 
-         $new->setBirthCity(ucwords(strtolower($row[5])));
-         $new->setBirthDate(dateExcel($row[6]));
-         $new->setReligion(ucwords(strtolower($row[7])));
+           $new->setBirthCity(ucwords(strtolower($row[5])));
+           $new->setBirthDate(dateExcel($row[6]));
+           $new->setReligion(ucwords(strtolower($row[7])));
 
-         $address['city'] = ucwords(strtolower($row[8]));
-         $address['district'] = ucwords(strtolower($row[9]));
-         $address['village'] = ucwords(strtolower($row[10]));
-         $address['rt'] = $row[11];
-         $address['rw'] = $row[12];
+           $address['city'] = ucwords(strtolower($row[8]));
+           $address['district'] = ucwords(strtolower($row[9]));
+           $address['village'] = ucwords(strtolower($row[10]));
+           $address['rt'] = $row[11];
+           $address['rw'] = $row[12];
 
-         $new->setAddress(json_encode($address));
-         $new->setNameOfGuardian(ucwords(strtolower($row[13])));
-         $new->save();
-     }
- }
+           $new->setAddress(json_encode($address));
+           $new->setNameOfGuardian(ucwords(strtolower($row[13])));
+           $new->save();
+       }
+   }
 }
 
 
@@ -82,6 +82,6 @@ class StudentsImport implements ToCollection, WithStartRow
 
 public function startRow(): int
 {
- return 3;
+   return 3;
 }
 }

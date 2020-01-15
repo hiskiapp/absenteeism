@@ -22,22 +22,20 @@
 									<div class="col-md-8">
 										<div class="form-group">
 											<label for="gender">Date Range</label>
-											<form action="" method="GET">
-												<div class='input-group mb-3'>
-													<input value="{{ g('date-range') }}" type="text" name="date-range" class="form-control date-range" />
-													<div class="input-group-append">
-														<span class="input-group-text">
-															<span class="ti-calendar"></span>
-														</span>
-													</div>
-													@if(!g('date-range'))
-													<button type="button" class="btn btn-secondary waves-effect ml-3" data-toggle="collapse" data-target="#form-filter">Cancel</button>
-													@else
-													<a class="btn btn-secondary waves-effect ml-3" href="{{ url('log_activity') }}">Reset</a>
-													@endif
-													<button type="submit" class="btn btn-danger waves-effect waves-light ml-2">Submit</button>
+											<div class='input-group mb-3'>
+												<input value="{{ g('date-range') }}" type="text" name="date-range" class="form-control date-range" />
+												<div class="input-group-append">
+													<span class="input-group-text">
+														<span class="ti-calendar"></span>
+													</span>
 												</div>
-											</form>
+												@if(!g('date-range'))
+												<button type="button" class="btn btn-secondary waves-effect ml-3" data-toggle="collapse" data-target="#form-filter">Cancel</button>
+												@else
+												<a class="btn btn-secondary waves-effect ml-3" href="{{ url('log_activity') }}">Reset</a>
+												@endif
+												<button type="button" class="btn btn-danger waves-effect waves-light ml-2" id="btn-filter" onclick="data('action')">Submit</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -49,7 +47,6 @@
 					<table id="file_export" class="table table-striped table-bordered display">
 						<thead>
 							<tr>
-								<th>#</th>
 								<th>Action</th>
 								<th>Page</th>
 								<th>Description</th>
@@ -57,29 +54,6 @@
 								<th>Info</th>
 							</tr>
 						</thead>
-						<tbody>
-							@foreach($data as $key => $row)
-							<tr>
-								<td>{{ $key + 1 }}</td>
-								<?php
-								if ($row->action == 'Create') {
-									$btn = 'success';
-								}elseif ($row->action == 'Update') {
-									$btn = 'info';
-								}elseif ($row->action == 'Read') {
-									$btn = 'primary';
-								}else{
-									$btn = 'danger';
-								}
-								?>
-								<td><span class="btn btn-{{ $btn }} btn-xs">{{ $row->action }}</span></td>
-								<td>{{ $row->page }}</td>
-								<td>{{ $row->description }}</td>
-								<td>{{ dt($row->created_at)->format('d-m-Y H:i') }}</td>
-								<td>{{ timeHumanReadable($row->created_at) }}</td>
-							</tr>
-							@endforeach
-						</tbody>
 					</table>
 				</div>
 			</div>
@@ -92,7 +66,9 @@
 <script src="{{ asset('assets/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/libs/daterangepicker/daterangepicker.js') }}"></script>
 <script type="text/javascript">
-	$('#file_export').DataTable();
+	$(function() {
+		data();
+	});
 
 	$('.date-range').daterangepicker({
 		ranges: {
@@ -105,5 +81,30 @@
 		},
 		alwaysShowCalendars: true,
 	});
+
+	function data(val = ''){
+		if (val != '') {
+			var date = $('.date-range').val();
+			$('#file_export').DataTable().destroy();
+		}else{
+			var date = '';
+		}
+		
+		$('#file_export').DataTable({
+			processing: true,
+			serverSide: true,
+			ajax: {
+				url: '{{ url("log_activity/json") }}',
+				data: {date:date}
+			},
+			columns: [
+			{ data: 'action', name: 'action' },
+			{ data: 'page', name: 'page' },
+			{ data: 'description', name: 'description' },
+			{ data: 'datetime', name: 'datetime' },
+			{ data: 'info', name: 'info' },
+			]
+		});
+	}
 </script>
 @endpush

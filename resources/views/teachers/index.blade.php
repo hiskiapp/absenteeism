@@ -11,7 +11,7 @@
 			<div class="card-body">
 				<div class="float-right">
 					<a href="{{ request()->segment(1) }}/add" class="btn btn-secondary"><i class="fa fa-plus"></i> Add</a>
-					<button class="btn btn-danger" data-toggle="modal" data-target="#export"><i class="fas fa-sign-in-alt"></i> Import</button>
+					<button class="btn btn-danger" data-toggle="modal" data-target="#import"><i class="fas fa-sign-in-alt"></i> Import</button>
 					<a href="{{ request()->segment(1) }}/qr-code" class="btn btn-warning"><i class="fa fa-download"></i> QR Code</a>
 				</div>
 				<h4 class="card-title">{{ $page_title }}</h4>
@@ -55,20 +55,20 @@
 		</div>
 	</div>
 </div>
-<div id="export" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="import" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Export {{ $page_title }}</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			</div>
-			<form action="{{ url(request()->segment(1))}}/export" method="POST" enctype="multipart/form-data">
+			<form action="{{ url(request()->segment(1))}}/import" method="POST" enctype="multipart/form-data">
 				{{ csrf_field() }}
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">File Export:</label>
 						<input type="file" required="" accept=".xls,.xlsx" name="file_export" class="form-control-file">
-						<span class="form-text text-muted">Download Example <a href="{{ url('sample/ExportTeachers.xlsx') }}">Export File Here</a></span>
+						<span class="form-text text-muted">Download Example <a href="{{ url('sample/ExportTeachers.xlsx') }}">Import File Here</a></span>
 					</div>
 				</div>
 				<div class="modal-footer">

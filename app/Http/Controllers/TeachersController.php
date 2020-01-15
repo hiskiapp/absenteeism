@@ -77,7 +77,7 @@ class TeachersController extends Controller
 	}
 
 	public function postEdit(Request $request, $id){
-		$check = TeachersRepository::checkCode($id,$code);
+		$check = TeachersRepository::checkCode($id,$request->code);
 
 		if ($check) {
 			return redirect()->back()->with(['message_type' => 'error', 'message' => 'Kode Telah Digunakan!'])->withInput($request->input());
@@ -130,7 +130,7 @@ class TeachersController extends Controller
 		return view('teachers.detail', $data);
 	}
 
-	public function postExport(Request $request){
+	public function postImport(Request $request){
 		$extension = File::extension($request->file('file_export')->getClientOriginalName());
 		if($extension == "xlsx" || $extension == "xls"){
 			$save = Excel::import(new TeachersImport, $request->file('file_export'));
