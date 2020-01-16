@@ -27,7 +27,8 @@ class StudentsRepository extends Students
 	public static function json(){
 		$query = Students::simpleQuery()
 		->join('rombels','students.rombels_id','=','rombels.id')
-		->select('students.nis as nis','students.name as name','rombels.name as rombel')
+		->join('rayons','students.rayons_id','=','rayons.id')
+		->select('students.id','students.nis as nis','students.name as name','rombels.name as rombel','rayons.name as rayon','students.gender','students.birth_city','students.religion')
 		->get();
 
 		return $query;

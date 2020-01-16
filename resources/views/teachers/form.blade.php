@@ -41,7 +41,8 @@
 					<div class="form-group row align-items-center m-b-0">
 						<label for="position" class="col-3 text-right control-label col-form-label">Tugas Khusus</label> 
 						<div class="col-9 border-left p-b-10 p-t-10">
-							<input autocomplete="off" required="" value="{{ (empty($data) ? old('position') : $data->getPosition()) }}" type="text" name="position" class="form-control" id="position" placeholder="Tulis Disini..">
+							<input autocomplete="off" data-role="tagsinput" required="" value="{{ (empty($data) ? old('position') : $data->getPosition()) }}" type="text" name="position" class="form-control" id="position" placeholder="Tulis Disini..">
+							<small id="name" class="form-text text-muted">Pisahkan Dengan Tanda Koma ';'</small>
 						</div>
 					</div>
 					<div class="form-group row align-items-center m-b-0">

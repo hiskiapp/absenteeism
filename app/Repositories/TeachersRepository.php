@@ -41,7 +41,7 @@ class TeachersRepository extends Teachers
 
 	public static function json(){
 		$query = Teachers::simpleQuery()
-		->select('code','name')
+		->select('id','code','name','subjects','position')
 		->get();
 
 		return $query;

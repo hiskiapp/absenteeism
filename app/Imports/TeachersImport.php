@@ -51,10 +51,8 @@ class TeachersImport implements ToCollection, WithStartRow
     						$day = "Thursday";
     					}elseif ($arg == "Jumat" || $arg == "Jum'at"){
     						$day = "Friday";
-    					}elseif ($arg == "Sabtu"){
-    						$day = "Saturday";
     					}else{
-    						$day = "Sunday";
+    						$day = "";
     					}
 
     					$weekdays[] = $day;

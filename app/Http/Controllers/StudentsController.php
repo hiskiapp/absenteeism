@@ -168,7 +168,14 @@ class StudentsController extends Controller
     public function getJson(){
         $data = StudentsRepository::json();
 
-        return DataTables::of($data)->make(true);
+
+        return DataTables::of($data)
+        ->addColumn("action", function ($data) {
+            return '<a href="students/edit/'.$data->id.'" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></a>
+            <button onclick="deleteRow('.$data->id.')" class="btn btn-xs btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+            <a href="students/detail/'.$data->id.'" class="btn btn-xs btn-info text-white"><i class="fas fa-eye"></i></a>';
+        })
+        ->make(true);
     }
 
     public function getQrCode(){

@@ -19,8 +19,6 @@ class TeachersController extends Controller
 	public function getIndex(){
 		$data['page_title'] = 'Data Guru / Karyawan';
 		$data['page_description'] = 'Kumpulan Data Guru / Karyawan SMK Wikrama 1 Jepara';
-		// $data['sidebar_type'] = "mini-sidebar";
-		$data['data'] = Teachers::all();
 
 		return view('teachers.index',$data);
 	}
@@ -152,13 +150,40 @@ class TeachersController extends Controller
 	public function getJson(){
 		$data = TeachersRepository::json();
 
-		return DataTables::of($data)->make(true);
+		return DataTables::of($data)
+		->editColumn("subjects", function ($data){
+			$subjects = explode(',',$data->subjects);
+			
+			$result = '';
+			foreach ($subjects as $row) {
+				$result .= '<span class="btn btn-info btn-xs">'.$row.'</span> ';
+			}
+
+			return $result;
+		})
+		->editColumn("position", function ($data){
+			$position = explode(',',$data->position);
+			
+			$result = '';
+			foreach ($position as $row) {
+				$result .= '<span class="btn btn-info btn-xs">'.$row.'</span> ';
+			}
+
+			return $result;
+		})
+		->addColumn("action", function ($data) {
+			return '<a href="teachers/edit/'.$data->id.'" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></a>
+			<button onclick="deleteRow('.$data->id.')" class="btn btn-xs btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+			<a href="teachers/detail/'.$data->id.'" class="btn btn-xs btn-info text-white"><i class="fas fa-eye"></i></a>';
+		})
+		->escapeColumns([])
+		->make(true);
 	}
 
 	public function getQrCode(){
-        $data['page_title'] = 'Cetak QR Code Siswa';
-        $data['data'] = Teachers::all();
+		$data['page_title'] = 'Cetak QR Code Siswa';
+		$data['data'] = Teachers::all();
 
-        return view('teachers.qrcode',$data);
-    }
+		return view('teachers.qrcode',$data);
+	}
 }

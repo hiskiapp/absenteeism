@@ -27,28 +27,6 @@
 								<th width="160px">Action</th>
 							</tr>
 						</thead>
-						<tbody>
-							@foreach($data as $row)
-							<tr>
-								<td>{{ $row->code }}</td>
-								<td>{{ $row->name }}</td>
-								<td>
-									<?php
-									$subjects = explode(',', $row->subjects);
-									?>
-									@foreach($subjects as $data)
-									<span class="btn btn-info btn-xs">{{ $data }}</span>
-									@endforeach
-								</td>
-								<td>{{ $row->position }}</td>
-								<td>
-									<a href="{{ request()->segment(1) }}/edit/{{ $row->id }}" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></a>
-									<button onclick="deleteRow({{ $row->id }})" class="btn btn-xs btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
-									<a href="{{ request()->segment(1) }}/detail/{{ $row->id }}" class="btn btn-xs btn-info text-white"><i class="fas fa-eye"></i></a>
-								</td>
-							</tr>
-							@endforeach
-						</tbody>
 					</table>
 				</div>
 			</div>
@@ -99,6 +77,18 @@
 	//    File export                              //
 	//=============================================//
 	var table = $('#file_export').DataTable({
+		processing: true,
+		serverSide: true,
+		ajax: {
+			url: '{{ url("teachers/json") }}',
+		},
+		columns: [
+		{ data: 'code', name: 'code' },
+		{ data: 'name', name: 'name' },
+		{ data: 'subjects', name: 'subjects' },
+		{ data: 'position', name: 'position' },
+		{ data: 'action', name: 'action' },
+		],
 		dom: 'Bfrtip',
 		buttons: [
 		{

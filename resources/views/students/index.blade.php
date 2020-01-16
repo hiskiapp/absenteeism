@@ -90,24 +90,6 @@
 								<th width="160px">Action</th>
 							</tr>
 						</thead>
-						<tbody>
-							@foreach($data as $row)
-							<tr>
-								<td>{{ $row->nis }}</td>
-								<td>{{ $row->name }}</td>
-								<td>{{ $row->rombels_name }}</td>
-								<td>{{ $row->rayons_name }}</td>
-								<td>{{ substr($row->gender, 0, 1) }}</td>
-								<td>{{ $row->birth_city }}</td>
-								<td>{{ $row->religion }}</td>
-								<td>
-									<a href="{{ request()->segment(1) }}/edit/{{ $row->id }}" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></a>
-									<button onclick="deleteRow({{ $row->id }})" class="btn btn-xs btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
-									<a href="{{ request()->segment(1) }}/detail/{{ $row->id }}" class="btn btn-xs btn-info text-white"><i class="fas fa-eye"></i></a>
-								</td>
-							</tr>
-							@endforeach
-						</tbody>
 					</table>
 				</div>
 			</div>
@@ -157,6 +139,21 @@
 	//    File export                              //
 	//=============================================//
 	var table = $('#file_export').DataTable({
+		processing: true,
+		serverSide: true,
+		ajax: {
+			url: '{{ url("students/json") }}',
+		},
+		columns: [
+		{ data: 'nis', name: 'nis' },
+		{ data: 'name', name: 'name' },
+		{ data: 'rombel', name: 'rombel' },
+		{ data: 'rayon', name: 'rayon' },
+		{ data: 'gender', name: 'gender' },
+		{ data: 'birth_city', name: 'birth_city' },
+		{ data: 'religion', name: 'religion' },
+		{ data: 'action', name: 'action' },
+		],
 		dom: 'Bfrtip',
 		buttons: [
 		{
