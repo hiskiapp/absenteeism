@@ -28,53 +28,60 @@ class StudentsImport implements ToCollection, WithStartRow
     				$new->setName(ucwords(strtolower($row[1])));
 
     				$rombels = Rombels::simpleQuery()
-                    ->where('name',strtoupper($row[2]))
-                    ->first();
+            ->where('name',strtoupper($row[2]))
+            ->first();
 
-                    if ($rombels) {
-                       $new->setRombelsId($rombels->id);
-                   }else{
-                    $rombel = New Rombels;
-                    $rombel->setName(strtoupper($row[2]));
-                    $rombel->save();
-                    
-                    $new->setRombelsId($rombel->getId());
-                }
-
-                $rayons = Rayons::simpleQuery()
-                ->where('name',ucwords(strtolower($row[3])))
-                ->first();
-
-                if ($rayons) {
-                   $new->setRayonsId($rayons->id);
-               }else{
-                $rayon = New Rayons;
-                $rayon->setName(ucwords(strtolower($row[3])));
-                $rayon->save();
-                $new->setRayonsId($rayon->getId());
-            }
-
-            if ($row[4] == 'L') {
-               $new->setGender('Laki - Laki');
+            if ($rombels) {
+             $new->setRombelsId($rombels->id);
            }else{
-               $new->setGender('Perempuan');
-           }
+            $rombel = New Rombels;
+            $rombel->setName(strtoupper($row[2]));
+            $rombel->save();
 
-           $new->setBirthCity(ucwords(strtolower($row[5])));
-           $new->setBirthDate(dateExcel($row[6]));
-           $new->setReligion(ucwords(strtolower($row[7])));
+            $new->setRombelsId($rombel->getId());
+          }
 
-           $address['city'] = ucwords(strtolower($row[8]));
-           $address['district'] = ucwords(strtolower($row[9]));
-           $address['village'] = ucwords(strtolower($row[10]));
-           $address['rt'] = $row[11];
-           $address['rw'] = $row[12];
+          $rayons = Rayons::simpleQuery()
+          ->where('name',ucwords(strtolower($row[3])))
+          ->first();
 
-           $new->setAddress(json_encode($address));
-           $new->setNameOfGuardian(ucwords(strtolower($row[13])));
-           $new->save();
+          if ($rayons) {
+           $new->setRayonsId($rayons->id);
+         }else{
+          $rayon = New Rayons;
+          $rayon->setName(ucwords(strtolower($row[3])));
+          $rayon->save();
+          $new->setRayonsId($rayon->getId());
+        }
+
+        if ($row[4] == 'L') {
+         $new->setGender('Laki - Laki');
+       }else{
+         $new->setGender('Perempuan');
        }
-   }
+
+       $new->setBirthCity(ucwords(strtolower($row[5])));
+
+       try {
+        $new->setBirthDate(dateExcel($row[6]));
+      } catch (\Exception $e) {
+        $new->setBirthDate(dt($row[6])->format('Y-m-d'));
+      }
+
+      $new->setBirthDate(dateExcel($row[6]));
+      $new->setReligion(ucwords(strtolower($row[7])));
+
+      $address['city'] = ucwords(strtolower($row[8]));
+      $address['district'] = ucwords(strtolower($row[9]));
+      $address['village'] = ucwords(strtolower($row[10]));
+      $address['rt'] = $row[11];
+      $address['rw'] = $row[12];
+
+      $new->setAddress(json_encode($address));
+      $new->setNameOfGuardian(ucwords(strtolower($row[13])));
+      $new->save();
+    }
+  }
 }
 
 
@@ -82,6 +89,6 @@ class StudentsImport implements ToCollection, WithStartRow
 
 public function startRow(): int
 {
-   return 3;
+ return 3;
 }
 }
