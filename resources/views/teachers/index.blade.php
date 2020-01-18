@@ -70,6 +70,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script type="text/javascript">
 	$(".select2").select2();
 
@@ -129,19 +130,7 @@
 	$('.buttons-print').addClass('btn btn-info mr-1');
 	$('.buttons-pdf').addClass('btn btn-warning mr-1');
 	$('.buttons-excel').addClass('btn btn-danger mr-1');
-</script>
 
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
-	});
-</script>
-@endif
-
-<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
-<script>
 	function deleteRow(id){
 		Swal.fire({
 			title: 'Are you sure?',
