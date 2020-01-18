@@ -68,7 +68,6 @@ class StudentsImport implements ToCollection, WithStartRow
         $new->setBirthDate(dt($row[6])->format('Y-m-d'));
       }
 
-      $new->setBirthDate(dateExcel($row[6]));
       $new->setReligion(ucwords(strtolower($row[7])));
 
       $address['city'] = ucwords(strtolower($row[8]));
