@@ -1,7 +1,4 @@
 @extends('layouts.backend')
-@push('head')
-<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
-@endpush
 @section('content')
 <!-- File export -->
 <div class="row">
@@ -49,13 +46,3 @@
 	</div>
 </div>
 @endsection
-@push('bottom')
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
-	});
-</script>
-@endif
-@endpush

@@ -18,11 +18,12 @@ class AbsentStudentsRepository extends AbsentStudents
 	}
 
 	public static function list($date){
+		$date = dt($date);
 		$query = AbsentStudents::simpleQuery()
 		->join('students','students.id','=','absent_students.students_id')
 		->join('rombels','students.rombels_id','=','rombels.id')
 		->whereDate('absent_students.date',$date->format('Y-m-d'))
-		->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.time_in as time_in','absent_students.type as type','absent_students.photo as photo')
+		->select('students.nis as nis','students.name as name','rombels.name as rombel','absent_students.type as type','absent_students.photo as photo','absent_students.time_in as time_in')
 		->get();
 
 		return $query;

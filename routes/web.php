@@ -32,9 +32,6 @@ Route::group(['middleware' => 'auth'], function () {
 	// Teachers Module
 	routeController('teachers','TeachersController');
 
-	// Employees Module
-	// routeController('employees','EmployeesController');
-
 	// Rombels Module
 	routeController('rombels','RombelsController');
 

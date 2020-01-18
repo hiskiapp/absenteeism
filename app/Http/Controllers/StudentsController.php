@@ -166,7 +166,7 @@ class StudentsController extends Controller
     }
 
     public function getJson(){
-        $data = StudentsRepository::json();
+        $data = StudentsRepository::list();
 
 
         return DataTables::of($data)

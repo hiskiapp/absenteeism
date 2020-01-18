@@ -1,6 +1,5 @@
 @extends('layouts.backend')
 @push('head')
-<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
 @endpush
 @section('content')
@@ -86,6 +85,7 @@
 </div>
 @endsection
 @push('bottom')
+<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/extra-libs/DataTables/datatables.min.js') }}"></script>
@@ -107,19 +107,7 @@
 		$("#edit_id").val('');
 		$('#edit_name').val('');
 	});
-</script>
 
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
-	});
-</script>
-@endif
-
-<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
-<script>
 	function deleteRow(id){
 		Swal.fire({
 			title: 'Are you sure?',

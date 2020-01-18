@@ -1,8 +1,8 @@
 @extends('layouts.backend')
 @push('head')
-<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
+<link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
 @endpush
 @section('content')
 <!-- File export -->
@@ -132,6 +132,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script type="text/javascript">
 	$(".select2").select2();
 
@@ -214,20 +215,8 @@
 	$('#form-filter').on('hidden.bs.collapse', function(){
 		table.column(2).search('').draw();
 		table.column(3).search('').draw();
-	})
-</script>
-
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
 	});
-</script>
-@endif
 
-<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
-<script>
 	function deleteRow(id){
 		Swal.fire({
 			title: 'Are you sure?',

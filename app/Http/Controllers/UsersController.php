@@ -27,8 +27,9 @@ class UsersController extends Controller
             }else{
                 $edit->setName(g('name'));
                 $edit->setEmail(g('email'));
-                $edit->save();
             }
+
+            $edit->save();
             
             return redirect()->back()->with(['message_type' => 'success','message' => 'Data Berhasil Diupdate!']);
         }else{

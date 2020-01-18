@@ -10,18 +10,56 @@ use App\Repositories\LogBackendRepository;
 use App\Repositories\AbsentStudentsRepository;
 use App\Repositories\StudentsRepository;
 use Artisan;
+use DataTables;
 
 class AbsentStudentsController extends Controller
 {
 	public function getList(){
 		$data['page_title'] 	  = 'List Absensi Siswa';
 		$date = dt(g('date'));
-		$data['data'] = AbsentStudentsRepository::list($date);
 		$data['date'] = $date->format('m/d/Y');
 		$data['page_description'] = 'Absensi Tanggal '.$date->format('d F Y');
 		$data['rombels'] = Rombels::all();
 
 		return view('absent.students.list',$data);
+	}
+
+	public function getJson(){
+		$data = AbsentStudentsRepository::list(g('date'));
+
+		return DataTables::of($data)
+		->editColumn("type", function ($data) {
+			if ($data->type == "Tepat Waktu") {
+				$label = 'success';
+			}elseif ($data->type == "Terlambat") {
+				$label = 'warning';
+			}elseif ($data->type == "Sakit") {
+				$label = 'danger';
+			}elseif ($data->type == "Izin") {
+				$label = 'info';
+			}elseif ($data->type == "Tanpa Keterangan") {
+				$label = 'primary';
+			}elseif ($data->type == "Bolos") {
+				$label = 'success';
+			}
+
+			$result = '<span class="label label-'.$label.'">'.$data->type.'</span>';
+
+			if ($data->photo) {
+				$result .= ' <a href="'.url($data->photo).'" data-toggle="lightbox" data-title="'.$data->name.'" data-footer="Keterangan: '.$data->type.'"><span class="label label-success">Lihat Bukti</span></a>';
+			}
+
+			return $result;
+		})
+		->editColumn("time_in", function ($data) {
+			if ($data->time_in) {
+				return $data->time_in;
+			}else{
+				return '-';
+			}
+		})
+		->escapeColumns([])
+		->make(true);
 	}
 
 	public function postAdd(Request $request){

@@ -24,7 +24,7 @@ class StudentsRepository extends Students
 		return $data;
 	}
 
-	public static function json(){
+	public static function list(){
 		$query = Students::simpleQuery()
 		->join('rombels','students.rombels_id','=','rombels.id')
 		->join('rayons','students.rayons_id','=','rayons.id')

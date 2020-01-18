@@ -148,7 +148,7 @@ class TeachersController extends Controller
 	}
 
 	public function getJson(){
-		$data = TeachersRepository::json();
+		$data = TeachersRepository::list();
 
 		return DataTables::of($data)
 		->editColumn("subjects", function ($data){

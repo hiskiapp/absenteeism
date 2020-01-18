@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 @push('head')
-<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
 @endpush
 @section('content')
 <!-- File export -->

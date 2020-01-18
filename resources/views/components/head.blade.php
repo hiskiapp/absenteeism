@@ -10,6 +10,9 @@
     <title>{{ $page_title }} | {{ app_name() }}</title>
     <!-- Custom CSS -->
     @stack('head')
+    @if($errors->any() || Session::has('message'))
+    <link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
+    @endif
     <link href="{{ asset('dist/css/style.min.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -39,4 +39,20 @@
 <!--Custom JavaScript -->
 <script src="{{ asset('dist/js/custom.min.js') }}"></script>
 <!--This page JavaScript -->
+@if($errors->any() || Session::has('message'))
+<!-- Toastr -->
+<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
+@endif
 @stack('bottom')
+@if($errors->any())
+<script type="text/javascript">
+	@foreach ($errors->all() as $error)
+	toastr.error('{{ $error }}');
+	@endforeach
+</script>
+@endif
+@if(Session::has('message'))
+<script type="text/javascript">
+	toastr.{{ Session::get('message_type') }}('{{ Session::get('message') }}');
+</script>
+@endif

@@ -139,15 +139,6 @@
 	});
 </script>
 
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
-	});
-</script>
-@endif
-
 <script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script>
 	function deleteRow(id){

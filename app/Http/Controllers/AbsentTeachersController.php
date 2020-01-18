@@ -8,36 +8,60 @@ use App\Models\Teachers;
 use App\Repositories\TeachersRepository;
 use App\Repositories\AbsentTeachersRepository;
 use App\Repositories\LogBackendRepository;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
+use App\Services\AbsentTeachersService;
 use Artisan;
-use DB;
+use DataTables;
 
 class AbsentTeachersController extends Controller
 {
 	public function getList(){
 		$data['page_title'] 	  = 'List Absensi Guru / Karyawan';
 		$date = dt(g('date'));
-		$data['data'] = TeachersRepository::list($date);
-
-		foreach ($data['data'] as $key => $row) {
-			$absent = AbsentTeachersRepository::data($row->id,$date);
-
-			if ($absent) {
-				$row->time_in = $absent->time_in;
-				$row->type 	  = $absent->type;
-				$row->photo   = $absent->photo;
-			}else{
-				$row->time_in = NULL;
-				$row->type 	  = 'Belum Absen';
-				$row->photo   = NULL;
-			}
-		}
-		
+		$data['data'] = AbsentTeachersService::list($date);
 		$data['date'] = $date->format('m/d/Y');
 		$data['page_description'] = 'Absensi Tanggal '.$date->format('d F Y');
 
 		return view('absent.teachers.list',$data);
+	}
+
+	public function getJson(){
+		$data = AbsentTeachersService::list(g('date'));
+
+		return DataTables::of($data)
+		->editColumn("type", function ($data) {
+			if ($data->type == "Tepat Waktu") {
+				$label = 'success';
+			}elseif ($data->type == "Terlambat") {
+				$label = 'warning';
+			}elseif ($data->type == "Sakit") {
+				$label = 'danger';
+			}elseif ($data->type == "Izin") {
+				$label = 'info';
+			}elseif ($data->type == "Tanpa Keterangan") {
+				$label = 'primary';
+			}elseif ($data->type == "Bolos") {
+				$label = 'success';
+			}else{
+				$label = 'warning';
+			}
+
+			$result = '<span class="label label-'.$label.'">'.$data->type.'</span>';
+
+			if ($data->photo) {
+				$result .= ' <a href="'.url($data->photo).'" data-toggle="lightbox" data-title="'.$data->name.'" data-footer="Keterangan: '.$data->type.'"><span class="label label-success">Lihat Bukti</span></a>';
+			}
+
+			return $result;
+		})
+		->editColumn("time_in", function ($data) {
+			if ($data->time_in) {
+				return $data->time_in;
+			}else{
+				return '-';
+			}
+		})
+		->escapeColumns([])
+		->make(true);
 	}
 
 	public function postAdd(Request $request){
@@ -165,14 +189,14 @@ class AbsentTeachersController extends Controller
 		$data['page_description'] = 'Kalenderisasi Absensi Guru / Karyawan';
 		$data['sidebar_type'] 	  = 'mini-sidebar';
 		$data['all_month'] 		  = AbsentTeachers::simpleQuery()->get()
-									->groupBy(function($d){
-										return dt($d->date)->format('m');
-									});
+		->groupBy(function($d){
+			return dt($d->date)->format('m');
+		});
 
 		$data['all_year']		  = AbsentTeachers::simpleQuery()->get()
-									->groupBy(function($d){
-										return dt($d->date)->format('Y');
-									});
+		->groupBy(function($d){
+			return dt($d->date)->format('Y');
+		});
 
 		$data['teachers'] 	  	  = TeachersRepository::listCalendar();
 

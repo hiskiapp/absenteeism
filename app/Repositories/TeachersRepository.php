@@ -39,7 +39,7 @@ class TeachersRepository extends Teachers
 		return $query;
 	}
 
-	public static function json(){
+	public static function list(){
 		$query = Teachers::simpleQuery()
 		->select('id','code','name','subjects','position')
 		->get();
@@ -47,7 +47,7 @@ class TeachersRepository extends Teachers
 		return $query;
 	}
 
-	public static function list($date){
+	public static function listByDate($date){
 		$query = Teachers::simpleQuery()
 		->where('weekdays','like','%'.$date->format('l').'%')
 		->select('id','code','name')

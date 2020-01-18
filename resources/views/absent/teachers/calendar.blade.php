@@ -1,6 +1,5 @@
 @extends('layouts.backend')
 @push('head')
-<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
 @endpush
 @section('content')
@@ -131,14 +130,6 @@
 <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script type="text/javascript">
 	$(".select2").select2();
-</script>
-
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
-	});
 </script>
 @endif
 @endpush

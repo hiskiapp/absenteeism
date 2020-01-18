@@ -1,7 +1,6 @@
 @extends('layouts.backend')
 @push('head')
 <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/lightbox/dist/ekko-lightbox.css') }}">
@@ -14,7 +13,9 @@
 			<div class="card-body">
 				<div class="float-right">
 					<button class="btn btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Set Absensi</button>
+					@if(!isholiday($date))
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
+					@endif
 					<button class="btn btn-warning" data-toggle="modal" data-target="#change-date"><i class="fa fa-calendar"></i> Ganti Tanggal</button>
 					@if(!isholiday())
 					<button type="button" class="btn btn-primary btn-outline btn-alpa" data-toggle="tooltip" data-placement="top" title="Tandai Status Semua Guru Yang Belum Absen Menjadi Alpa"><i class="fas fa-compass"></i> Tandai Alpa</button>
@@ -118,38 +119,6 @@
 								<th>Jam Masuk</th>
 							</tr>
 						</thead>
-						<tbody>
-							@foreach($data as $row)
-							<tr>
-								<td>{{ $row->code }}</td>
-								<td>{{ $row->name }}</td>
-								<?php
-								if ($row->type == "Tepat Waktu") {
-									$label = 'success';
-								}elseif ($row->type == "Terlambat") {
-									$label = 'warning';
-								}elseif ($row->type == "Sakit") {
-									$label = 'danger';
-								}elseif ($row->type == "Izin") {
-									$label = 'info';
-								}elseif ($row->type == "Tanpa Keterangan") {
-									$label = 'primary';
-								}elseif ($row->type == "Bolos") {
-									$label = 'warning';
-								}else{
-									$label = 'warning';
-								}
-								?>
-								<td>
-									<span class="label label-{{ $label }}">{{ $row->type }}</span>
-									@if($row->photo)
-									<a href="{{ url($row->photo) }}" data-toggle="lightbox" data-title="{{ $row->name }}" data-footer="Keterangan: {{ $row->type }}"><span class="label label-success">Lihat Bukti</span></a>
-									@endif
-								</td>
-								<td>{{ $row->time_in ? $row->time_in : '-'}}</td>
-							</tr>
-							@endforeach
-						</tbody>
 					</table>
 				</div>
 				@else
@@ -298,7 +267,18 @@
 		$("#code").val(data.code);
 	});
 
-	var table = $('#file_export').DataTable();
+	@if(!isholiday($date))
+	var table = $('#file_export').DataTable({
+		processing: true,
+		serverSide: true,
+		ajax: '{{ url('absent/teachers/json')}}?date={{ $date }}',
+		columns: [
+		{ data: 'code', name: 'code' },
+		{ data: 'name', name: 'name' },
+		{ data: 'type', name: 'type' },
+		{ data: 'time_in', name: 'time_in' },
+		]
+	});
 	$('#type').change(function(){
 		table.column(2).search(this.value).draw();  
 	});
@@ -306,6 +286,8 @@
 		$("#type").val('Pilih Type..').change();
 		table.column(2).search('').draw();
 	})
+	@endif
+	
 	$('#add-type').on('change', function(){
 		val = this.value;
 		if (val == 'Tepat Waktu') {
@@ -317,15 +299,6 @@
 		}
 	});
 </script>
-
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
-	});
-</script>
-@endif
 
 <script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script type="text/javascript">

@@ -1,7 +1,6 @@
 @extends('layouts.backend')
 @push('head')
 <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/lightbox/dist/ekko-lightbox.css') }}">
@@ -133,37 +132,6 @@
 								<th>Jam Masuk</th>
 							</tr>
 						</thead>
-						<tbody>
-							@foreach($data as $row)
-							<tr>
-								<td>{{ $row->nis }}</td>
-								<td>{{ $row->name }}</td>
-								<td>{{ $row->rombel }}</td>
-								<?php
-								if ($row->type == "Tepat Waktu") {
-									$label = 'success';
-								}elseif ($row->type == "Terlambat") {
-									$label = 'warning';
-								}elseif ($row->type == "Sakit") {
-									$label = 'danger';
-								}elseif ($row->type == "Izin") {
-									$label = 'info';
-								}elseif ($row->type == "Tanpa Keterangan") {
-									$label = 'primary';
-								}elseif ($row->type == "Bolos") {
-									$label = 'success';
-								}
-								?>
-								<td>
-									<span class="label label-{{ $label }}">{{ $row->type }}</span>
-									@if($row->photo)
-									<a href="{{ url($row->photo) }}" data-toggle="lightbox" data-title="{{ $row->name }}" data-footer="Keterangan: {{ $row->type }}"><span class="label label-success">Lihat Bukti</span></a>
-									@endif
-								</td>
-								<td>{{ $row->time_in ? $row->time_in : '-'}}</td>
-							</tr>
-							@endforeach
-						</tbody>
 					</table>
 				</div>
 				@else
@@ -288,6 +256,7 @@
 <script src="{{ asset('assets/libs/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/extra-libs/DataTables/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('assets/libs/lightbox/dist/ekko-lightbox.min.js') }}"></script>
 <script type="text/javascript">
@@ -312,8 +281,20 @@
 		$('#modal-students-data').modal('hide');
 		$("#nis").val(data.nis);
 	});
-
-	var table = $('#file_export').DataTable();
+	
+	@if(!isholiday($date))
+	var table = $('#file_export').DataTable({
+		processing: true,
+		serverSide: true,
+		ajax: '{{ url('absent/students/json')}}?date={{ $date }}',
+		columns: [
+		{ data: 'nis', name: 'nis' },
+		{ data: 'name', name: 'name' },
+		{ data: 'rombel', name: 'rombel' },
+		{ data: 'type', name: 'type' },
+		{ data: 'time_in', name: 'time_in' },
+		]
+	});
 	$('#rombels').change(function(){
 		table.column(2).search(this.value).draw();  
 	});
@@ -326,6 +307,8 @@
 		table.column(2).search('').draw();
 		table.column(3).search('').draw();
 	})
+	@endif
+
 	$('#add-type').on('change', function(){
 		val = this.value;
 		if (val == 'Tepat Waktu') {
@@ -336,19 +319,7 @@
 			$('#form-photo').show();
 		}
 	});
-</script>
 
-<script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@if(Session::has('message'))
-<script>
-	$(function() {
-		toastr.{{ session::get('message_type') }}('{{ session::get('message') }}', '{{ ucwords(session::get('message_type')) }}!');
-	});
-</script>
-@endif
-
-<script src="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
-<script type="text/javascript">
 	$('.btn-alpa').click(function(){
 		Swal.fire({
 			title: 'Sure?',
