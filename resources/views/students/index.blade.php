@@ -2,6 +2,7 @@
 @push('head')
 <link href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
 <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
 @endpush
 @section('content')
@@ -14,7 +15,7 @@
 					<a href="{{ request()->segment(1) }}/add" class="btn btn-secondary"><i class="fa fa-plus"></i> Add</a>
 					<button class="btn btn-danger" data-toggle="modal" data-target="#import"><i class="fas fa-sign-in-alt"></i> Import</button>
 					<button class="btn btn-info" data-toggle="collapse" data-target="#form-filter"><i class="fas fa-filter"></i> Filter</button>
-					<a href="{{ request()->segment(1) }}/qr-code" class="btn btn-warning"><i class="fa fa-download"></i> QR Code</a>
+					<button class="btn btn-warning" data-toggle="modal" data-target="#qr-code"><i class="fas fa-download"></i> Qr Code</button>
 				</div>
 				<h4 class="card-title">{{ $page_title }}</h4>
 				<h6 class="card-subtitle">{{ $page_description }}</h6>
@@ -120,9 +121,40 @@
 		</div>
 	</div>
 </div>
+<div id="qr-code" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Cetak QR Code {{ $page_title }}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</div>
+			<form action="{{ url(request()->segment(1))}}/qr-code" method="POST" enctype="multipart/form-data">
+				{{ csrf_field() }}
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="data_type" class="control-label">Data</label>
+						<select name="data_type" id="data_type" class="form-control">
+							<option>Custom</option>
+							<option>All</option>
+						</select>
+					</div>
+					<div class="form-group" id="form-data">
+						<label for="data" class="control-label">Custom NIS (Pisah Dengan Koma)</label>
+						<input autocomplete="off" type="text" name="data" class="form-control" id="data" placeholder="Tulis Disini.." data-role="tagsinput">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-danger waves-effect waves-light">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 @endsection
 @push('bottom')
 <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
+<script src="{{ asset('assets/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
 <script src="{{ asset('assets/extra-libs/DataTables/datatables.min.js') }}"></script>
 <!-- start - This is for export functionality only -->
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
@@ -215,6 +247,15 @@
 	$('#form-filter').on('hidden.bs.collapse', function(){
 		table.column(2).search('').draw();
 		table.column(3).search('').draw();
+	});
+
+	$('#data_type').on('change', function(){
+		val = this.value;
+		if (val == 'Custom') {
+			$('#form-data').show();
+		}else{
+			$('#form-data').hide();
+		}
 	});
 
 	function deleteRow(id){

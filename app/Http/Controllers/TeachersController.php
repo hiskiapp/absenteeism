@@ -180,9 +180,14 @@ class TeachersController extends Controller
 		->make(true);
 	}
 
-	public function getQrCode(){
-		$data['page_title'] = 'Cetak QR Code Siswa';
-		$data['data'] = Teachers::all();
+	public function postQrCode(){
+		$data['page_title'] = 'Cetak QR Code Teachers';
+
+		if (g('data_type') == 'All') {
+            $data['data'] = Teachers::all();
+        }else{
+        	$data['data'] = TeachersRepository::qrcode(g('data'));
+        }
 
 		return view('teachers.qrcode',$data);
 	}

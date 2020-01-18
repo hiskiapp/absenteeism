@@ -178,9 +178,14 @@ class StudentsController extends Controller
         ->make(true);
     }
 
-    public function getQrCode(){
+    public function postQrCode(){
         $data['page_title'] = 'Cetak QR Code Siswa';
-        $data['data'] = Students::all();
+
+        if (g('data_type') == 'All') {
+            $data['data'] = Students::all();
+        }else{
+            $data['data'] = StudentsRepository::qrCode(g('data'));
+        }
 
         return view('students.qrcode',$data);
     }

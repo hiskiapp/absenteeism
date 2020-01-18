@@ -50,4 +50,14 @@ class StudentsRepository extends Students
 
 		return $query;
 	}
+
+	public static function qrCode($data){
+		$query = Students::simpleQuery()
+		->join('rombels','students.rombels_id','=','rombels.id')
+		->whereIn('nis',explode(',',$data))
+		->select('students.nis','students.name','rombels.name as rombels_name')
+		->get();
+
+		return $query;
+	}
 }

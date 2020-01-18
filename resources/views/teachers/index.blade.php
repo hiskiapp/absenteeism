@@ -12,7 +12,7 @@
 				<div class="float-right">
 					<a href="{{ request()->segment(1) }}/add" class="btn btn-secondary"><i class="fa fa-plus"></i> Add</a>
 					<button class="btn btn-danger" data-toggle="modal" data-target="#import"><i class="fas fa-sign-in-alt"></i> Import</button>
-					<a href="{{ request()->segment(1) }}/qr-code" class="btn btn-warning"><i class="fa fa-download"></i> QR Code</a>
+					<button class="btn btn-warning" data-toggle="modal" data-target="#qr-code"><i class="fas fa-download"></i> Qr Code</button>
 				</div>
 				<h4 class="card-title">{{ $page_title }}</h4>
 				<h6 class="card-subtitle">{{ $page_description }}</h6>
@@ -52,6 +52,36 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
 					<button type="submit" class="btn btn-danger waves-effect waves-light">Execute</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="qr-code" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Cetak QR Code {{ $page_title }}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</div>
+			<form action="{{ url(request()->segment(1))}}/qr-code" method="POST" enctype="multipart/form-data">
+				{{ csrf_field() }}
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="data_type" class="control-label">Data</label>
+						<select name="data_type" id="data_type" class="form-control">
+							<option>Custom</option>
+							<option>All</option>
+						</select>
+					</div>
+					<div class="form-group" id="form-data">
+						<label for="data" class="control-label">Custom Code (Pisah Dengan Koma)</label>
+						<input autocomplete="off" type="text" name="data" class="form-control" id="data" placeholder="Tulis Disini.." data-role="tagsinput">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-danger waves-effect waves-light">Submit</button>
 				</div>
 			</form>
 		</div>
@@ -131,6 +161,15 @@
 	$('.buttons-pdf').addClass('btn btn-warning mr-1');
 	$('.buttons-excel').addClass('btn btn-danger mr-1');
 
+	$('#data_type').on('change', function(){
+		val = this.value;
+		if (val == 'Custom') {
+			$('#form-data').show();
+		}else{
+			$('#form-data').hide();
+		}
+	});
+	
 	function deleteRow(id){
 		Swal.fire({
 			title: 'Are you sure?',

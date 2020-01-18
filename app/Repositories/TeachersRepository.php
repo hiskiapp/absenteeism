@@ -72,4 +72,12 @@ class TeachersRepository extends Teachers
 
 		return $query;
 	}
+
+	public static function qrcode($data){
+		$query = Teachers::simpleQuery()
+		->whereIn('code',explode(',', $data))
+		->get();
+
+		return $query;
+	}
 }
