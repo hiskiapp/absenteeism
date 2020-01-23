@@ -58,4 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Json
 	routeController('json','JsonController');
+
+	// Notification Module
+	routeController('notifications','NotificationsController');
 });

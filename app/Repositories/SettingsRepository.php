@@ -17,12 +17,22 @@ class SettingsRepository extends Settings
 			];
 			$insert[] = [
 				'slug' => 'time_in',
-				'title' => 'Jam Masuk',
+				'title' => 'Jam Masuk Siswa',
 				'content' => '07:00'
 			];
 			$insert[] = [
 				'slug' => 'time_out',
-				'title' => 'Jam Keluar',
+				'title' => 'Jam Keluar Siswa',
+				'content' => '16:00'
+			];
+			$insert[] = [
+				'slug' => 'time_in_teacher',
+				'title' => 'Jam Masuk Guru',
+				'content' => '07:30'
+			];
+			$insert[] = [
+				'slug' => 'time_out_teacher',
+				'title' => 'Jam Keluar Guru',
 				'content' => '16:00'
 			];
 			$insert[] = [

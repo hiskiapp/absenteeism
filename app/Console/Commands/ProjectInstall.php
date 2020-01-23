@@ -47,7 +47,6 @@ class ProjectInstall extends Command
         if ($this->confirm('Do you have setting the database configuration at .env ?')) {
             $this->info('Migrating database...');
             $this->call('migrate');
-            $this->call('config:clear');
             $this->call('key:generate');
             SettingsRepository::initial();
             
@@ -66,6 +65,7 @@ class ProjectInstall extends Command
                 $password = '********';
             }
 
+            $this->call('config:clear');
             $this->info('Installing Siabsensi Is Completed ! Thank You :)');
             $this->info('--');
             $this->info("::Administrator Credential::\n URL Login: http://localhost/login\nEmail: $email \nPassword: $password");

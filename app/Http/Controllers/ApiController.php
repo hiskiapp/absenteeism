@@ -43,10 +43,10 @@ class ApiController extends Controller
 						->whereDate('date',now()->format('Y-m-d'))
 						->first();
 
-						$time_in = dt(now()->format('Y-m-d').' '.getSettings('time_in'));
-						$time_out = dt(now()->format('Y-m-d').' '.getSettings('time_out'));
-						$start_time = dt(now()->format('Y-m-d').' '.getSettings('time_in'))->subHours(2);
-						$finish_time = dt(now()->format('Y-m-d').' '.getSettings('time_in'))->addHours(1);
+						$time_in = dt(now()->format('Y-m-d').' '.getSettings('time_in_teacher'));
+						$time_out = dt(now()->format('Y-m-d').' '.getSettings('time_out_teacher'));
+						$start_time = dt(now()->format('Y-m-d').' '.getSettings('time_in_teacher'))->subHours(2);
+						$finish_time = dt(now()->format('Y-m-d').' '.getSettings('time_in_teacher'))->addHours(1);
 
 						if (!$check) {
 							if (now() >= $start_time && now() <= $finish_time) {

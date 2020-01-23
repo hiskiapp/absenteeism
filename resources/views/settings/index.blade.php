@@ -16,17 +16,31 @@
 						</div>
 					</div>
 					<div class="form-group row align-items-center m-b-0">
-						<label for="name" class="col-3 text-right control-label col-form-label">Jam Masuk</label> 
+						<label for="name" class="col-3 text-right control-label col-form-label">Jam Masuk Siswa</label> 
 						<div class="col-9 border-left p-b-10 p-t-10">
 							<!-- Form Disini -->
 							<input autocomplete="off" required="" value="{{ getSettings('time_in') }}" type="time" name="time_in" class="form-control" id="time_in" placeholder="Jam Masuk">
 						</div>
 					</div>
 					<div class="form-group row align-items-center m-b-0">
-						<label for="position" class="col-3 text-right control-label col-form-label">Jam Keluar</label> 
+						<label for="position" class="col-3 text-right control-label col-form-label">Jam Keluar Siswa</label> 
 						<div class="col-9 border-left p-b-10 p-t-10">
 							<!-- Form Disini -->
 							<input autocomplete="off" required="" value="{{ getSettings('time_out') }}" type="time" name="time_out" class="form-control" id="time_out" placeholder="Jam Keluar">
+						</div>
+					</div>
+					<div class="form-group row align-items-center m-b-0">
+						<label for="name" class="col-3 text-right control-label col-form-label">Jam Masuk Guru</label> 
+						<div class="col-9 border-left p-b-10 p-t-10">
+							<!-- Form Disini -->
+							<input autocomplete="off" required="" value="{{ getSettings('time_in_teacher') }}" type="time" name="time_in_teacher" class="form-control" id="time_in_teacher" placeholder="Jam Masuk">
+						</div>
+					</div>
+					<div class="form-group row align-items-center m-b-0">
+						<label for="position" class="col-3 text-right control-label col-form-label">Jam Keluar Guru</label> 
+						<div class="col-9 border-left p-b-10 p-t-10">
+							<!-- Form Disini -->
+							<input autocomplete="off" required="" value="{{ getSettings('time_out_teacher') }}" type="time" name="time_out_teacher" class="form-control" id="time_out_teacher" placeholder="Jam Keluar">
 						</div>
 					</div>
 					<div class="form-group row align-items-center m-b-0">
