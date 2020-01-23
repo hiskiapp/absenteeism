@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Absensi Siswa
 	routeController('absent/students','AbsentStudentsController');
+
 	// Absensi Siswa
 	routeController('absent/teachers','AbsentTeachersController');
 
@@ -54,4 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Users Module
 	routeController('users','UsersController');
+
+	// Json
+	routeController('json','JsonController');
 });

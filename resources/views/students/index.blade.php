@@ -175,7 +175,7 @@
 		processing: true,
 		serverSide: true,
 		ajax: {
-			url: '{{ url("students/json") }}',
+			url: '{{ url("json/students") }}',
 		},
 		columns: [
 		{ data: 'nis', name: 'nis' },

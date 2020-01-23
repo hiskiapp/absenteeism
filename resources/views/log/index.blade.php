@@ -94,7 +94,7 @@
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: '{{ url("log_activity/json") }}',
+				url: '{{ url("json/log") }}',
 				data: {date:date}
 			},
 			columns: [

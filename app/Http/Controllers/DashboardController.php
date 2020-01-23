@@ -19,6 +19,12 @@ class DashboardController extends Controller
 		$data['teachers'] = Teachers::all()->count();
 		$data['rombels'] = Rombels::all()->count();
 		$data['rayons'] = Rayons::all()->count();
+		$data['as_month'] 		  = AbsentStudents::simpleQuery()->get()->groupBy(function($d){
+			return dt($d->date)->format('m');
+		});
+		$data['as_year']		  = AbsentStudents::simpleQuery()->get()->groupBy(function($d){
+			return dt($d->date)->format('Y');
+		});
 
 		$stats = AbsentStudentsService::stats();
 		$data['dates'] = $stats['dates'];

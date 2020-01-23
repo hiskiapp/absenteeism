@@ -111,7 +111,7 @@
 		processing: true,
 		serverSide: true,
 		ajax: {
-			url: '{{ url("teachers/json") }}',
+			url: '{{ url("json/teachers") }}',
 		},
 		columns: [
 		{ data: 'code', name: 'code' },

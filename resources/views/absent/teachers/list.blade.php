@@ -251,7 +251,7 @@
 	var teacherstable = $('#teachers-data').DataTable({
 		processing: true,
 		serverSide: true,
-		ajax: '{{ url('teachers/json')}}',
+		ajax: '{{ url('json/teachers')}}',
 		columns: [
 		{ data: 'code', name: 'code' },
 		{ data: 'name', name: 'name' },
@@ -271,7 +271,7 @@
 	var table = $('#file_export').DataTable({
 		processing: true,
 		serverSide: true,
-		ajax: '{{ url('absent/teachers/json')}}?date={{ $date }}',
+		ajax: '{{ url('json/absent-teachers')}}?date={{ $date }}',
 		columns: [
 		{ data: 'code', name: 'code' },
 		{ data: 'name', name: 'name' },

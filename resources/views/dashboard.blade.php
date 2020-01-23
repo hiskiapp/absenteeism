@@ -79,7 +79,8 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Statistik Absensi Siswa</h4>
+                <h4 class="card-title">Statistik Absensi</h4>
+                <h6 class="card-subtitle">Siswa SMK Wikrama 1 Jepara</h6>
                 <div>
                     <canvas id="absensi-siswa" height="150"></canvas>
                 </div>
@@ -91,7 +92,7 @@
 @push('bottom')
 <script src="{{ asset('assets/libs/Chart.js/dist/Chart.min.js') }}"></script>
 <script>
-    $(function () {
+    $(function(){
         "use strict";
 
         new Chart(document.getElementById("absensi-siswa"), {
@@ -135,7 +136,7 @@
         options: {
             title: {
               display: true,
-              text: '{{ date('F Y') }}'
+              text: '{{ now()->format('F Y') }}'
           }
       }
   });

@@ -7,8 +7,8 @@ use App\Repositories\AbsentStudentsRepository;
 class AbsentStudentsService
 {
     // TODO : Make you own service method
-	public static function stats(){
-		$date = allDates();
+	public static function stats($year = null,$month = null){
+		$date = allDates($year,$month);
 		$data['dates'] = '';
 		$data['tepat_waktu'] = '';
 		$data['terlambat'] = '';
