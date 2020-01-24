@@ -101,9 +101,10 @@
 			{ data: 'action', name: 'action' },
 			{ data: 'page', name: 'page' },
 			{ data: 'description', name: 'description' },
-			{ data: 'datetime', name: 'datetime' },
+			{ data: 'datetime', name: 'datetime'},
 			{ data: 'info', name: 'info' },
-			]
+			],
+			"order": [ 3, 'desc' ]
 		});
 	}
 </script>
