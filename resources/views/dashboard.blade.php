@@ -110,7 +110,7 @@
 </div>
 @endsection
 @push('bottom')
-<script src="{{ asset('assets/libs/Chart.js/dist/Chart.min.js') }}"></script>
+<script src="{{ asset('assets/libs/chart.js/dist/Chart.min.js') }}"></script>
 <script>
     $(function(){
         "use strict";
