@@ -142,10 +142,10 @@
                         <span class="hide-menu">Log Activity</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ asset('data/absensi.apk') }}" aria-expanded="false">
-                        <i class="mdi mdi-download"></i>
-                        <span class="hide-menu">Download Apk</span>
+                <li class="sidebar-item {{ (request()->segment(1) == 'api' ? 'selected' : '')}}">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ asset('api/documentation') }}" aria-expanded="false">
+                        <i class="mdi mdi-fire"></i>
+                        <span class="hide-menu">API Documentation</span>
                     </a>
                 </li>
             </ul>

@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Users;
 use App\Models\Settings;
 use App\Repositories\SettingsRepository;
+use App\Repositories\NotificationsRepository;
 use Hash;
 
 class ProjectInstall extends Command
@@ -48,7 +49,6 @@ class ProjectInstall extends Command
             $this->info('Migrating database...');
             $this->call('migrate');
             $this->call('key:generate');
-            SettingsRepository::initial();
             
             $user = Users::simpleQuery()->first();
             if (!$user) {
@@ -69,6 +69,8 @@ class ProjectInstall extends Command
             $this->info('Installing Siabsensi Is Completed ! Thank You :)');
             $this->info('--');
             $this->info("::Administrator Credential::\n URL Login: http://localhost/login\nEmail: $email \nPassword: $password");
+            
+            NotificationsRepository::init();
         }else{
             $this->info('Setup Aborted !');
             $this->info('Please setting the database configuration for first !');

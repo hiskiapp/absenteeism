@@ -10,12 +10,8 @@ use App\Repositories\LogBackendRepository;
 class NotificationsController extends Controller
 {
 	public function getIndex(){
-		if (NotificationsRepository::count() != 0) {
-			$data['page_title'] = '('.NotificationsRepository::count().') List Notifikasi';
-		}else{
-			$data['page_title'] = 'List Notifikasi';
-		}
-
+		$data['page_title'] = 'List Notifikasi';
+		$data['page_description'] = 'Siabsensi '.app_name();
 		$data['data'] = Notifications::all();
 
 		return view('notifications.index',$data);
@@ -24,20 +20,24 @@ class NotificationsController extends Controller
 	public function getGo($id){
 		NotificationsRepository::setRead($id);
 
+		NotificationsRepository::url($id);
 		return redirect(NotificationsRepository::url($id));
 	}
 
 	public function postMarkAll(){
-		NotificationsRepository::markAll();
+		if (NotificationsRepository::markAll()) {
+			$log['action'] = 'Update';
+			$log['page'] = 'List Notifikasi';
+			$log['description'] = 'Menandai Semua Notifikasi Menjadi Telah Dibaca';
+			LogBackendRepository::add($log);
 
-		$log['action'] = 'Update';
-		$log['page'] = 'List Notifikasi';
-		$log['description'] = 'Menandai Semua Notifikasi Menjadi Telah Dibaca';
-		LogBackendRepository::add($log);
+			$result['ajax_status'] = 1;
+			$result['ajax_message'] = 'Berhasil Menandai Semua Notifikasi Menjadi Telah Dibaca';
+		}else{
+			$result['ajax_status'] = 0;
+			$result['ajax_message'] = 'Tidak Ada Yang Ditandai!';
+		}
 
-		return redirect()->back()->with([
-			'message_type' => 'success',
-			'message'	   => 'Berhasil Menandai Semua Notifikasi Menjadi Telah Dibaca!'
-		]);
+		return response()->json($result);
 	}
 }

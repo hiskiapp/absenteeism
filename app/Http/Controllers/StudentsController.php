@@ -124,7 +124,7 @@ class StudentsController extends Controller
         return redirect('students')->with(['message_type' => 'info', 'message' => 'Data Berhasil Diupdate!']);
     }
 
-    public function getDelete($id){
+    public function postDelete($id){
         $data = Students::findById($id);
 
         $log['action'] = 'Delete';
@@ -134,7 +134,10 @@ class StudentsController extends Controller
 
         $data->delete();
 
-        return redirect()->back()->with(['message_type' => 'success', 'message' => 'Data Berhasil Dihapus!']);
+        $result['ajax_status'] = 1;
+        $result['ajax_message'] = 'Data Berhasil Dihapus!';
+
+        return response()->json($result);
     }
 
     public function getDetail($id){

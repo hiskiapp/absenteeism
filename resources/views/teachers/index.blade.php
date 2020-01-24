@@ -181,7 +181,14 @@
 			confirmButtonText: 'Yes, delete it!'
 		}).then((result) => {
 			if (result.value) {
-				window.location = "{{ url(request()->segment(1))}}/delete/"+id;
+				$.ajax({
+					url: "{{ url(request()->segment(1))}}/delete/"+id,
+					type: "POST",
+					success:function(data){
+						toastr.success(data.ajax_message)
+						table.ajax.reload();
+					}
+				})
 			}
 		});
 	}

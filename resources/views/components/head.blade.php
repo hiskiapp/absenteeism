@@ -3,16 +3,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Mengelola dan Memanagemen Data Absensi Sekolah">
+    <meta name="author" content="Hiskia Anggi">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
     <title>{{ $page_title }} | {{ app_name() }}</title>
     <!-- Custom CSS -->
     @stack('head')
-    @if($errors->any() || Session::has('message'))
     <link href="{{ asset('assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
-    @endif
     <link href="{{ asset('dist/css/style.min.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

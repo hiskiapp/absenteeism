@@ -7,6 +7,13 @@
 <script>
 	$(function() {
 		'use strict';
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+		
 		$('#main-wrapper').AdminSettings({
 		    Theme: false, // this can be true or false ( true means dark and false means light ),
 		    Layout: 'vertical',
@@ -39,10 +46,8 @@
 <!--Custom JavaScript -->
 <script src="{{ asset('dist/js/custom.min.js') }}"></script>
 <!--This page JavaScript -->
-@if($errors->any() || Session::has('message'))
 <!-- Toastr -->
 <script src="{{ asset('assets/libs/toastr/build/toastr.min.js') }}"></script>
-@endif
 @stack('bottom')
 @if($errors->any())
 <script type="text/javascript">

@@ -15,11 +15,9 @@
 routeController('api','ApiController');
 
 // Auth
-Auth::routes([
-  'register' => false, // Registration Routes...
-  'reset' => false, // Password Reset Routes...
-  'verify' => false, // Email Verification Routes...
-]);
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 //Middleware
 Route::group(['middleware' => 'auth'], function () {

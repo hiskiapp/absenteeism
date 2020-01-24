@@ -52,7 +52,7 @@
 												<option>Terlambat</option>
 												<option>Sakit</option>
 												<option>Izin</option>
-												<option>Alpa</option>
+												<option>Tanpa Keterangan</option>
 												<option>Bolos</option>
 											</select>
 										</div>

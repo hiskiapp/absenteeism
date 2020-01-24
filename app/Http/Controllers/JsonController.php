@@ -7,6 +7,7 @@ use App\Repositories\AbsentStudentsRepository;
 use App\Repositories\LogBackendRepository;
 use App\Repositories\StudentsRepository;
 use App\Repositories\TeachersRepository;
+use App\Repositories\NotificationsRepository;
 use App\Services\AbsentStudentsService;
 use App\Services\AbsentTeachersService;
 use DataTables;
@@ -91,26 +92,6 @@ class JsonController extends Controller
 		->make(true);
 	}
 
-	public function getStudentsStatistic(){
-		if (g('year') && g('month')) {
-			$stats = AbsentStudentsService::stats(g('year'),g('month'));
-			$data['title'] = dt(g('year').'-'.g('month').'-01')->format('F Y');
-		}else{
-			$stats = AbsentStudentsService::stats();
-			$data['title'] = now()->format('F Y');
-		}
-
-		$data['dates'] = $stats['dates'];
-		$data['tepat_waktu'] = $stats['tepat_waktu'];
-		$data['terlambat'] = $stats['terlambat'];
-		$data['sakit'] = $stats['sakit'];
-		$data['izin'] = $stats['izin'];
-		$data['alpa'] = $stats['alpa'];
-		$data['bolos'] = $stats['bolos'];
-
-		return response()->json($data);
-	}
-
 	public function getLog(){
 		$data = LogBackendRepository::list(g('date'));
 
@@ -180,5 +161,24 @@ class JsonController extends Controller
 		})
 		->escapeColumns([])
 		->make(true);
+	}
+
+	public function getNotifications(){
+		$data = NotificationsRepository::list();
+
+		return DataTables::of($data)
+		->addColumn("time", function ($data) {
+			return timeHumanReadable($data->created_at);
+		})
+		->addColumn("status", function ($data) {
+			if ($data->is_read) {
+				return '<span class="badge badge-success">Sudah Dibaca</span>';
+			}else{
+				return '<span class="badge badge-secondary">Belum Dibaca</span>';
+			}
+		})
+		->escapeColumns([])
+		->make(true);
+
 	}
 }

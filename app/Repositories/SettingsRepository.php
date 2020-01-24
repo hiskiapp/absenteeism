@@ -7,7 +7,7 @@ use App\Models\Settings;
 class SettingsRepository extends Settings
 {
     // TODO : Make you own query methods
-	public static function initial(){
+	public static function init(){
 		$settings = Settings::simpleQuery()->first();
 		if (!$settings) {
 			$insert[] = [

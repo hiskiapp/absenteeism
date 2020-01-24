@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 use App\Repositories\LogBackendRepository;
+use App\Repositories\NotificationsRepository;
+use App\Repositories\AbsentStudentsRepository;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\Models\Settings;
 use Carbon\CarbonPeriod;
@@ -53,6 +55,14 @@ function timeFormat($date)
 function activityTimeline()
 {
 	return LogBackendRepository::timeline();
+}
+
+function notifHead(){
+	return NotificationsRepository::head();
+}
+
+function notifHeadCount(){
+	return NotificationsRepository::count(true);
 }
 
 function timeHumanReadable($date)
@@ -237,4 +247,8 @@ function isholiday($date = null){
 	}else{
 		return false;
 	}
+}
+
+function statindv($id,$type,$date){
+	return AbsentStudentsRepository::statIndv($id,$type,$date);
 }

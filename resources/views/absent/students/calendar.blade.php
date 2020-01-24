@@ -71,12 +71,17 @@
 							<tr>
 								<th style="vertical-align : middle;text-align:center;" rowspan="2">No</th>
 								<th style="vertical-align : middle;text-align:center;" rowspan="2">Nama</th>
-								<th colspan="{{ count($dates) }}"><center>{{ now()->format('F') }}</center></th>
+								<th colspan="{{ count($dates)+5 }}"><center>{{ now()->format('F') }}</center></th>
 							</tr>
 							<tr>
 								@foreach($dates as $d)
 								<th {!! isholiday($d) ? ' style="background-color: #F2F2F2;"' : '' !!}>{{ $d->format('d') }}</th>
 								@endforeach
+								<th style="font-weight: bold;">T</th>
+								<th style="font-weight: bold;">S</th>
+								<th style="font-weight: bold;">I</th>
+								<th style="font-weight: bold;">A</th>
+								<th style="font-weight: bold;">B</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -87,6 +92,18 @@
 								@foreach($dates as $d)
 								<td {!! isholiday($d) ? 'style="background-color: #F2F2F2"' : (colorabsent($row->id,$d) != '' ? ' style="background-color: '.colorabsent($row->id,$d).'"' : '' ) !!}></td>
 								@endforeach
+								<?php
+								if (g('month') && g('year')) {
+									$datebetween = g('year').'-'.g('month').'-01';
+								}else{
+									$datebetween = now();
+								}
+								?>
+								<td style="font-weight: bold;">{{ statindv($row->id,'Terlambat',$datebetween) }}</td>
+								<td style="font-weight: bold;">{{ statindv($row->id,'Sakit',$datebetween) }}</td>
+								<td style="font-weight: bold;">{{ statindv($row->id,'Izin',$datebetween) }}</td>
+								<td style="font-weight: bold;">{{ statindv($row->id,'Tanpa Keterangan',$datebetween) }}</td>
+								<td style="font-weight: bold;">{{ statindv($row->id,'Bolos',$datebetween) }}</td>
 							</tr>
 							@endforeach
 						</tbody>

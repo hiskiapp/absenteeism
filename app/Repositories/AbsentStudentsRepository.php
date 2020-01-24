@@ -12,7 +12,8 @@ class AbsentStudentsRepository extends AbsentStudents
 		$query = AbsentStudents::simpleQuery()
 		->where('type',$value)
 		->whereDate('date',$date)
-		->get()->count();
+		->get()
+		->count();
 
 		return $query;
 	}
@@ -98,5 +99,17 @@ class AbsentStudentsRepository extends AbsentStudents
 		}
 
 		return $count;
+	}
+
+	public static function statIndv($id,$type,$date){
+		$date = dt($date);
+
+		$data = AbsentStudents::simpleQuery()
+		->where('students_id',$id)
+		->where('type',$type)
+		->whereBetween('created_at',[$date->startOfMonth(),$date->endOfMonth()])
+		->get();
+
+		return $data->count();
 	}
 }

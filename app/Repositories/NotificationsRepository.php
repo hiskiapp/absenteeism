@@ -7,6 +7,17 @@ use App\Models\Notifications;
 class NotificationsRepository extends Notifications
 {
     // TODO : Make you own query methods
+    public static function init(){
+    	$init = New Notifications;
+    	$init->setIcon('pallet');
+    	$init->setColor('success');
+    	$init->setTitle('Berhasil Menginstall Project!');
+    	$init->setDescription('Selamat Datang di Aplikasi Siabsensi!');
+    	$init->setUrl(url('/'));
+    	$init->setIsRead(0);
+    	$init->save();
+    }
+
 	public static function add($data){
 		$new = New Notifications;
 		$new->setIcon($data['icon']);
@@ -31,14 +42,37 @@ class NotificationsRepository extends Notifications
 	}
 
 	public static function markAll(){
-		$query = Notifications::findAllByIsRead(0);
-		$query->setIsRead(1);
-		$query->save();
+		$query = Notifications::simpleQuery()
+		->where('is_read',0)
+		->update(['is_read' => '1']);
 	}
 
-	public static function count(){
-		$query = Notification::findAllByIsRead(0);
+	public static function count($is_today = null){
+		if ($is_today) {
+			$query = Notifications::simpleQuery()
+			->whereDate('created_at',now())
+			->get();
+		}else{
+			$query = Notifications::findAllByIsRead(0);
+		}
 
 		return $query->count();
+	}
+
+	public static function head(){
+		$query = Notifications::simpleQuery()
+		->orderBy('created_at','desc')
+		->limit(4)
+		->get();
+
+		return $query;
+	}
+
+	public static function list(){
+		$query = Notifications::simpleQuery()
+		->orderBy('created_at','desc')
+		->get();
+
+		return $query;
 	}
 }
