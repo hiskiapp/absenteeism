@@ -13,6 +13,10 @@ class RayonsController extends Controller
 		$data['page_title'] = 'Data Rayon';
 		$data['data'] = Rayons::all();
 
+		foreach ($data['data'] as $key => $row) {
+			$row->count = RayonsRepository::count($row->id);
+		}
+
 		return view('rayons.index', $data);
 	}
 

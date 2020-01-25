@@ -18,6 +18,7 @@
 							<tr>
 								<th>#ID</th>
 								<th>Nama</th>
+								<th>Jumlah Siswa</th>
 								<th width="160px">Action</th>
 							</tr>
 						</thead>
@@ -26,9 +27,12 @@
 							<tr>
 								<td>{{ $row->id }}</td>
 								<td>{{ $row->name }}</td>
+								<td>{{ $row->count }}</td>
 								<td>
 									<button onclick="editRow({{ $row->id }})" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></button>
+									@if(!$row->count)
 									<button onclick="deleteRow({{ $row->id }})" class="btn btn-xs btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+									@endif
 								</td>
 							</tr>
 							@endforeach

@@ -13,6 +13,10 @@ class RombelsController extends Controller
 		$data['page_title'] = 'Data Rombel';
 		$data['data'] = Rombels::all();
 
+		foreach ($data['data'] as $key => $row) {
+			$row->count = RombelsRepository::count($row->id);
+		}
+
 		return view('rombels.index', $data);
 	}
 
