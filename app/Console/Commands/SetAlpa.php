@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Repositories\AbsentStudentsRepository;
 use App\Repositories\AbsentTeachersRepository;
+use App\Repositories\NotificationsRepository;
 
 class SetAlpa extends Command
 {
@@ -45,6 +46,13 @@ class SetAlpa extends Command
             if ($this->option('type') == 'ALL'){
                 $result = AbsentStudentsRepository::set('Tanpa Keterangan');
                 $result += AbsentTeachersRepository::set('Tanpa Keterangan');
+
+                $notif['icon'] = 'user';
+                $notif['color'] = 'primary';
+                $notif['title'] = 'Set Tanpa Keterangan Berhasil!';
+                $notif['description'] = 'Ini Adalah Notifikasi Otomatis Dari Sistem.';
+                NotificationsRepository::add($notif);
+
             }elseif ($this->option('type') == 'students') {
                 $result = AbsentStudentsRepository::set('Tanpa Keterangan');
             }elseif($this->option('type') == 'teachers'){

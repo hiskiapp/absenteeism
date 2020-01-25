@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Repositories\AbsentStudentsRepository;
 use App\Repositories\AbsentTeachersRepository;
+use App\Repositories\NotificationsRepository;
 
 class SetBolos extends Command
 {
@@ -45,6 +46,13 @@ class SetBolos extends Command
             if ($this->option('type') == 'ALL'){
                 $result = AbsentStudentsRepository::set('Bolos');
                 $result += AbsentTeachersRepository::set('Bolos');
+
+                $notif['icon'] = 'user';
+                $notif['color'] = 'danger';
+                $notif['title'] = 'Set Bolos Berhasil!';
+                $notif['description'] = 'Ini Adalah Notifikasi Otomatis Dari Sistem.';
+                NotificationsRepository::add($notif);
+
             }elseif ($this->option('type') == 'students') {
                 $result = AbsentStudentsRepository::set('Bolos');
             }elseif($this->option('type') == 'teachers'){

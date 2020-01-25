@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Users;
+use App\Repositories\LogBackendRepository;
 use Session;
 use Hash;
 
@@ -30,6 +31,11 @@ class UsersController extends Controller
             }
 
             $edit->save();
+
+            $log['action'] = 'Update';
+            $log['page'] = 'Pengaturan User';
+            $log['description'] = 'Mengubah Data User';
+            LogBackendRepository::add($log);
             
             return redirect()->back()->with(['message_type' => 'success','message' => 'Data Berhasil Diupdate!']);
         }else{
