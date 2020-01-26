@@ -125,7 +125,7 @@
 							</tr>
 							<tr>
 								<td align="center"><span class="badge badge-primary">&nbsp&nbsp&nbsp&nbsp</span></td>
-								<td>Tanpa Keterangan</td>
+								<td>Tanpa Keterangan / Alpa</td>
 							</tr>
 							<tr>
 								<td align="center"><span class="badge badge-secondary">&nbsp&nbsp&nbsp&nbsp</span></td>
