@@ -88,4 +88,18 @@ class AbsentTeachersRepository extends AbsentTeachers
 
 		return $count;
 	}
+
+	public static function statIndv($id,$type,$date){
+		$date = dt($date);
+
+		$data = AbsentTeachers::simpleQuery()
+		->where('teachers_id',$id)
+		->where('type',$type)
+		->whereBetween('created_at',[
+			$date->startOfMonth()->format('Y-m-d'),
+			$date->endOfMonth()->format('Y-m-d')
+		])->get();
+
+		return $data->count();
+	}
 }

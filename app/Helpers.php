@@ -1,16 +1,17 @@
 <?php
 
-use Carbon\Carbon;
-use App\Repositories\LogBackendRepository;
-use App\Repositories\NotificationsRepository;
-use App\Repositories\AbsentStudentsRepository;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use App\Models\Settings;
-use Carbon\CarbonPeriod;
 use App\Models\AbsentStudents;
 use App\Models\AbsentTeachers;
 use App\Models\Holidays;
+use App\Models\Settings;
 use App\Models\Teachers;
+use App\Repositories\AbsentStudentsRepository;
+use App\Repositories\AbsentTeachersRepository;
+use App\Repositories\LogBackendRepository;
+use App\Repositories\NotificationsRepository;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 function app_name()
 {
@@ -249,6 +250,10 @@ function isholiday($date = null){
 	}
 }
 
-function statindv($id,$type,$date){
-	return AbsentStudentsRepository::statIndv($id,$type,$date);
+function statindv($id,$type,$date,$is_teachers = null){
+	if ($is_teachers) {
+		return AbsentTeachersRepository::statIndv($id,$type,$date);
+	}else{
+		return AbsentStudentsRepository::statIndv($id,$type,$date);
+	}
 }

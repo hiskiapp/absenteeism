@@ -172,9 +172,9 @@ class JsonController extends Controller
 		})
 		->addColumn("status", function ($data) {
 			if ($data->is_read) {
-				return '<span class="badge badge-success">Sudah Dibaca</span>';
+				return '<span class="badge badge-success">Sudah Dibaca</a>';
 			}else{
-				return '<span class="badge badge-secondary">Belum Dibaca</span>';
+				return '<a href="'.$data->url.'" class="badge badge-secondary">Belum Dibaca</a>';
 			}
 		})
 		->escapeColumns([])

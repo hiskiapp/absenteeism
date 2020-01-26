@@ -9,6 +9,7 @@ use App\Repositories\LogBackendRepository;
 
 class NotificationsController extends Controller
 {
+
 	public function getIndex(){
 		$data['page_title'] = 'List Notifikasi';
 		$data['page_description'] = 'Siabsensi '.app_name();

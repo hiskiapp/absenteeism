@@ -116,9 +116,9 @@ class TeachersController extends Controller
 		$data->delete();
 
 		$result['ajax_status'] = 1;
-        $result['ajax_message'] = 'Data Berhasil Dihapus!';
+		$result['ajax_message'] = 'Data Berhasil Dihapus!';
 
-        return response()->json($result);
+		return response()->json($result);
 	}
 
 	public function getDetail($id){
@@ -126,7 +126,30 @@ class TeachersController extends Controller
 		$data['data'] = Teachers::findById($id);
 		$data['address'] = json_decode($data['data']->getAddress());
 		$data['qrcode'] = $id;
-		$data['weekdays'] = explode(',', $data['data']->getWeekdays());
+		$data['subjects'] = explode(',', $data['data']->getSubjects());
+		$data['position'] = explode(',', $data['data']->getPosition());
+
+		$weekdays = explode(',', $data['data']->getWeekdays());
+		$days = [];
+		foreach ($weekdays as $row) {
+			if ($row == 'Monday') {
+				$days[] = 'Senin';
+			}elseif ($row == 'Tuesday') {
+				$days[] = 'Selasa';
+			}elseif ($row == 'Wednesday') {
+				$days[] = 'Rabu';
+			}elseif ($row == 'Thursday') {
+				$days[] = 'Kamis';
+			}elseif ($row == 'Friday') {
+				$days[] = "Jum'at";
+			}elseif ($row == 'Saturday') {
+				$days[] = 'Sabtu';
+			}else{
+				$days[] = 'Minggu';
+			}
+		}
+
+		$data['weekdays'] = $days;
 
 		return view('teachers.detail', $data);
 	}
@@ -154,10 +177,10 @@ class TeachersController extends Controller
 		$data['page_title'] = 'Cetak QR Code Teachers';
 
 		if (g('data_type') == 'All') {
-            $data['data'] = Teachers::all();
-        }else{
-        	$data['data'] = TeachersRepository::qrcode(g('data'));
-        }
+			$data['data'] = Teachers::all();
+		}else{
+			$data['data'] = TeachersRepository::qrcode(g('data'));
+		}
 
 		return view('teachers.qrcode',$data);
 	}

@@ -60,12 +60,17 @@
 							<tr>
 								<th style="vertical-align : middle;text-align:center;" rowspan="2">Kode</th>
 								<th style="vertical-align : middle;text-align:center;" rowspan="2">Nama</th>
-								<th colspan="{{ count($dates) }}"><center>{{ now()->format('F') }}</center></th>
+								<th colspan="{{ count($dates)+5 }}"><center>{{ now()->format('F') }}</center></th>
 							</tr>
 							<tr>
 								@foreach($dates as $d)
 								<th {!! isholiday($d) ? 'style="background-color: #F2F2F2;"' : '' !!}>{{ $d->format('d') }}</th>
 								@endforeach
+								<td align="center" style="font-weight: bold;background-color: #FFBC34;color: #fff;">T</th>
+								<td align="center" style="font-weight: bold;background-color: #EF6E6E;color: #fff;">S</th>
+								<td align="center" style="font-weight: bold;background-color: #4798E8;color: #fff;">I</th>
+								<td align="center" style="font-weight: bold;background-color: #7460EE;color: #fff;">A</th>
+								<td align="center" style="font-weight: bold;background-color: #6C757D;color: #fff;">B</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -76,6 +81,18 @@
 								@foreach($dates as $d)
 								<td {!! isholiday($d) ? 'style="background-color: #F2F2F2"' : (colorabsent($row->id,$d,1) != '' ? ' style="background-color: '.colorabsent($row->id,$d,1).'"' : '' ) !!}></td>
 								@endforeach
+								<?php
+								if (g('month') && g('year')) {
+									$datebetween = g('year').'-'.g('month').'-01';
+								}else{
+									$datebetween = now();
+								}
+								?>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Terlambat',$datebetween,true) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Sakit',$datebetween,true) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Izin',$datebetween,true) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Tanpa Keterangan',$datebetween,true) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Bolos',$datebetween,true) }}</td>
 							</tr>
 							@endforeach
 						</tbody>

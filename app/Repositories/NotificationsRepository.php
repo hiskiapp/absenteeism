@@ -45,6 +45,12 @@ class NotificationsRepository extends Notifications
 		$query = Notifications::simpleQuery()
 		->where('is_read',0)
 		->update(['is_read' => '1']);
+
+		if ($query) {
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public static function count($is_today = null){

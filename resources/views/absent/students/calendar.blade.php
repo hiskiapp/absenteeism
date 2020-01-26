@@ -77,11 +77,11 @@
 								@foreach($dates as $d)
 								<th {!! isholiday($d) ? ' style="background-color: #F2F2F2;"' : '' !!}>{{ $d->format('d') }}</th>
 								@endforeach
-								<th style="font-weight: bold;">T</th>
-								<th style="font-weight: bold;">S</th>
-								<th style="font-weight: bold;">I</th>
-								<th style="font-weight: bold;">A</th>
-								<th style="font-weight: bold;">B</th>
+								<td align="center" style="font-weight: bold;background-color: #FFBC34;color: #fff;">T</th>
+								<td align="center" style="font-weight: bold;background-color: #EF6E6E;color: #fff;">S</th>
+								<td align="center" style="font-weight: bold;background-color: #4798E8;color: #fff;">I</th>
+								<td align="center" style="font-weight: bold;background-color: #7460EE;color: #fff;">A</th>
+								<td align="center" style="font-weight: bold;background-color: #6C757D;color: #fff;">B</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -99,11 +99,11 @@
 									$datebetween = now();
 								}
 								?>
-								<td style="font-weight: bold;">{{ statindv($row->id,'Terlambat',$datebetween) }}</td>
-								<td style="font-weight: bold;">{{ statindv($row->id,'Sakit',$datebetween) }}</td>
-								<td style="font-weight: bold;">{{ statindv($row->id,'Izin',$datebetween) }}</td>
-								<td style="font-weight: bold;">{{ statindv($row->id,'Tanpa Keterangan',$datebetween) }}</td>
-								<td style="font-weight: bold;">{{ statindv($row->id,'Bolos',$datebetween) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Terlambat',$datebetween) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Sakit',$datebetween) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Izin',$datebetween) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Tanpa Keterangan',$datebetween) }}</td>
+								<td align="center" style="font-weight: bold;">{{ statindv($row->id,'Bolos',$datebetween) }}</td>
 							</tr>
 							@endforeach
 						</tbody>

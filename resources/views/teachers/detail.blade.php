@@ -40,10 +40,6 @@
                                     <label class="control-label text-right col-md-3">Mapel:</label>
                                     <div class="col-md-9">
                                         <p class="form-control-static">
-                                            <?php
-                                            $subjects = explode(',', $data->getSubjects());
-                                            ?>
-
                                             @foreach($subjects as $row)
                                             <span class="btn btn-info btn-xs">{{ $row }}</span>
                                             @endforeach
@@ -56,7 +52,11 @@
                                 <div class="form-group row">
                                     <label class="control-label text-right col-md-3">Tugas Khusus:</label>
                                     <div class="col-md-9">
-                                        <p class="form-control-static"> {{ $data->getPosition() }} </p>
+                                        <p class="form-control-static">
+                                            @foreach($position as $row)
+                                            <span class="btn btn-info btn-xs">{{ $row }}</span>
+                                            @endforeach
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                     </div>
                     <hr class="m-t-0 m-b-40">
                     <div class="card-body">
-                       <div class="row">
+                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3">Tepat Waktu:</label>
