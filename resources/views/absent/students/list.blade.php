@@ -130,6 +130,7 @@
 								<th>Rombel</th>
 								<th>Type</th>
 								<th>Jam Masuk</th>
+								<th>Status</th>
 							</tr>
 						</thead>
 					</table>
@@ -293,6 +294,7 @@
 		{ data: 'rombel', name: 'rombel' },
 		{ data: 'type', name: 'type' },
 		{ data: 'time_in', name: 'time_in' },
+		{ data: 'status', name: 'status' },
 		]
 	});
 	$('#rombels').change(function(){
@@ -350,5 +352,41 @@
 			}
 		});
 	});
+
+	function setout(id,type){
+		Swal.fire({
+			title: 'Sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, do it!'
+		}).then((result) => {
+			if (type == 0) {
+				$.ajax({
+					url: "{{ url('absent/students/set-no-out') }}/"+id,
+					dataType: "json",
+					success: function(data){
+						table.ajax.reload();
+					},
+					error: function(data) { 
+						console.log(data);
+					}
+				});
+			}else{
+				$.ajax({
+					url: "{{ url('absent/students/set-out') }}/"+id,
+					dataType: "json",
+					success: function(data){
+						table.ajax.reload();
+					},
+					error: function(data) { 
+						console.log(data);
+					}
+				});
+			}
+		});
+	}
 </script>
 @endpush

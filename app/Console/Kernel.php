@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Carbon\Carbon;
+use Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,8 +27,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('set:alpa')->weekdays()->at(getSettings('set_alpa'));
-        $schedule->command('set:bolos')->weekdays()->at(getSettings('set_bolos'));
+        $schedule->call(function() {
+            if (date('Y-m-d H:i:s') >= date('Y-m-d ').getSettings('set_alpa')){
+                Artisan::call('set:alpa');
+            }
+
+            if (date('Y-m-d H:i:s') >= date('Y-m-d ').getSettings('set_bolos')){
+                Artisan::call('set:bolos');
+            }
+        })->everyMinute();
     }
 
     /**

@@ -48,6 +48,32 @@ class JsonController extends Controller
 				return '-';
 			}
 		})
+		->addColumn("status", function ($data) {
+			if ($data->is_out != NULL) {
+				if ($data->is_out == 1) {
+					return '<div class="btn-group" role="group" aria-label="Action">
+					<div class="btn-group" role="group">
+					<button id="btn-action" type="button" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Sudah Pulang
+					</button>
+					<div class="dropdown-menu" aria-labelledby="btn-action">
+					<a class="dropdown-item" href="javascript:void(0)" onclick="setout('.$data->id.',0)">Set Belum Pulang</a>
+					</div>';
+				}else{
+					return '<div class="btn-group" role="group" aria-label="Action">
+					<div class="btn-group" role="group">
+					<button id="btn-action" type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Belum Pulang
+					</button>
+					<div class="dropdown-menu" aria-labelledby="btn-action">
+					<a class="dropdown-item" href="javascript:void(0)" onclick="setout('.$data->id.')">Set Sudah Pulang</a>
+					</div>';
+				}
+
+			}else{
+				return '-';
+			}
+		})
 		->escapeColumns([])
 		->make(true);
 	}
@@ -118,19 +144,19 @@ class JsonController extends Controller
 	}
 
 	public function getStudents(){
-        $data = StudentsRepository::list();
+		$data = StudentsRepository::list();
 
 
-        return DataTables::of($data)
-        ->addColumn("action", function ($data) {
-            return '<a href="students/edit/'.$data->id.'" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></a>
-            <button onclick="deleteRow('.$data->id.')" class="btn btn-xs btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
-            <a href="students/detail/'.$data->id.'" class="btn btn-xs btn-info text-white"><i class="fas fa-eye"></i></a>';
-        })
-        ->make(true);
-    }
+		return DataTables::of($data)
+		->addColumn("action", function ($data) {
+			return '<a href="students/edit/'.$data->id.'" class="btn btn-xs btn-warning text-white"><i class="fas fa-pencil-alt"></i></a>
+			<button onclick="deleteRow('.$data->id.')" class="btn btn-xs btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+			<a href="students/detail/'.$data->id.'" class="btn btn-xs btn-info text-white"><i class="fas fa-eye"></i></a>';
+		})
+		->make(true);
+	}
 
-    public function getTeachers(){
+	public function getTeachers(){
 		$data = TeachersRepository::list();
 
 		return DataTables::of($data)

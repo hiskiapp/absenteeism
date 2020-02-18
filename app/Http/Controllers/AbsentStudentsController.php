@@ -167,4 +167,20 @@ class AbsentStudentsController extends Controller
 
 		return view('absent.students.calendar', $data);
 	}
+
+	public function getSetOut($id){
+		$data = AbsentStudents::findById($id);
+		$data->setIsOut(1);
+		$data->save();
+
+		return response()->json($data);
+	}
+
+	public function getSetNoOut($id){
+		$data = AbsentStudents::findById($id);
+		$data->setIsOut(0);
+		$data->save();
+
+		return response()->json($data);
+	}
 }
