@@ -6,7 +6,6 @@ Siabsensi was made to manage student and teacher absenteeism at SMK Wikrama 1 Je
 ## System Requirement
 - PHP Version 7.2 or Above
 - Composer
-- NPM
 - Git
 
 ## Installation
@@ -15,7 +14,6 @@ Siabsensi was made to manage student and teacher absenteeism at SMK Wikrama 1 Je
 git clone https://github.com/hiskiadev/siabsensi.git
 cd siabsensi
 composer install
-npm install && npm run dev
 ```
 
 2. Setting the database configuration, open .env file at project root directory
