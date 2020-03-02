@@ -98,7 +98,7 @@ class AbsentStudentsRepository extends AbsentStudents
 		$data = AbsentStudents::simpleQuery()
 		->where('students_id',$id)
 		->where('type',$type)
-		->whereBetween('created_at',[
+		->whereBetween('date',[
 			$date->startOfMonth()->format('Y-m-d'),
 			$date->endOfMonth()->format('Y-m-d')
 		])->get();

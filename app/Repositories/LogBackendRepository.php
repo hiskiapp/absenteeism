@@ -27,7 +27,7 @@ class LogBackendRepository extends LogBackend
 	public static function list($date){
 		if (!$date) {
 			$query = LogBackend::simpleQuery()
-			->orderBy('created_at','desc')
+			->orderBy('id','desc')
 			->get();
 		}else{
 			$date = explode(' - ', $date);
@@ -36,7 +36,7 @@ class LogBackendRepository extends LogBackend
 
 			$query = LogBackend::simpleQuery()
 			->whereBetween('created_at',[$start,$end])
-			->orderBy('created_at','desc')
+			->orderBy('id','desc')
 			->get();
 		}
 

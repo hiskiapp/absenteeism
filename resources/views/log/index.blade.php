@@ -104,7 +104,6 @@
 			{ data: 'datetime', name: 'datetime'},
 			{ data: 'info', name: 'info' },
 			],
-			"order": [ 3, 'desc' ]
 		});
 	}
 </script>
