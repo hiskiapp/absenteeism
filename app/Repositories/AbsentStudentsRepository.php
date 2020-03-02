@@ -74,24 +74,15 @@ class AbsentStudentsRepository extends AbsentStudents
 				$new->save();
 			}
 		}else{
-			$in = AbsentStudents::simpleQuery()
+			$data = AbsentStudents::simpleQuery()
 			// ->whereDate('date',date('Y-m-d'))
 			->where('is_out',0)
 			->get();
-
-			$arr = [];
-			foreach ($in as $key => $row) {
-				$arr[] = array($row->students_id);
-			}
-
-			$for = Students::simpleQuery()
-			->WhereIn('id',$arr)
-			->get();
-
+            
 			$count = 0;
-			foreach ($for as $key => $row) {
+			foreach ($data as $key => $row) {
 				$count += 1;
-				$update = AbsentStudents::findBy('students_id',$row->id);
+				$update = AbsentStudents::findBy('id',$row->id);
 				$update->setType($type);
 				$update->setIsOut(NULL);
 				$update->save();

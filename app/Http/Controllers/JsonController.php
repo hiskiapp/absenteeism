@@ -30,7 +30,7 @@ class JsonController extends Controller
 			}elseif ($data->type == "Tanpa Keterangan") {
 				$label = 'primary';
 			}elseif ($data->type == "Bolos") {
-				$label = 'success';
+				$label = 'danger';
 			}
 
 			$result = '<span class="label label-'.$label.'">'.$data->type.'</span>';
@@ -94,7 +94,7 @@ class JsonController extends Controller
 			}elseif ($data->type == "Tanpa Keterangan") {
 				$label = 'primary';
 			}elseif ($data->type == "Bolos") {
-				$label = 'success';
+				$label = 'danger';
 			}else{
 				$label = 'warning';
 			}
