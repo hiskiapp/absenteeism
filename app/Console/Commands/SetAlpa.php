@@ -49,8 +49,9 @@ class SetAlpa extends Command
 
                 $notif['icon'] = 'user';
                 $notif['color'] = 'primary';
-                $notif['title'] = 'Set Tanpa Keterangan Berhasil!';
+                $notif['title'] = 'Berhasil Menandai Siswa & Guru Yang Alpa';
                 $notif['description'] = 'Ini Adalah Notifikasi Otomatis Dari Sistem.';
+                $notif['url'] = url('absent/students/list');
                 NotificationsRepository::add($notif);
 
             }elseif ($this->option('type') == 'students') {

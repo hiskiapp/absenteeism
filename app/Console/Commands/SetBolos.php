@@ -49,8 +49,9 @@ class SetBolos extends Command
 
                 $notif['icon'] = 'user';
                 $notif['color'] = 'danger';
-                $notif['title'] = 'Set Bolos Berhasil!';
+                $notif['title'] = 'Berhasil Menandai Siswa & Guru Yang Bolos!';
                 $notif['description'] = 'Ini Adalah Notifikasi Otomatis Dari Sistem.';
+                $notif['url'] = url('absent/students/list');
                 NotificationsRepository::add($notif);
 
             }elseif ($this->option('type') == 'students') {
