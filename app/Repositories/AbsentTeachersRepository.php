@@ -79,7 +79,7 @@ class AbsentTeachersRepository extends AbsentTeachers
 			$count = 0;
 			foreach ($for as $key => $row) {
 				$count += 1;
-				$update = AbsentTeachers::findBy('students_id',$row->id);
+				$update = AbsentTeachers::findBy('teachers_id',$row->id);
 				$update->setType($type);
 				$update->setIsOut(NULL);
 				$update->save();
