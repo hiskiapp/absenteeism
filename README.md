@@ -36,3 +36,12 @@ Password: 12345678
 
 ```
 
+### Change Password
+- Random Password
+```bash
+php artisan set:password
+```
+- Custom Password
+```bash
+php artisan set:password --password=secret123
+```
