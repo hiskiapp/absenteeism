@@ -63,7 +63,7 @@ class AbsentTeachersRepository extends AbsentTeachers
 			}
 		}else{
 			$in = AbsentTeachers::simpleQuery()
-			->whereDate('date',date('Y-m-d'))
+			// ->whereDate('date',date('Y-m-d'))
 			->where('is_out',0)
 			->get();
 

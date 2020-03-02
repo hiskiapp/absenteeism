@@ -67,7 +67,7 @@ class SetAlpa extends Command
             }elseif ($result == 'Error') {
                 $this->info('Error :(');
             }else{
-                $this->info('Set Alpa to Students Successfully!');
+                $this->info('Set Alpa Successfully!');
             }
         }
     }

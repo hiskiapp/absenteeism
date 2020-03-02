@@ -67,7 +67,7 @@ class SetBolos extends Command
             }elseif ($result == 'Error') {
                 $this->info('Error :(');
             }else{
-                $this->info('Set Bolos to Students Successfully!');
+                $this->info('Set Bolos Successfully!');
             }
         }
     }
