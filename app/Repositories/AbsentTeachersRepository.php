@@ -69,7 +69,7 @@ class AbsentTeachersRepository extends AbsentTeachers
 
 			$arr = [];
 			foreach ($in as $key => $row) {
-				$arr[] = array($row->students_id);
+				$arr[] = array($row->teachers_id);
 			}
 
 			$for = Teachers::simpleQuery()
