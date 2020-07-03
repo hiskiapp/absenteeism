@@ -1,5 +1,10 @@
 ## :rocket: SIABSENSI By HiskiaDev
 
+[![GitHub issues](https://img.shields.io/github/issues/hiskiia/absenteeism)](https://github.com/hiskiia/absenteeism/issues)
+[![GitHub forks](https://img.shields.io/github/forks/hiskiia/absenteeism)](https://github.com/hiskiia/absenteeism/network)
+[![GitHub stars](https://img.shields.io/github/stars/hiskiia/absenteeism)](https://github.com/hiskiia/absenteeism/stargazers)
+[![GitHub license](https://img.shields.io/github/license/hiskiia/absenteeism)](https://github.com/hiskiia/absenteeism)
+
 ## WHAT IS SIABSENSI?
 Siabsensi was made to manage student and teacher absenteeism at SMK Wikrama 1 Jepara
 
